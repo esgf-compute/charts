@@ -141,6 +141,3 @@ postgresql:
 
   persistence:
     enabled: false
-
-prometheus:
-  enabled: false

@@ -286,3 +286,6 @@ redis:
     resources: {}
 
     nodeSelector: {}
+
+prometheus:
+  enabled: false
