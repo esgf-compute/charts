@@ -34,7 +34,7 @@ provisioner:
   # development: true
 
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: 8317c8ae
+  imageTag: 418048b6
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
