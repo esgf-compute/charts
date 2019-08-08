@@ -8,14 +8,23 @@ traefik:
       cpu: 500m
       memory: 512Mi
 
-kubeMonitor:
+wps:
   resources:
     limits:
       cpu: 500m
       memory: 512Mi
-
     requests:
       cpu: 200m
+      memory: 256Mi
+
+kubeMonitor:
+  resources:
+    limits:
+      cpu: 1
+      memory: 512Mi
+
+    requests:
+      cpu: 500m
       memory: 256Mi
 
 provisioner:
@@ -34,15 +43,6 @@ nginx:
       memory: 1Gi
     requests:
       cpu: 100m
-      memory: 256Mi
-
-wps:
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 200m
       memory: 256Mi
 
 celery:
@@ -81,6 +81,15 @@ thredds:
       cpu: 500m
       memory: 512Mi
 
+postgresql:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
 redis:
   master:
     resources:
@@ -90,12 +99,3 @@ redis:
       requests:
         cpu: 2
         memory: 4Gi
-
-postgresql:
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 250m
-      memory: 256Mi
