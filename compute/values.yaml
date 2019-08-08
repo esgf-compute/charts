@@ -80,7 +80,7 @@ provisioner:
   nodeSelector: {}
 
   image: jasonb87/compute-provisioner
-  imageTag: 0.1.0
+  imageTag: 2.2.0
 
   imagePullPolicy: Always
 
@@ -99,7 +99,7 @@ kubeMonitor:
   nodeSelector: {}
 
   image: jasonb87/compute-kube-monitor
-  imageTag: 0.1.0
+  imageTag: 2.2.0
 
   imagePullPolicy: Always
 
@@ -113,7 +113,7 @@ nginx:
 
   replicas: 1
   image: jasonb87/compute-webapp
-  imageTag: 0.1.0
+  imageTag: 2.2.0
 
   resources: {}
 
@@ -128,7 +128,7 @@ wps:
 
   replicas: 1
   image: jasonb87/compute-wps
-  imageTag: 0.1.0
+  imageTag: 2.2.0
   imagePullPolicy: Always
 
   # Set to external hostname of cluster
@@ -202,18 +202,10 @@ celery:
   nodeSelector: {}
 
   image: jasonb87/compute-celery
-  imageTag: 0.1.0
+  imageTag: 2.2.0
   metrics: /metrics
 
   imagePullPolicy: Always
-
-  resources:
-    limits:
-      cpu: 1
-      memory: 1Gi
-    requests:
-      cpu: 200m
-      memory: 512Mi
 
   prometheusUrl:
 
