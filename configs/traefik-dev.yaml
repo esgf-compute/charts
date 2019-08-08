@@ -4,17 +4,9 @@ traefik:
   debug:
     enabled: true
 
-  resources:
-    requests:
-      cpu: 200m
-      memory: 256Mi
+  resources: {}
 
-    limits:
-      cpu: 500m
-      memory: 512Mi
-
-  nodeSelector:
-    kubernetes.io/hostname: nimbus16
+  nodeSelector: {}
 
   rbac:
     enabled: true
