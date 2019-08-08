@@ -1,0 +1,130 @@
+traefik:
+  dashboard:
+    ingress:
+      annotations:
+        ingress.kubernetes.io/ssl-redirect: "true"
+        ingress.kubernetes.io/hsts-max-age: "31536000"
+        ingress.kubernetes.io/hsts-include-subdomains: "true"
+        ingress.kubernetes.io/force-hsts: "true"
+
+persistence:
+  dataClaimName: data-pvc
+
+  volumes:
+    data:
+      storageClassName: slow
+      capacity: 100Gi
+      path: /p/cscratch/nimbus/wps/data
+
+    postgresql:
+      storageClassName: slow
+      capacity: 10Gi
+      path: /opt/nimbus/wps/postgresql
+
+    redis:
+      storageClassName: slow
+      capacity: 10Gi
+      path: /opt/nimbus/wps/redis
+
+wps:
+  image: aims2.llnl.gov/compute-wps
+  imageTag: 2.2.0
+  imagePullPolicy: Always
+  imagePullSecret: docker-registry-config-aims2
+
+  nodeSelector:
+    tier: backend
+
+  oauth:
+    client:
+    secret:
+
+  apiUsername:
+  apiPassword:
+
+  externalHost:
+
+  email:
+    host:
+
+  adminEmail:
+
+celery:
+  image: aims2.llnl.gov/compute-celery
+  imageTag: 2.2.0
+  imagePullPolicy: Always
+  imagePullSecret: docker-registry-config-aims2
+
+  nodeSelector:
+    tier: backend
+
+  prometheusUrl:
+
+provisioner:
+  image: aims2.llnl.gov/compute-provisioner
+  imageTag: 2.2.0
+  imagePullPolicy: Always
+  imagePullSecret: docker-registry-config-aims2
+
+  nodeSelector:
+    tier: backend
+
+kubeMonitor:
+  image: aims2.llnl.gov/compute-kube-monitor
+  imageTag: 2.2.0
+  imagePullPolicy: Always
+  imagePullSecret: docker-registry-config-aims2
+
+  nodeSelector:
+    tier: backend
+
+  namespace: production
+
+nginx:
+  image: aims2.llnl.gov/compute-webapp
+  imageTag: 2.2.0
+  imagePullPolicy: Always
+  imagePullSecret: docker-registry-config-aims2
+
+  nodeSelector:
+    tier: backend
+
+  ingress:
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: "true"
+      ingress.kubernetes.io/hsts-max-age: "31536000"
+      ingress.kubernetes.io/hsts-include-subdomains: "true"
+      ingress.kubernetes.io/force-hsts: "true"
+
+thredds:
+  image: aims2.llnl.gov/compute-thredds
+  imageTag: 2.2.0
+  imagePullPolicy: Always
+  imagePullSecret: docker-registry-config-aims2
+
+  nodeSelector:
+    tier: backend
+
+  ingress:
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: "true"
+      ingress.kubernetes.io/hsts-max-age: "31536000"
+      ingress.kubernetes.io/hsts-include-subdomains: "true"
+      ingress.kubernetes.io/force-hsts: "true"
+
+postgresql:
+  postgresqlPassword:
+
+  master:
+    nodeSelector:
+      tier: backend
+      storage/wps: local
+
+redis:
+  master:
+    nodeSelector:
+      tier: backend
+      storage/wps: local
+
+prometheus:
+  enabled: false
