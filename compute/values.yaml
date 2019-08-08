@@ -1,8 +1,8 @@
-# Setting the development flag to true will disable any health or liveness checks.
+# There are container container specific development flags that will start the container
+# with "/bin/sleep infinity" rather than their default command. This allows a user to 
+# open a terminal in the container and customize the environment for development.
 #
-# Setting the container specific development flag will cause the containers to run with
-# /bin/sleep infinity allowing the developer to open a shell into the container, install
-# libraries or edit code and launch the process manually.
+# Setting the development flag to true will disable any health or liveness checks.
 development: false
 
 # Internal HTTP/TCP load balancer
@@ -87,9 +87,10 @@ provisioner:
   frontendPort: 7777
   backendPort: 7778
 
+  # Number of dask workers that will be spawned per user.
   workers: 20
 
-  # 1 hour ttl
+  # Number of seconds that a users dask scheduler and workers will live for (default: 1 hour).
   lifetime: 3600
 
   resources: {}
@@ -109,9 +110,10 @@ kubeMonitor:
   resources: {}
 
 nginx:
+  replicas: 1
+
   nodeSelector: {}
 
-  replicas: 1
   image: jasonb87/compute-webapp
   imageTag: 2.2.0
 
@@ -132,13 +134,13 @@ wps:
   imagePullPolicy: Always
 
   # Set to external hostname of cluster
-  externalHost: 
+  externalHost: 127.0.0.1
   allowedCIDR: 172.17.0.0/16
 
-  apiUsername:
-  apiPassword:
+  apiUsername: wps_api_username
+  apiPassword: wps_api_password
 
-  adminEmail:
+  adminEmail: admin@wps
 
   # Configure the values that will be used in creating WPS responses
   title: "LLNL WPS Server"
@@ -147,7 +149,7 @@ wps:
     - "WPS"
 
   provider:
-    name: "Jason B."
+    name: "Admin"
     site: "https://aims2.llnl.gov"
 
   contact:
@@ -172,11 +174,11 @@ wps:
 
   # OAuth configuration
   oauth:
-    client:
-    secret:
+    client: fake_oauth_client
+    secret: fake_oauth_secret
 
   email:
-    host: 
+    host: email@host
     port: 25
     user: ""
     password: ""
@@ -207,7 +209,7 @@ celery:
 
   imagePullPolicy: Always
 
-  prometheusUrl:
+  prometheusUrl: prometheus.host
 
   resources: {}
 
@@ -254,7 +256,7 @@ thredds:
 
 postgresql:
   postgresqlUsername: postgres
-  postgresqlPassword:
+  postgresqlPassword: abcd1234
   port: 5432
 
   master:
