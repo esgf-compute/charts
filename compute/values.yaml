@@ -67,7 +67,13 @@ traefik:
 #     storageClassName: cephfs-default # Storage class that will be used for the PVs
 #     path: null
 persistence:
-  volumes: {}
+  dataClaimName: data-pvc
+
+  volumes:
+    data:
+      storageClassName: slow
+      capacity: 100Gi
+      path: /p/cscratch/nimbus/wps/data
 
 # Provisioner
 provisioner:
@@ -258,7 +264,7 @@ postgresql:
     nodeSelector: {}
 
   persistence:
-    enabled: true
+    enabled: false
     existingClaim: postgresql-pvc
 
   backup:
@@ -277,6 +283,7 @@ redis:
   # Cannot use permission init container when using existing claim 
   # chown -R 1001:1001
   persistence:
+    enabled: false
     existingClaim: redis-pvc
 
   master:
