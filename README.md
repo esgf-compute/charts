@@ -13,7 +13,6 @@
 Kubernetes is required to run the ESGF Compute service, installation instructions can be found on the [Kubernetes](https://kubernetes.io/docs/setup/pick-right-solution/).
 
 ### Helm
-
 [Helm](https://helm.sh/) is the method of deployment for Kubernetes, installation instructions can be found on their [website](https://helm.sh/docs/using_helm/#install-helm).
 
 * [Configuration](#configuration)
@@ -21,42 +20,47 @@ Kubernetes is required to run the ESGF Compute service, installation instruction
 * [Deployment without Tiller](#deployment-without-tiller)
 
 #### Configuration
-There are some pre-configured environment files available. Review the [storage](#storage) section before deploying.
+* [Configuration files](#configuration-files)
+* [Configuration values](#configuration-values)
+* [Storage](#storage)
+By default this chart will install with persistence disabled and use the latest public images.
 
-**NOTE:** The following pre-configured environments may be missing some [required](#required-values) values. If you experience an error similar to ```Error: render error in "compute/templates/celery-deployment.yaml": template: compute/templates/celery-deployment.yaml:167:20: executing "compute/templates/celery-deployment.yaml" at <required "Set celery...>: error calling required: Set celery.prometheusUrl``` then a required value is missing. The last portion of the error ```required: Set celery.prometheusUrl``` will have which value is missing. In this example the following value needs to be set.
+There are some [configuration](configs/) files for different environments, use these as references when configuring for your system. These can be combined to setup specific environments.
+
+See the [storage](#storage) section before depoying.
+
+**NOTE:** There are some required values that need to be set for the chart to install, if these values are missing you may see a similar error to ```Error: render error in "compute/templates/celery-deployment.yaml": template: compute/templates/celery-deployment.yaml:167:20: executing "compute/templates/celery-deployment.yaml" at <required "Set celery...>: error calling required: Set celery.prometheusUrl```. The last portion of the error ```required: Set celery.prometheusUrl``` will have which value is missing. In this example the following value needs to be set.
 ```yaml
 celery:
   prometheusUrl:
 ```
 
-* [production.yaml](docker/helm/compute/production.yaml) has the default values appropriate for a production environment
-* [production-resources.yaml](docker/helm/compute/production-resources.yaml) can be applied with `production.yaml` to apply appropriate resource requirements for a production environment. Using this on a single node or small cluster may have adverse effects as the resource requirements may be larger than available resources. Persistent storage is enabled.
-* [development.yaml](docker/helm/compute/development.yaml) disables pod health and readiness checks and persistent storage. This environment is prefered for single node or small clusters. You can find further information about this environment [here](#development)
-* [development-resources.yaml](docker/helm/compute/development-resources.yaml) can be applied with `development.yaml` to apply appropriate resource requirements. Using this on a single node or small cluster may have adverse effects as the resource requirements may be larger than available resources. Persistent storage is enabled.
-
-[values.yaml](docker/helm/compute/values.yaml) contains all of the default values for the Helm chart with comments.
+##### Configuration files
+* [development.yaml](configs/development.yaml) changes the shared storage and uses development images from a private docker repository.
+* [production-ci.yaml](configs/production-ci.yaml) enables persistence and uses continuous integration images from a private docker repository.
+* [production.yaml](configs/production.yaml) enables persistence and uses the latest public images.
+* [prometheus-dev.yaml](configs/prometheus-dev.yaml) will enable a prometheus instance and provides basic configuration.
+* [resources.yaml](configs/resources.yaml) will define resource requests and limits for each container.
+* [traefik-dev.yaml](configs/traefik-dev.yaml) will configure the internal traefik instance to act like the external and internal instance. Without this another intance of traefik must be run.
 
 ##### Example
-The following examples can be used for development environments, just replace the appropriate filenames.
+Following are some examples of combining the above files.
 
-* `helm install . -f production.yaml`
-* `helm install . -f production.yaml -f production-resources.yaml`
+* `helm install . -f production.yaml` Setup a production environment.
+* `helm install . -f production.yaml -f resources.yaml` Setup a production environment with resource definitions.
+* `helm install . -f development.yaml -f traefik-dev.yaml -f prometheus-dev.yaml` Setup a development environment, configuring traefik as both internal and external load balancer and create a prometheus server instance.
 
-##### Required values
-* wps.externalHost
-  * Set the external address of the cluster, can include port as seen in the [development.yaml](docker/helm/compute/development.yaml).
-* wps.email.host
-  * Set the host of an smtp server. It can be set to a random value, in which case no emails will be sent.
-* wps.admin.email
-  * Set an email address that will be cc'd for registration emails.
-* wps.oauth.client
-  * Set the Client ID for an ESGF SLCS OAuth2 provider. This can be set to a random value, but OAuth2 certificates will not work.
-* wps.oauth.secret
-  * Set the Client Secret for the above Client ID.
-* wps.apiPassword
-  * Set the password that will be used for the interal API user.
-* celery.prometheusUrl
-  * Set the base url for a Prometheus server e.g. https://internal.compute.com/prometheus.
+##### Configuration values
+| Parameter                                | Description                                             | Default                   |
+|------------------------------------------|---------------------------------------------------------|---------------------------|
+| `development`                            | Disables persistence and health/readiness checks.       | false                     |
+| `wps.externalHost`                       | Sets the external address of the WPS service e.g. wps.serivce.com. | 127.0.0.1      |
+| `wps.email.host`                         | Email host address use to send emails from the service. | email@host                |
+| `wps.admin.email`                        | Admin email address, will be cc'd with every registration. | admin@host             |
+| `wps.oauth.client`                       | OAuth2 Client ID for ESGF SLCS.                         | fake_oauth_client         |
+| `wps.oauth.secret`                       | OAuth2 Client Secret for ESGF SLCS.                     | fake_oauth_server         |
+| `wps.apiPassword`                        | Password for internal API server.                       | wps_api_password          |
+| `celery.prometheusUrl`                   | Host and path for a prometheus server.                  | prometheus.host           |
 
 ##### Storage
 The Helm chart will automatically create all required [PersistentVolumes (PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistent-volumes) and [PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims). The PVs that are created using HostPath as the storage type. If deploying on a multi-node Kubernetes cluster, the usage of [nodeSelector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) and labeling nodes will be required to ensure persistent storage. The following services use persistent storage in a production environment; Postgres and Redis.
@@ -123,7 +127,6 @@ The following is sample out from "helm list" and "kubectl get pods"
 ##### Helm list output
 ```
 NAME                    REVISION        UPDATED                         STATUS          CHART           NAMESPACE
-laughing-condor         1               Thu May  9 21:49:10 2019        DEPLOYED        traefik-1.68.1  default
 precise-alligator       1               Tue Jun 18 00:10:49 2019        DEPLOYED        compute-1.0.0   default
 ```
 
