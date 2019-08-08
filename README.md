@@ -1,4 +1,5 @@
 # ESGF Compute Helm Charts
+* [Installation](#installation)
 
 # Installation
 
@@ -23,6 +24,7 @@ Kubernetes is required to run the ESGF Compute service, installation instruction
 * [Configuration files](#configuration-files)
 * [Configuration values](#configuration-values)
 * [Storage](#storage)
+
 By default this chart will install with persistence disabled and use the latest public images.
 
 There are some [configuration](configs/) files for different environments, use these as references when configuring for your system. These can be combined to setup specific environments.
@@ -164,4 +166,3 @@ If a development environment is being deployed, the Helm chart has an included P
 The ESGF Compute service utilizes two instances of Traefik; an external and internal instance. In a production environment [traefik.yaml](docker/helm/compute/traefik.yaml) can be used to deploy the external instance. The Helm chart will take care of deploying the internal instance.
 
 In a development environment [traefik-dev.yaml](docker/helm/compute/traefik-dev.yaml) can be used to have the internal instance act as both the external and internal instances. When deploying the chart you can using the following command to deploy `helm install . -f development.yaml -f traefik-dev.yaml`, this will configure the Traefik instance to handle both external and internal Traefik. This can be combined with the development Prometheus server as well; `helm install . -f development.yaml -f traefik-dev.yaml -f prometheus-dev.yaml`.
-
