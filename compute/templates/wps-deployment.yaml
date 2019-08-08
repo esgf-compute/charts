@@ -20,10 +20,9 @@ spec:
         app.kubernetes.io/name: {{ template "esgf-compute-wps.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/component: wps
-    {{- if .Values.wps.annotations }}
       annotations:
+        checksum/config: {{ list (include (print $.Template.BasePath "/wps-secret.yaml") .) (include (print $.Template.BasePath "/wps-configmap.yaml") .) | join " " | sha256sum }}
       {{- .Values.wps.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
-    {{- end }}
     spec:
       {{- if .Values.wps.nodeSelector }}
       nodeSelector: 

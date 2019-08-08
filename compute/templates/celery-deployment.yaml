@@ -21,10 +21,9 @@ spec:
         app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
         app.kubernetes.io/instance: {{ $.Release.Name }}
         app.kubernetes.io/component: celery
-    {{- if .annotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/wps-secret.yaml") $ | sha256sum }}
       {{- .annotations | toYaml | trimSuffix "\n" | nindent 8 }}
-    {{- end }}
     spec:
       serviceAccountName: wps-dask
       {{- if $.Values.celery.nodeSelector }}
