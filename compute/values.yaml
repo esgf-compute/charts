@@ -209,9 +209,14 @@ celery:
 
   prometheusUrl:
 
+  resources: {}
+
   backend:
     development: false
 
+    resources: {}
+
+  metrics:
     resources: {}
 
   # Each entry will create a new celery queue
