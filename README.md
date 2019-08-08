@@ -147,7 +147,7 @@ precise-alligator-traefik-857576cd87-djfhb                  1/1     Running   0 
 ```
 
 #### Development
-In addition to disabling health/readiness checks and persistent storage, some containers can be set to a development mode where their default commands are replaced with `/bin/sleep infinity`. This allows for live development within the pods container. A directory `/devel` is created and shared between containers as well. See [development.yaml](docker/helm/compute/development.yaml) for more information.
+In addition to disabling health/readiness checks and persistent storage, some containers can be set to a development mode where their default commands are replaced with `/bin/sleep infinity`. This allows for live development within the pods container. A directory `/devel` is created and shared between containers as well. See [development.yaml](configs/development.yaml) for more information.
 
 ### Prometheus
 * [External](#external)
@@ -156,13 +156,13 @@ In addition to disabling health/readiness checks and persistent storage, some co
 #### External
 In a production environment you may already have an existing Prometheus server. This server will need to be configured to scrap the service endpoints in the Kubernetes cluster.
 
-If you wish to deploy a Prometheus server with Helm there are some included files to assist in this; [prometheus.yaml](docker/helm/compute/prometheus.yaml) and [prometheus-storage.yaml](docker/helm/compute/prometheus-storage.yaml).
+If you wish to deploy a Prometheus server with Helm there are some included files to assist in this; [prometheus.yaml](configs/prometheus.yaml) and [prometheus-storage.yaml](docker/helm/compute/prometheus-storage.yaml).
 
 `celery.prometheusUrl` will need to be set to the base address of the prometheus server e.g. `https://internal.prometheus.com/`.
 #### Prometheus Helm Chart
 If a development environment is being deployed, the Helm chart has an included Prometheus server. The following command can be used when deploying; `helm install . -f development.yaml -f prometheus-dev.yaml`. This will deploy the Prometheus chart without any persistent storage. This can be combined with the development Traefik configuration; `helm install . -f development.yaml -f traefik-dev.yaml -f prometheus-dev.yaml`.
 
 ### Traefik
-The ESGF Compute service utilizes two instances of Traefik; an external and internal instance. In a production environment [traefik.yaml](docker/helm/compute/traefik.yaml) can be used to deploy the external instance. The Helm chart will take care of deploying the internal instance.
+The ESGF Compute service utilizes two instances of Traefik; an external and internal instance. In a production environment [traefik.yaml](configs/traefik.yaml) can be used to deploy the external instance. The Helm chart will take care of deploying the internal instance.
 
-In a development environment [traefik-dev.yaml](docker/helm/compute/traefik-dev.yaml) can be used to have the internal instance act as both the external and internal instances. When deploying the chart you can using the following command to deploy `helm install . -f development.yaml -f traefik-dev.yaml`, this will configure the Traefik instance to handle both external and internal Traefik. This can be combined with the development Prometheus server as well; `helm install . -f development.yaml -f traefik-dev.yaml -f prometheus-dev.yaml`.
+In a development environment [traefik-dev.yaml](configs/traefik-dev.yaml) can be used to have the internal instance act as both the external and internal instances. When deploying the chart you can using the following command to deploy `helm install . -f development.yaml -f traefik-dev.yaml`, this will configure the Traefik instance to handle both external and internal Traefik. This can be combined with the development Prometheus server as well; `helm install . -f development.yaml -f traefik-dev.yaml -f prometheus-dev.yaml`.
