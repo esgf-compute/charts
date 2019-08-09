@@ -2,10 +2,10 @@ traefik:
   dashboard:
     ingress:
       annotations:
-        ingress.kubernetes.io/ssl-redirect: "true"
-        ingress.kubernetes.io/hsts-max-age: "31536000"
-        ingress.kubernetes.io/hsts-include-subdomains: "true"
-        ingress.kubernetes.io/force-hsts: "true"
+        ingress.kubernetes.io/ssl-redirect: 'true'
+        ingress.kubernetes.io/hsts-max-age: '31536000'
+        ingress.kubernetes.io/hsts-include-subdomains: 'true'
+        ingress.kubernetes.io/force-hsts: 'true'
 
 persistence:
   dataClaimName: data-pvc
@@ -91,14 +91,14 @@ nginx:
 
   ingress:
     annotations:
-      ingress.kubernetes.io/ssl-redirect: "true"
-      ingress.kubernetes.io/hsts-max-age: "31536000"
-      ingress.kubernetes.io/hsts-include-subdomains: "true"
-      ingress.kubernetes.io/force-hsts: "true"
+      ingress.kubernetes.io/ssl-redirect: 'true'
+      ingress.kubernetes.io/hsts-max-age: '31536000'
+      ingress.kubernetes.io/hsts-include-subdomains: 'true'
+      ingress.kubernetes.io/force-hsts: 'true'
 
 thredds:
   image: aims2.llnl.gov/compute-thredds
-  imageTag: 2.2.0
+  imageTag: b9930b74
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
@@ -107,10 +107,10 @@ thredds:
 
   ingress:
     annotations:
-      ingress.kubernetes.io/ssl-redirect: "true"
-      ingress.kubernetes.io/hsts-max-age: "31536000"
-      ingress.kubernetes.io/hsts-include-subdomains: "true"
-      ingress.kubernetes.io/force-hsts: "true"
+      ingress.kubernetes.io/ssl-redirect: 'true'
+      ingress.kubernetes.io/hsts-max-age: '31536000'
+      ingress.kubernetes.io/hsts-include-subdomains: 'true'
+      ingress.kubernetes.io/force-hsts: 'true'
 
 postgresql:
   postgresqlPassword:
