@@ -55,9 +55,7 @@ spec:
           initialDelaySeconds: 40
           periodSeconds: 20
         {{- end }}
-        {{- if not $.Values.development }}
         resources: {{ $.Values.thredds.resources | toYaml | trimSuffix "\n" | nindent 10 }}
-        {{- end }}
         ports:
         - containerPort: 8080
         volumeMounts:
