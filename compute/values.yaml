@@ -241,7 +241,7 @@ thredds:
   imageTag: 4.6.10
 
   # Set java parameters for tomcat server
-  heapMax: 2g
+  heapMax: 1g
   heapInit: 512m
 
   resources: {}
