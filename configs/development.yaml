@@ -52,7 +52,7 @@ nginx:
   # development: true
 
   image: aims2.llnl.gov/compute-webapp
-  imageTag: 8317c8ae
+  imageTag: 15c98334
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
