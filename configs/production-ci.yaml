@@ -82,7 +82,7 @@ kubeMonitor:
 
 nginx:
   image: aims2.llnl.gov/compute-webapp
-  imageTag: 2.2.0
+  imageTag: b9930b74
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
