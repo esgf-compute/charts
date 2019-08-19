@@ -71,7 +71,7 @@ provisioner:
 
 kubeMonitor:
   image: aims2.llnl.gov/compute-kube-monitor
-  imageTag: 2.2.0
+  imageTag: b9930b74
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
