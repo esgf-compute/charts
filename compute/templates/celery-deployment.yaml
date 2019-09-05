@@ -74,6 +74,8 @@ spec:
           value: {{ $.Values.celery.image }}:{{ $.Values.celery.imageTag }}
         - name: IMAGE_PULL_SECRET
           value: {{ $.Values.celery.imagePullSecret }}
+        - name: IMAGE_PULL_POLICY
+          value: {{ $.Values.celery.imagePullPolicy }}
         - name: DATA_CLAIM_NAME
           value: {{ $.Values.persistence.dataClaimName }}
         - name: PROVISIONER_BACKEND
