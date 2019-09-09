@@ -20,7 +20,7 @@ kubeMonitor:
   # development: true
 
   image: aims2.llnl.gov/compute-kube-monitor
-  imageTag: e24d113b
+  imageTag: b69dd4da
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
