@@ -67,6 +67,8 @@ spec:
         - name: WPS_DEBUG
           value: "1"
         {{- end }}
+        - name: SECRET_KEY
+          value: {{ required "A valid wps.secretKey is required" .Values.wps.secretKey }}
         - name: CELERY_BROKER_URL
           value: redis://{{ template "redis.fullname" . }}-master/0
         - name: CELERY_RESULT_BACKEND
