@@ -22,7 +22,6 @@ kubeMonitor:
   image: compute-kube-monitor
   imageTag: latest
   imagePullPolicy: IfNotPresent
-  imagePullSecret: docker-registry-config-aims2
 
 provisioner:
   # Sets provisioner container to development mode
@@ -36,7 +35,6 @@ provisioner:
   image: compute-provisioner
   imageTag: latest
   imagePullPolicy: IfNotPresent
-  imagePullSecret: docker-registry-config-aims2
 
   workers: 2
 
@@ -54,7 +52,6 @@ nginx:
   image: compute-webapp
   imageTag: latest
   imagePullPolicy: IfNotPresent
-  imagePullSecret: docker-registry-config-aims2
 
   ingress:
     labels:
@@ -72,7 +69,6 @@ wps:
   image: compute-wps
   imageTag: latest
   imagePullPolicy: IfNotPresent
-  imagePullSecret: docker-registry-config-aims2
 
   externalHost: 10.5.5.5:8443
 
@@ -108,7 +104,6 @@ celery:
   image: compute-celery
   imageTag: latest
   imagePullPolicy: IfNotPresent
-  imagePullSecret: docker-registry-config-aims2
 
   prometheusUrl: adsadas
 
@@ -125,7 +120,6 @@ thredds:
   image: compute-thredds
   imageTag: latest
   imagePullPolicy: IfNotPresent
-  imagePullSecret: docker-registry-config-aims2
 
   ingress:
     labels:

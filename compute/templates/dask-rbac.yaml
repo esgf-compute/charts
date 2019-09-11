@@ -21,7 +21,7 @@ metadata:
     release: {{ .Release.Name }}
 rules:
 - apiGroups: ["", "apps", "extensions"]
-  resources: ["pods", "deployments", "services", "ingresses"]
+  resources: ["pods", "pods/status", "deployments", "deployments/status", "services", "services/status", "ingresses", "ingresses/status"]
   verbs: ["get", "list", "watch", "create", "delete"]
 ---
 kind: RoleBinding
