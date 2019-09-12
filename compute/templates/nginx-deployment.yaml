@@ -35,6 +35,9 @@ spec:
         imagePullPolicy: {{ .Values.nginx.imagePullPolicy }}
         resources:
           {{ $.Values.nginx.resources | toYaml | trimSuffix "\n" | nindent 10 }}
+        env:
+        - name: SECRET_KEY
+          value: "SECRET_KEY"
         command: ['tini', '--']
         args: ['/bin/bash', '-c', 'mkdir -p /compute/assets && python /compute/manage.py collectstatic --no-input']
         volumeMounts:
