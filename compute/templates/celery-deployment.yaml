@@ -25,7 +25,6 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/wps-secret.yaml") $ | sha256sum }}
       {{- .annotations | toYaml | trimSuffix "\n" | nindent 8 }}
     spec:
-      serviceAccountName: wps-dask
       {{- if $.Values.celery.nodeSelector }}
       nodeSelector: 
         {{ $.Values.celery.nodeSelector | toYaml | trimSuffix "\n" }}
