@@ -69,17 +69,6 @@ provisioner:
   nodeSelector:
     tier: backend
 
-kubeMonitor:
-  image: aims2.llnl.gov/compute-kube-monitor
-  imageTag: b9930b74
-  imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
-
-  nodeSelector:
-    tier: backend
-
-  namespace: production
-
 nginx:
   image: aims2.llnl.gov/compute-webapp
   imageTag: b9930b74

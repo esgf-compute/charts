@@ -88,20 +88,6 @@ provisioner:
 
   resources: {}
 
-# Kubernetes Monitor
-kubeMonitor:
-  nodeSelector: {}
-
-  image: jasonb87/compute-kube-monitor
-  imageTag: 2.2.0
-
-  imagePullPolicy: Always
-
-  # Number of seconds between checking whether resources are ready to be cleaned up
-  timeout: 4
-
-  resources: {}
-
 nginx:
   replicas: 1
 

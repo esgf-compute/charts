@@ -54,12 +54,6 @@ provisioner:
   nodeSelector:
     tier: backend
 
-kubeMonitor:
-  nodeSelector:
-    tier: backend
-
-  namespace: production
-
 nginx:
   nodeSelector:
     tier: backend

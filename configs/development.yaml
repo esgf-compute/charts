@@ -10,20 +10,6 @@ persistence:
       capacity: 100Gi
       path: /p/cscratch/nimbus/wps-dev/data
 
-kubeMonitor:
-  # Sets kube-monitor container to development mode
-  # 
-  # POD_NAME=$(kubectl get pods --selector  app.kubernetes.io/component=kube-monitor --template "{{range .items}}{{.metadata.name}}{{end}}")
-  # kubectl exec -it $POD_NAME /bin/bash
-  # compute-kube-monitor
-  #
-  # development: true
-
-  image: aims2.llnl.gov/compute-kube-monitor
-  imageTag: b69dd4da
-  imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
-
 provisioner:
   # Sets provisioner container to development mode
   # 
