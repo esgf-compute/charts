@@ -69,6 +69,10 @@ wps:
     # Days before expiration to warn
     # 15 Minute warn
     jobWarn: 0.0104166666666667
+    
+    # Every 5 minutes we'll scan
+    crontabHour: '*'
+    crontabMinute: '*/5'
 
     resources: {}
 

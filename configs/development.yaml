@@ -73,6 +73,10 @@ wps:
     # 15 Minute warn
     jobWarn: 0.0104166666666667
 
+    # Every 5 minutes we'll scan
+    crontabHour: '*'
+    crontabMinute: '*/5'
+
   externalHost: 10.5.5.5:8443
 
   oauth:
@@ -111,7 +115,7 @@ celery:
 
   prometheusUrl: adsadas
 
-  backend: {}
+  backend:
   #   Sets the celery backend container to development mode
   #
   # POD_NAME=$(kubectl get pods --selector  app.kubernetes.io/component=celery --template "{{range .items}}{{.metadata.name}}{{end}}")

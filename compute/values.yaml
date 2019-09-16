@@ -121,6 +121,10 @@ wps:
     # Days before expiration to warn
     jobWarn: 10
 
+    # Configure the celery crontab https://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#crontab-schedules
+    crontabHour: 23
+    crontabMinute: 0
+
     resources: {}
 
   # Set to external hostname of cluster

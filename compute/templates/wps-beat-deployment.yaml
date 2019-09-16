@@ -67,6 +67,10 @@ spec:
         - name: WPS_DEBUG
           value: "1"
         {{- end }}
+        - name: CRONTAB_HOUR
+          value: {{ .Values.wps.beat.crontabHour | quote }}
+        - name: CRONTAB_MINUTE
+          value: {{ .Values.wps.beat.crontabMinute | quote }}
         - name: JOB_EXPIRATION
           value: {{ .Values.wps.beat.jobExpiration | quote }}
         - name: JOB_WARN
