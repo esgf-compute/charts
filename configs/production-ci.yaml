@@ -66,6 +66,10 @@ provisioner:
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
+  timeout: 60
+
+  lifetime: 480
+
   nodeSelector:
     tier: backend
 

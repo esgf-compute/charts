@@ -17,7 +17,7 @@ provisioner:
   # kubectl exec -it $POD_NAME /bin/bash
   # compute-provisioner
   #
-  # development: true
+  development: false
 
   image: aims2.llnl.gov/compute-provisioner
   imageTag: b69dd4da
@@ -25,6 +25,8 @@ provisioner:
   imagePullSecret: docker-registry-config-aims2
 
   workers: 2
+
+  timeout: 60
 
   lifetime: 240
 
@@ -35,7 +37,7 @@ nginx:
   # kubectl exec -it $POD_NAME /bin/bash
   # bash entrypoint.sh
   #
-  # development: true
+  development: false
 
   image: aims2.llnl.gov/compute-webapp
   imageTag: 2464dcf7
@@ -53,12 +55,23 @@ wps:
   # kubectl exec -it $POD_NAME /bin/bash
   # bash entrypoint.sh
   # 
-  # development: true
+  development: false
 
   image: aims2.llnl.gov/compute-wps
   imageTag: 001372cf
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
+
+  beat:
+    enabled: true
+    development: false
+
+    # Days until a job expires
+    # 30 Minute expire
+    jobExpiration: 0.0208333333333333
+    # Days before expiration to warn
+    # 15 Minute warn
+    jobWarn: 0.0104166666666667
 
   externalHost: 10.5.5.5:8443
 
@@ -89,7 +102,7 @@ celery:
   # kubectl exec -it $POD_NAME -c compute-celery-ingress /bin/bash
   # bash entrypoint.sh -c 1 -Q ingress -n ingress -l INFO
   # 
-  # development: true
+  development: false
 
   image: aims2.llnl.gov/compute-celery
   imageTag: b69dd4da
@@ -105,7 +118,7 @@ celery:
   # kubectl exec -it $POD_NAME -c compute-celery-ingress-backend /bin/bash
   # compute-tasks-backend
   #
-  #   development: true
+    development: false
 
 thredds:
   image: aims2.llnl.gov/compute-thredds

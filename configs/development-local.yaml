@@ -25,6 +25,8 @@ provisioner:
 
   workers: 2
 
+  timeout: 60
+
   lifetime: 240
 
 nginx:
@@ -34,7 +36,7 @@ nginx:
   # kubectl exec -it $POD_NAME /bin/bash
   # bash entrypoint.sh
   #
-  # development: true
+  development: false
 
   image: compute-webapp
   imageTag: latest
@@ -51,11 +53,24 @@ wps:
   # kubectl exec -it $POD_NAME /bin/bash
   # bash entrypoint.sh
   # 
-  # development: true
+  development: false
 
   image: compute-wps
   imageTag: latest
   imagePullPolicy: IfNotPresent
+
+  beat:
+    enabled: true
+    development: false
+
+    # Days until a job expires
+    # 30 Minute expire
+    jobExpiration: 0.0208333333333333
+    # Days before expiration to warn
+    # 15 Minute warn
+    jobWarn: 0.0104166666666667
+
+    resources: {}
 
   externalHost: 10.5.5.5:8443
 
@@ -86,7 +101,7 @@ celery:
   # kubectl exec -it $POD_NAME -c compute-celery-ingress /bin/bash
   # bash entrypoint.sh -c 1 -Q ingress -n ingress -l INFO
   # 
-  # development: true
+  development: false
 
   image: compute-celery
   imageTag: latest
@@ -101,7 +116,7 @@ celery:
   # kubectl exec -it $POD_NAME -c compute-celery-ingress-backend /bin/bash
   # compute-tasks-backend
   #
-  #   development: true
+  development: false
 
 thredds:
   image: compute-thredds

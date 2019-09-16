@@ -112,6 +112,17 @@ wps:
   imageTag: 2.2.0
   imagePullPolicy: Always
 
+  beat:
+    enabled: true
+    development: false
+
+    # Days until a job expires
+    jobExpiration: 30
+    # Days before expiration to warn
+    jobWarn: 10
+
+    resources: {}
+
   # Set to external hostname of cluster
   externalHost: 127.0.0.1
   allowedCIDR: 172.17.0.0/16

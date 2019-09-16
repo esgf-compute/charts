@@ -41,6 +41,19 @@ spec:
         args:
           - /bin/sleep
           - infinity
+        {{- else }}
+        args:
+          - python
+          - -m
+          - compute_provisioner.provisioner
+          - --redis-host
+          - {{ template "redis.fullname" . }}-master
+          - --namespace
+          - {{ .Release.Namespace }}
+          - --timeout
+          - "{{ .Values.provisioner.timeout }}"
+          - --lifetime
+          - "{{ .Values.provisioner.lifetime }}"
         {{- end }}
         env:
         - name: FRONTEND_PORT

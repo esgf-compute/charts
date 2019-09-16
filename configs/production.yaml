@@ -54,6 +54,10 @@ provisioner:
   nodeSelector:
     tier: backend
 
+  timeout: 60
+
+  lifetime: 3600  
+
 nginx:
   nodeSelector:
     tier: backend
