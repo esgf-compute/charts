@@ -58,7 +58,7 @@ wps:
   development: false
 
   image: aims2.llnl.gov/compute-wps
-  imageTag: 649afa14
+  imageTag: 5ab9bca1
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
