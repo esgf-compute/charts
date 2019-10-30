@@ -189,7 +189,7 @@ spec:
           name: data-volume
           subPath: public
       volumes:
-      {{- if $.Values.celery.development }}
+      {{- if or $.Values.celery.development $.Values.celery.backend.development }}
       - name: devel-volume
         hostPath: 
           path: /opt/cwt/devel
