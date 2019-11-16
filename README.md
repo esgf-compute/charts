@@ -1,5 +1,18 @@
 # ESGF Compute Helm Charts
+* [Quickstart](#quickstart)
 * [Installation](#installation)
+
+# Quickstart
+
+## Development
+
+This requires Kubernetes and Helm to be installed.
+
+```bash
+git clone https://github.com/esgf-compute/charts
+cd charts
+bash scripts/development.sh
+```
 
 # Installation
 
