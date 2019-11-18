@@ -34,14 +34,29 @@ Flags:
 EOF
 }
 
+function install_deployment {
+  if [[ ${2} -eq 1 ]]; then
+    remove_deployment ${1}
+    
+    sleep 4
+  fi
+
+  if [[ ! -z "$(helm list | grep ${1})" ]]; then
+    helm upgrade ${1} compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" ${HFLAGS}
+  else
+    helm install -n ${1} compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" ${HFLAGS}
+  fi
+}
+
+
 function remove_deployment {
   if [[ ! -z "$(helm list | grep ${1})" ]]; then
     helm delete --purge ${1}
   fi
 }
 
-PARAMS=""
 HFLAGS=""
+REINSTALL=0
 
 while (( "$#" )); do
   case "${1}" in
@@ -69,18 +84,20 @@ while (( "$#" )); do
       HFLAGS="${HFLAGS} --set celery.backend.development=true"
       shift
       ;;
+    --reinstall)
+      REINSTALL=1
+      shift
+      ;;
     -h|--help)
       usage
       exit 1
       ;;
     *)
-      PARAMS="${PARAMS} ${1}"
+      HFLAGS="${HFLAGS} ${1}"
       shift
       ;;
   esac
 done
-
-eval set -- "${PARAMS}"
 
 if [[ "$(uname)" == "Darwin" ]]; then
   EXTERNAL_HOST="127.0.0.1:8443"
@@ -90,9 +107,7 @@ fi
 
 WPS_SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)"
 
-remove_deployment "compute-dev-environment"
-
-helm install -n compute-dev-environment compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" ${HFLAGS}
+install_deployment "compute-dev-environment" ${REINSTALL}
 
 image_note
 
