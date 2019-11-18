@@ -177,10 +177,6 @@ wps:
     user: ""
     password: ""
 
-  ports:
-    - name: django
-      port: 8000
-
   ingress:
     annotations:
       ingress.kubernetes.io/ssl-redirect: "true"
@@ -188,9 +184,11 @@ wps:
       ingress.kubernetes.io/hsts-include-subdomains: "true"
       ingress.kubernetes.io/force-hsts: "true"
     external:
+      enabled: true
       labels:
         traffic-type: external
     internal:
+      enabled: true
       labels:
         traffic-type: internal
 
@@ -291,3 +289,20 @@ redis:
 
 prometheus:
   enabled: false
+
+twitcher:
+  enabled: false
+
+  image: birdhouse/twitcher
+  imageTag: latest
+
+  resources: {}
+
+  ingress:
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: "true"
+      ingress.kubernetes.io/hsts-max-age: "31536000"
+      ingress.kubernetes.io/hsts-include-subdomains: "true"
+      ingress.kubernetes.io/force-hsts: "true"
+    labels:
+      traffic-type: external

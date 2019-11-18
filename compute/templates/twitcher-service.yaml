@@ -1,7 +1,8 @@
+{{- if $.Values.twitcher.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "esgf-compute-wps.fullname" $ }}-wps
+  name: {{ template "esgf-compute-wps.fullname" $ }}-twitcher
   labels:
     app.kubernetes.io/managed-by: {{ $.Release.Service }}
     app.kubernetes.io/instance: {{ $.Release.Name }}
@@ -11,7 +12,8 @@ spec:
   selector:
     app.kubernetes.io/instance: {{ $.Release.Name }}
     app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-    app.kubernetes.io/component: wps
+    app.kubernetes.io/component: twitcher
   ports:
     - port: 8000
       protocol: TCP
+{{- end }}

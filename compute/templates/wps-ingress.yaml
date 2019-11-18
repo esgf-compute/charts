@@ -1,3 +1,4 @@
+{{- if $.Values.wps.ingress.external.enabled }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -26,6 +27,7 @@ spec:
         backend:
           serviceName: {{ template "esgf-compute-wps.fullname" . }}-wps
           servicePort: 8000
+{{- end }}
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
