@@ -208,6 +208,8 @@ celery:
   resources: {}
 
   backend:
+    replicas: 1
+
     development: false
 
     resources: {}

@@ -34,6 +34,12 @@ Flags:
 EOF
 }
 
+function remove_deployment {
+  if [[ ! -z "$(helm list | grep ${1})" ]]; then
+    helm delete --purge ${1}
+  fi
+}
+
 PARAMS=""
 HFLAGS=""
 
@@ -84,7 +90,9 @@ fi
 
 WPS_SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)"
 
-helm install -n compute-dev-environment compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" "${HFLAGS}"
+remove_deployment "compute-dev-environment"
+
+helm install -n compute-dev-environment compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" ${HFLAGS}
 
 image_note
 
