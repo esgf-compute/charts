@@ -109,7 +109,7 @@ celery:
   development: false
 
   image: aims2.llnl.gov/compute-celery
-  imageTag: 649afa14
+  imageTag: 7284bb35
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
