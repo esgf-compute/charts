@@ -34,15 +34,24 @@ Flags:
 EOF
 }
 
-function remove_deployment {
-  if [[ ! -z "$(helm list | grep ${1})" ]]; then
-    helm delete --purge ${1}
+function install_deployment {
+  if [[ ! -z "$(helm list | grep ${DEPLOY_NAME})" ]]; then
+    helm upgrade "${DEPLOY_NAME}" compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" ${HFLAGS}
+  else
+    if [[ ${REINSTALL} -eq 1 ]]; then
+      helm delete --purge ${DEPLOY_NAME}
+
+      sleep 8
+    fi
+
+    helm install -n "${DEPLOY_NAME}" compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" ${HFLAGS}
   fi
 }
 
 HFLAGS=""
 EXTERNAL_HOST=""
 DEPLOY_NAME="compute-dev-environment"
+REINSTALL=0
 
 while (( "$#" )); do
   case "${1}" in
@@ -80,6 +89,10 @@ while (( "$#" )); do
       EXTERNAL_HOST="${1}"
       shift
       ;;
+    --reinstall)
+      REINSTALL=1
+      shift
+      ;;
     -h|--help)
       usage
       exit 1
@@ -101,17 +114,10 @@ fi
 
 WPS_SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)"
 
-remove_deployment "${DEPLOY_NAME}"
-
-echo ${EXTERNAL_HOST}
-echo ${HFLAGS}
-
-helm install -n "${DEPLOY_NAME}" compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" ${HFLAGS}
+install_deployment
 
 image_note
 
 if [[ "$(uname)" == "Darwin" ]]; then
-  sleep 2
-
   port_forward_note "$(kubectl get pods | grep ${DEPLOY_NAME}-compute-wps | grep -v wps-beat | tr -s ' ' | cut -d' ' -f1)"
 fi
