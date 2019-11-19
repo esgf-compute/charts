@@ -40,11 +40,17 @@ function remove_deployment {
   fi
 }
 
-PARAMS=""
 HFLAGS=""
+EXTERNAL_HOST=""
+DEPLOY_NAME="compute-dev-environment"
 
 while (( "$#" )); do
   case "${1}" in
+    --deploy-name)
+      shift
+      DEPLOY_NAME="${1}"
+      shift
+      ;;
     --dev-provisioner)
       HFLAGS="${HFLAGS} --set provisioner.development=true"
       shift
@@ -69,35 +75,43 @@ while (( "$#" )); do
       HFLAGS="${HFLAGS} --set celery.backend.development=true"
       shift
       ;;
+    --external-host)
+      shift
+      EXTERNAL_HOST="${1}"
+      shift
+      ;;
     -h|--help)
       usage
       exit 1
       ;;
     *)
-      PARAMS="${PARAMS} ${1}"
+      HFLAGS="${HFLAGS} ${1}"
       shift
       ;;
   esac
 done
 
-eval set -- "${PARAMS}"
-
-if [[ "$(uname)" == "Darwin" ]]; then
-  EXTERNAL_HOST="127.0.0.1:8443"
-else
-  EXTERNAL_HOST="$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f7):8443"
+if [[ -z "${EXTERNAL_HOST}" ]]; then
+  if [[ "$(uname)" == "Darwin" ]]; then
+    EXTERNAL_HOST="127.0.0.1:8443"
+  else
+    EXTERNAL_HOST="$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f7):8443"
+  fi
 fi
 
 WPS_SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)"
 
-remove_deployment "compute-dev-environment"
+remove_deployment "${DEPLOY_NAME}"
 
-helm install -n compute-dev-environment compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" ${HFLAGS}
+echo ${EXTERNAL_HOST}
+echo ${HFLAGS}
+
+helm install -n "${DEPLOY_NAME}" compute/ -f configs/development.yaml -f configs/traefik-dev.yaml --set wps.secretKey="${WPS_SECRET}" --set wps.externalHost="${EXTERNAL_HOST}" ${HFLAGS}
 
 image_note
 
 if [[ "$(uname)" == "Darwin" ]]; then
   sleep 2
 
-  port_forward_note "$(kubectl get pods | grep compute-dev-environment-compute-wps | grep -v wps-beat | tr -s ' ' | cut -d' ' -f1)"
+  port_forward_note "$(kubectl get pods | grep ${DEPLOY_NAME}-compute-wps | grep -v wps-beat | tr -s ' ' | cut -d' ' -f1)"
 fi
