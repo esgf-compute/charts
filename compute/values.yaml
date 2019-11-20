@@ -200,6 +200,8 @@ wps:
       traffic-type: internal
 
 celery:
+  replicas: 1
+  annotations: {}
   nodeSelector: {}
 
   image: jasonb87/compute-celery
@@ -222,17 +224,13 @@ celery:
   metrics:
     resources: {}
 
-  # Each entry will create a new celery queue
-  queues:
-  - name: ingress
-    replicas: 1
-    annotations:
-      prometheus.io/scrape: "true"
-      prometheus.io/path: /metrics
-      prometheus.io/port: "8080"
-    ports:
-      - port: 8080
-        name: metrics
+    service:
+      port: 8080
+
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
 
 thredds:
   nodeSelector: {}
