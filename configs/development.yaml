@@ -91,13 +91,18 @@ wps:
   email:
     host: dadagfa
 
-  ingress:
-    external:
-      labels:
-        traffic-type: development
-    internal:
-      labels:
-        traffic-type: development
+  instances:
+  - name: external
+    paths:
+    - /api
+    - /wps
+    labels:
+      traffic-type: development
+  - name: internal
+    paths:
+    - /internal_api
+    labels:
+      traffic-type: development
 
 celery:
   # Sets the celery container to development mode
