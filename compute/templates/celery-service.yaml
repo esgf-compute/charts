@@ -1,7 +1,3 @@
-{{- range $.Values.celery.queues }}
-{{- $name := .name }}
-{{- if .ports }}
-{{- range .ports }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -11,16 +7,15 @@ metadata:
     app.kubernetes.io/instance: {{ $.Release.Name }}
     app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
     helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+  {{- if $.Values.celery.metrics.service.annotations }}
+  annotations:
+    {{ toYaml $.Values.celery.metrics.service.annotations | nindent 8 }}
+  {{- end }}
 spec:
   selector:
     app.kubernetes.io/instance: {{ $.Release.Name }}
     app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
     app.kubernetes.io/component: celery
   ports:
-    - port: {{ .port }}
+    - port: {{ $.Values.celery.metrics.service.port }}
       protocol: TCP
-      name: {{ .name }}
----
-{{- end }}
-{{- end }}
-{{- end }}

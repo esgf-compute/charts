@@ -177,24 +177,31 @@ wps:
     user: ""
     password: ""
 
-  ports:
-    - name: django
-      port: 8000
-
   ingress:
     annotations:
       ingress.kubernetes.io/ssl-redirect: "true"
       ingress.kubernetes.io/hsts-max-age: "31536000"
       ingress.kubernetes.io/hsts-include-subdomains: "true"
       ingress.kubernetes.io/force-hsts: "true"
-    external:
-      labels:
-        traffic-type: external
-    internal:
-      labels:
-        traffic-type: internal
+
+  instances:
+  - name: external
+    enabled: true
+    paths:
+    - /api
+    - /wps
+    labels:
+      traffic-type: external
+  - name: internal
+    enabled: true
+    paths:
+    - /internal_api
+    labels:
+      traffic-type: internal
 
 celery:
+  replicas: 1
+  annotations: {}
   nodeSelector: {}
 
   image: jasonb87/compute-celery
@@ -217,17 +224,13 @@ celery:
   metrics:
     resources: {}
 
-  # Each entry will create a new celery queue
-  queues:
-  - name: ingress
-    replicas: 1
-    annotations:
-      prometheus.io/scrape: "true"
-      prometheus.io/path: /metrics
-      prometheus.io/port: "8080"
-    ports:
-      - port: 8080
-        name: metrics
+    service:
+      port: 8080
+
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
 
 thredds:
   nodeSelector: {}
@@ -291,3 +294,20 @@ redis:
 
 prometheus:
   enabled: false
+
+twitcher:
+  enabled: false
+
+  image: birdhouse/twitcher
+  imageTag: latest
+
+  resources: {}
+
+  ingress:
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: "true"
+      ingress.kubernetes.io/hsts-max-age: "31536000"
+      ingress.kubernetes.io/hsts-include-subdomains: "true"
+      ingress.kubernetes.io/force-hsts: "true"
+    labels:
+      traffic-type: external

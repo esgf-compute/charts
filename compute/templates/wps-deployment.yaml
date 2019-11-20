@@ -1,42 +1,43 @@
+{{- range .Values.wps.instances }}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "esgf-compute-wps.fullname" . }}-wps
+  name: {{ template "esgf-compute-wps.fullname" $ }}-wps-{{ .name }}
   labels:
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/name: {{ template "esgf-compute-wps.name" . }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
 spec:
-  replicas: {{ .Values.wps.replicas }}
+  replicas: {{ $.Values.wps.replicas }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "esgf-compute-wps.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
-      app.kubernetes.io/component: wps
+      app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
+      app.kubernetes.io/instance: {{ $.Release.Name }}
+      app.kubernetes.io/component: wps-{{ .name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ template "esgf-compute-wps.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/component: wps
+        app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
+        app.kubernetes.io/instance: {{ $.Release.Name }}
+        app.kubernetes.io/component: wps-{{ .name }}
       annotations:
-        checksum/config: {{ list (include (print $.Template.BasePath "/wps-secret.yaml") .) (include (print $.Template.BasePath "/wps-configmap.yaml") .) | join " " | sha256sum }}
-      {{- .Values.wps.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
+        checksum/config: {{ list (include (print $.Template.BasePath "/wps-secret.yaml") $) (include (print $.Template.BasePath "/wps-configmap.yaml") $) | join " " | sha256sum }}
+      {{- $.Values.wps.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
     spec:
-      {{- if .Values.wps.nodeSelector }}
+      {{- if $.Values.wps.nodeSelector }}
       nodeSelector: 
-        {{ .Values.wps.nodeSelector | toYaml | trimSuffix "\n" }}
+        {{ $.Values.wps.nodeSelector | toYaml | trimSuffix "\n" }}
       {{- end }}
       {{- if $.Values.wps.imagePullSecret }}
       imagePullSecrets:
       - name: {{ $.Values.wps.imagePullSecret }}
       {{- end }}
       containers:
-      - name: {{ template "esgf-compute-wps.name" . }}-wps
-        image: {{ .Values.wps.image }}:{{ .Values.wps.imageTag }}
-        imagePullPolicy: {{ .Values.wps.imagePullPolicy }}
-        {{- if .Values.wps.development }}
+      - name: wps
+        image: {{ $.Values.wps.image }}:{{ $.Values.wps.imageTag }}
+        imagePullPolicy: {{ $.Values.wps.imagePullPolicy }}
+        {{- if $.Values.wps.development }}
         command:
           - tini
           - --
@@ -68,36 +69,30 @@ spec:
           value: "1"
         {{- end }}
         - name: SECRET_KEY
-          value: {{ required "A valid wps.secretKey is required" .Values.wps.secretKey }}
+          value: {{ required "A valid wps.secretKey is required" $.Values.wps.secretKey }}
         - name: CELERY_BROKER_URL
-          value: redis://{{ template "redis.fullname" . }}-master/0
+          value: redis://{{ template "redis.fullname" $ }}-master/0
         - name: CELERY_RESULT_BACKEND
-          value: redis://{{ template "redis.fullname" . }}-master/0
+          value: redis://{{ template "redis.fullname" $ }}-master/0
         - name: POSTGRES_HOST
-          value: {{ template "postgresql.fullname" . }}
+          value: {{ template "postgresql.fullname" $ }}
         - name: PROVISIONER_FRONTEND
-          value: {{ template "esgf-compute-wps.fullname" . }}-provisioner.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.frontendPort }}
+          value: {{ template "esgf-compute-wps.fullname" $ }}-provisioner.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.frontendPort }}
         envFrom:
         - secretRef:
-            name: {{ template "esgf-compute-wps.fullname" . }}-wps
-        ports:
-        {{- range .Values.wps.ports }}
-        - containerPort: {{ .port }}
-          protocol: TCP
-          name: {{ .name }}
-        {{- end }}
+            name: {{ template "esgf-compute-wps.fullname" $ }}-wps
         volumeMounts:
         - name: config-volume
           mountPath: /etc/config
         - mountPath: /data/public
           name: data-volume
           subPath: public
-        {{- if .Values.wps.development }}
+        {{- if $.Values.wps.development }}
         - name: devel-volume
           mountPath: /devel
         {{- end }}
       volumes:
-      {{- if .Values.wps.development }}
+      {{- if $.Values.wps.development }}
       - name: devel-volume
         hostPath: 
           path: /opt/cwt/devel
@@ -105,7 +100,9 @@ spec:
       {{- end }}
       - name: config-volume
         configMap:
-          name: {{ template "esgf-compute-wps.fullname" . }}-wps
+          name: {{ template "esgf-compute-wps.fullname" $ }}-wps
       - name: data-volume
         persistentVolumeClaim:
-          claimName: {{ .Values.persistence.dataClaimName | default "data-pvc" }}
+          claimName: {{ $.Values.persistence.dataClaimName | default "data-pvc" }}
+---
+{{- end }}
