@@ -131,7 +131,7 @@ celery:
 
 thredds:
   image: aims2.llnl.gov/compute-thredds
-  imageTag: e592536f
+  imageTag: abe05e01
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
