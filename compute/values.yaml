@@ -227,6 +227,8 @@ celery:
     workerCpu: 1
     workerMemory: 1Gi
 
+    trafficType: external
+
     resources: {}
 
   metrics:

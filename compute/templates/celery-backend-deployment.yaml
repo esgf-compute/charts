@@ -81,6 +81,8 @@ spec:
           value: {{ $.Values.celery.backend.workerMemory | quote }}
         - name: WORKER_NTHREADS
           value: {{ $.Values.celery.backend.workerNThreads | quote }}
+        - name: TRAFFIC_TYPE
+          value: {{ $.Values.celery.backend.trafficType }}
         - name: DATA_PATH
           value: /data/public
       containers:
