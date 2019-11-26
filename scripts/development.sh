@@ -51,6 +51,7 @@ function install_deployment {
 HFLAGS=""
 EXTERNAL_HOST=""
 DEPLOY_NAME="compute-dev-environment"
+REMOVE=0
 REINSTALL=0
 
 while (( "$#" )); do
@@ -89,6 +90,10 @@ while (( "$#" )); do
       EXTERNAL_HOST="${1}"
       shift
       ;;
+    --remove)
+      REMOVE=1
+      shift
+      ;;
     --reinstall)
       REINSTALL=1
       shift
@@ -114,7 +119,11 @@ fi
 
 WPS_SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)"
 
-install_deployment
+if [[ ${REMOVE} -eq 1 ]]; then
+  helm delete --purge ${DEPLOY_NAME}
+else
+  install_deployment
+fi
 
 image_note
 
