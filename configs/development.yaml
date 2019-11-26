@@ -129,6 +129,8 @@ celery:
   #
     development: false
 
+    trafficType: development
+
 thredds:
   image: aims2.llnl.gov/compute-thredds
   imageTag: bc1979ee

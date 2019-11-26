@@ -118,6 +118,8 @@ spec:
           value: {{ $.Release.Namespace }}
         - name: DATA_PATH
           value: /data/public
+        - name: WORKERS
+          value: {{ $.Values.celery.backend.workers | quote }}
         envFrom:
         - secretRef:
             name: {{ template "esgf-compute-wps.fullname" $ }}-wps

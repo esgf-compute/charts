@@ -69,20 +69,6 @@ spec:
           value: redis://{{ template "redis.fullname" $ }}-master/0
         - name: CELERY_RESULT_BACKEND
           value: redis://{{ template "redis.fullname" $ }}-master/0
-        - name: SCHEDULER_CPU
-          value: {{ $.Values.celery.backend.schedulerCpu | quote }}
-        - name: SCHEDULER_MEMORY
-          value: {{ $.Values.celery.backend.schedulerMemory | quote }}
-        - name: WORKERS
-          value: {{ $.Values.celery.backend.workers | quote }}
-        - name: WORKER_CPU
-          value: {{ $.Values.celery.backend.workerCpu | quote }}
-        - name: WORKER_MEMORY
-          value: {{ $.Values.celery.backend.workerMemory | quote }}
-        - name: WORKER_NTHREADS
-          value: {{ $.Values.celery.backend.workerNThreads | quote }}
-        - name: TRAFFIC_TYPE
-          value: {{ $.Values.celery.backend.trafficType }}
         - name: DATA_PATH
           value: /data/public
       containers:
@@ -131,8 +117,20 @@ spec:
           value: redis://{{ template "redis.fullname" $ }}-master/0
         - name: CELERY_RESULT_BACKEND
           value: redis://{{ template "redis.fullname" $ }}-master/0
+        - name: SCHEDULER_CPU
+          value: {{ $.Values.celery.backend.schedulerCpu | quote }}
+        - name: SCHEDULER_MEMORY
+          value: {{ $.Values.celery.backend.schedulerMemory | quote }}
         - name: WORKERS
-          value: {{ $.Values.provisioner.workers | quote }}
+          value: {{ $.Values.celery.backend.workers | quote }}
+        - name: WORKER_CPU
+          value: {{ $.Values.celery.backend.workerCpu | quote }}
+        - name: WORKER_MEMORY
+          value: {{ $.Values.celery.backend.workerMemory | quote }}
+        - name: WORKER_NTHREADS
+          value: {{ $.Values.celery.backend.workerNThreads | quote }}
+        - name: TRAFFIC_TYPE
+          value: {{ $.Values.celery.backend.trafficType }}
         - name: DATA_PATH
           value: /data/public
         volumeMounts:

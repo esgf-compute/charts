@@ -80,9 +80,6 @@ provisioner:
   frontendPort: 7777
   backendPort: 7778
 
-  # Number of dask workers that will be spawned per user.
-  workers: 20
-
   # Number of seconds that a users dask scheduler and workers will live for (default: 1 hour).
   lifetime: 3600
 
