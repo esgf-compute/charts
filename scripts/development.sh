@@ -1,5 +1,7 @@
 #! /bin/bash
 
+export LC_CTYPE=C
+
 function image_note {
 cat << EOF
 
