@@ -219,6 +219,14 @@ celery:
 
     development: false
 
+    schedulerCpu: 1
+    schedulerMemory: 1Gi
+
+    workers: 10
+    workerNThreads: 4
+    workerCpu: 1
+    workerMemory: 1Gi
+
     resources: {}
 
   metrics:
