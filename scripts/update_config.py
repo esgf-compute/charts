@@ -6,7 +6,7 @@ from ruamel.yaml import YAML
 parser = argparse.ArgumentParser()
 
 parser.add_argument('file')
-parser.add_argument('component', choices=('kubeMonitor', 'provisioner', 'nginx', 'wps', 'celery', 'thredds'))
+parser.add_argument('component', choices=('provisioner', 'nginx', 'wps', 'celery', 'thredds'))
 parser.add_argument('value')
 
 args = parser.parse_args()
