@@ -20,7 +20,7 @@ provisioner:
   development: false
 
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: d2d45981
+  imageTag: c6c9ce55
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
@@ -58,7 +58,7 @@ wps:
   development: false
 
   image: aims2.llnl.gov/compute-wps
-  imageTag: 7284bb35
+  imageTag: c6c9ce55
   imagePullPolicy: Always
   imagePullSecret: docker-registry-config-aims2
 
