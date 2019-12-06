@@ -11,60 +11,32 @@ persistence:
       path: /p/cscratch/nimbus/wps-dev/data
 
 provisioner:
-  # Sets provisioner container to development mode
-  # 
-  # POD_NAME=$(kubectl get pods --selector  app.kubernetes.io/component=provisioner --template "{{range .items}}{{.metadata.name}}{{end}}")
-  # kubectl exec -it $POD_NAME /bin/bash
-  # compute-provisioner
-  #
-  development: false
-
   image: aims2.llnl.gov/compute-provisioner
   imageTag: d9ea0922
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
-
-  workers: 2
+  imagePullSecret: docker-registry
 
   timeout: 60
-
   lifetime: 240
 
 nginx:
-  # Sets the nginx container to development mode
-  # 
-  # POD_NAME=$(kubectl get pods --selector  app.kubernetes.io/component=nginx --template "{{range .items}}{{.metadata.name}}{{end}}")
-  # kubectl exec -it $POD_NAME /bin/bash
-  # bash entrypoint.sh
-  #
-  development: false
-
   image: aims2.llnl.gov/compute-webapp
   imageTag: acd9e9f
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
+  imagePullSecret: docker-registry
 
   ingress:
     labels:
       traffic-type: development
 
 wps:
-  # Sets the wps container to development mode
-  #
-  # POD_NAME=$(kubectl get pods --selector  app.kubernetes.io/component=wps --template "{{range .items}}{{.metadata.name}}{{end}}")
-  # kubectl exec -it $POD_NAME /bin/bash
-  # bash entrypoint.sh
-  # 
-  development: false
-
   image: aims2.llnl.gov/compute-wps
   imageTag: d9ea0922
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
+  imagePullSecret: docker-registry
 
   beat:
     enabled: true
-    development: false
 
     # Days until a job expires
     # 30 Minute expire
@@ -105,37 +77,21 @@ wps:
       traffic-type: development
 
 celery:
-  # Sets the celery container to development mode
-  #
-  # POD_NAME=$(kubectl get pods --selector  app.kubernetes.io/component=celery --template "{{range .items}}{{.metadata.name}}{{end}}")
-  # kubectl exec -it $POD_NAME -c compute-celery-ingress /bin/bash
-  # bash entrypoint.sh -c 1 -Q ingress -n ingress -l INFO
-  # 
-  development: false
-
   image: aims2.llnl.gov/compute-celery
   imageTag: c6c9ce55
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
+  imagePullSecret: docker-registry
 
   prometheusUrl: adsadas
 
   backend:
-  #   Sets the celery backend container to development mode
-  #
-  # POD_NAME=$(kubectl get pods --selector  app.kubernetes.io/component=celery --template "{{range .items}}{{.metadata.name}}{{end}}")
-  # kubectl exec -it $POD_NAME -c compute-celery-ingress-backend /bin/bash
-  # compute-tasks-backend
-  #
-    development: false
-
     trafficType: development
 
 thredds:
   image: aims2.llnl.gov/compute-thredds
   imageTag: '93213249'
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
+  imagePullSecret: docker-registry
 
   ingress:
     labels:

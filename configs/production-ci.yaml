@@ -30,7 +30,7 @@ wps:
   image: aims2.llnl.gov/compute-wps
   imageTag: 87d189e1
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
+  imagePullSecret: docker-registry
 
   nodeSelector:
     tier: backend
@@ -53,7 +53,7 @@ celery:
   image: aims2.llnl.gov/compute-celery
   imageTag: 87d189e1
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
+  imagePullSecret: docker-registry
 
   nodeSelector:
     tier: backend
@@ -64,7 +64,7 @@ provisioner:
   image: aims2.llnl.gov/compute-provisioner
   imageTag: 87d189e1
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
+  imagePullSecret: docker-registry
 
   timeout: 60
 
@@ -77,7 +77,7 @@ nginx:
   image: aims2.llnl.gov/compute-webapp
   imageTag: 87d189e1
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
+  imagePullSecret: docker-registry
 
   nodeSelector:
     tier: backend
@@ -93,7 +93,7 @@ thredds:
   image: aims2.llnl.gov/compute-thredds
   imageTag: 53b64be4
   imagePullPolicy: Always
-  imagePullSecret: docker-registry-config-aims2
+  imagePullSecret: docker-registry
 
   nodeSelector:
     tier: backend
