@@ -21,7 +21,7 @@ spec:
         app.kubernetes.io/instance: {{ $.Release.Name }}
         app.kubernetes.io/component: celery
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/wps-secret.yaml") $ | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/celery-backend-configmap.yaml") $ | sha256sum }}
     spec:
       {{- if $.Values.celery.nodeSelector }}
       nodeSelector: 
@@ -44,33 +44,14 @@ spec:
           - "mkdir -p /metrics; until nslookup ${INTERNAL_LB}; do echo 'Waiting'; done; compute-tasks-register"
         resources:
           {{ $.Values.celery.backend.resources | toYaml | trimSuffix "\n" | nindent 10 }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "esgf-compute-wps.fullname" $ }}-celery-backend-config
         env:
         {{- if $.Values.celery.backend.development }}
         - name: DEV
           value: "1"
         {{- end }}
-        - name: IMAGE
-          value: {{ $.Values.celery.image }}:{{ $.Values.celery.imageTag }}
-        - name: IMAGE_PULL_SECRET
-          value: {{ $.Values.celery.imagePullSecret }}
-        - name: IMAGE_PULL_POLICY
-          value: {{ $.Values.celery.imagePullPolicy }}
-        - name: DATA_CLAIM_NAME
-          value: {{ $.Values.persistence.dataClaimName }}
-        - name: PROVISIONER_BACKEND
-          value: {{ template "esgf-compute-wps.fullname" $ }}-provisioner.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.backendPort }}
-        - name: INTERNAL_LB
-          value: {{ template "traefik.fullname" $ }}.{{ $.Release.Namespace }}.svc
-        - name: API_USERNAME
-          value: {{ $.Values.wps.apiUsername }}
-        - name: API_PASSWORD
-          value: {{ $.Values.wps.apiPassword }}
-        - name: CELERY_BROKER_URL
-          value: redis://{{ template "redis.fullname" $ }}-master/0
-        - name: CELERY_RESULT_BACKEND
-          value: redis://{{ template "redis.fullname" $ }}-master/0
-        - name: DATA_PATH
-          value: /data/public
       containers:
       - name: {{ template "esgf-compute-wps.name" $ }}-celery-backend
         image: {{ $.Values.celery.image }}:{{ $.Values.celery.imageTag }}
@@ -86,67 +67,22 @@ spec:
         args:
           - /bin/bash
           - -c
-          - "mkdir -p /metrics && compute-tasks-backend"
+          - "mkdir -p /metrics && compute-tasks-backend --queue-host ${PROVISIONER_BACKEND}"
         {{- end }}
         resources:
           {{ $.Values.celery.backend.resources | toYaml | trimSuffix "\n" | nindent 10 }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "esgf-compute-wps.fullname" $ }}-celery-backend-config
         env:
         {{- if $.Values.celery.backend.development }}
         - name: DEV
           value: "1"
         {{- end }}
-        - name: NAMESPACE
-          value: {{ $.Release.Namespace }}
-        - name: IMAGE
-          value: {{ $.Values.celery.image }}:{{ $.Values.celery.imageTag }}
-        - name: IMAGE_PULL_SECRET
-          value: {{ $.Values.celery.imagePullSecret }}
-        - name: IMAGE_PULL_POLICY
-          value: {{ $.Values.celery.imagePullPolicy }}
-        - name: DATA_CLAIM_NAME
-          value: {{ $.Values.persistence.dataClaimName }}
-        - name: PROVISIONER_BACKEND
-          value: {{ template "esgf-compute-wps.fullname" $ }}-provisioner.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.backendPort }}
-        - name: INTERNAL_LB
-          value: {{ template "traefik.fullname" $ }}.{{ $.Release.Namespace }}.svc
-        - name: API_USERNAME
-          value: {{ $.Values.wps.apiUsername }}
-        - name: API_PASSWORD
-          value: {{ $.Values.wps.apiPassword }}
-        - name: CELERY_BROKER_URL
-          value: redis://{{ template "redis.fullname" $ }}-master/0
-        - name: CELERY_RESULT_BACKEND
-          value: redis://{{ template "redis.fullname" $ }}-master/0
-        - name: SCHEDULER_CPU
-          value: {{ $.Values.celery.backend.schedulerCpu | quote }}
-        - name: SCHEDULER_MEMORY
-          value: {{ $.Values.celery.backend.schedulerMemory | quote }}
-        - name: WORKERS
-          value: {{ $.Values.celery.backend.workers | quote }}
-        - name: WORKER_CPU
-          value: {{ $.Values.celery.backend.workerCpu | quote }}
-        - name: WORKER_MEMORY
-          value: {{ $.Values.celery.backend.workerMemory | quote }}
-        - name: WORKER_NTHREADS
-          value: {{ $.Values.celery.backend.workerNThreads | quote }}
-        - name: TRAFFIC_TYPE
-          value: {{ $.Values.celery.backend.trafficType }}
-        - name: DATA_PATH
-          value: /data/public
         volumeMounts:
-        {{- if $.Values.celery.backend.development }}
-        - name: devel-volume
-          mountPath: /devel
-        {{- end }}
         - mountPath: /metrics
           name: metrics-volume
       volumes:
-      {{- if or $.Values.celery.development $.Values.celery.backend.development }}
-      - name: devel-volume
-        hostPath: 
-          path: /opt/cwt/devel
-          type: DirectoryOrCreate
-      {{- end }}
       - name: metrics-volume
         emptyDir: {}
       - name: data-volume

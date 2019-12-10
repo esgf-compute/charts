@@ -92,7 +92,11 @@ spec:
           periodSeconds: 30
           timeoutSeconds: 5
         {{- end }}
-        resources: {{ $.Values.celery.resources | toYaml | trimSuffix "\n" | nindent 10 }}
+        resources: 
+        {{ $.Values.celery.resources | toYaml | trimSuffix "\n" | nindent 10 }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "esgf-compute-wps.fullname" $ }}-celery-backend-config
         env:
         {{- if $.Values.celery.development }}
         - name: DEV
@@ -100,46 +104,18 @@ spec:
         - name: WPS_DEBUG
           value: "1"
         {{- end }}
-        - name: PROVISIONER_BACKEND
-          value: {{ template "esgf-compute-wps.fullname" $ }}-provisioner.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.backendPort }}
-        - name: CELERY_BROKER_URL
-          value: redis://{{ template "redis.fullname" $ }}-master/0
-        - name: CELERY_RESULT_BACKEND
-          value: redis://{{ template "redis.fullname" $ }}-master/0
         - name: PROMETHEUS_HOST
           value: {{ required "Set celery.prometheusUrl" $.Values.celery.prometheusUrl }}
-        - name: INTERNAL_LB
-          value: {{ template "traefik.fullname" $ }}.{{ $.Release.Namespace }}.svc
-        - name: API_USERNAME
-          value: {{ $.Values.wps.apiUsername }}
-        - name: API_PASSWORD
-          value: {{ $.Values.wps.apiPassword }}
-        - name: NAMESPACE
-          value: {{ $.Release.Namespace }}
-        - name: DATA_PATH
-          value: /data/public
-        - name: WORKERS
-          value: {{ $.Values.celery.backend.workers | quote }}
         envFrom:
         - secretRef:
-            name: {{ template "esgf-compute-wps.fullname" $ }}-wps
+            name: {{ template "esgf-compute-wps.fullname" $ }}-wps-secret
         volumeMounts:
-        {{- if $.Values.celery.development }}
-        - name: devel-volume
-          mountPath: /devel
-        {{- end }}
         - mountPath: /metrics
           name: metrics-volume
         - mountPath: /data/public
           name: data-volume
           subPath: public
       volumes:
-      {{- if or $.Values.celery.development $.Values.celery.backend.development }}
-      - name: devel-volume
-        hostPath: 
-          path: /opt/cwt/devel
-          type: DirectoryOrCreate
-      {{- end }}
       - name: metrics-volume
         emptyDir: {}
       - name: data-volume

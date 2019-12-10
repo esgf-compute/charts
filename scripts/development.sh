@@ -27,12 +27,10 @@ EOF
 function usage {
 cat << EOF
 Flags:
-  --dev-provisioner: Puts the provisioner pod in development mode.
-  --dev-webapp: Puts the webapp pod in development mode. 
-  --dev-wps: Puts the wps pod in development mode.
-  --dev-wps-beat: Puts the wps beat pod in development mode.
-  --dev-celery: Puts the celery pod in development mode.
-  --dev-celery-backend: Puts the celery backend pod in development mode.
+  --deploy-name: Override the deployment name, defaults to ${DEPLOY_NAME}.
+  --external-host: Overrides the external host.
+  --remove: Completely removes the install.
+  --reinstall: Will remove the chart then install a fresh chart.
 EOF
 }
 
@@ -61,30 +59,6 @@ while (( "$#" )); do
     --deploy-name)
       shift
       DEPLOY_NAME="${1}"
-      shift
-      ;;
-    --dev-provisioner)
-      HFLAGS="${HFLAGS} --set provisioner.development=true"
-      shift
-      ;;
-    --dev-webapp)
-      HFLAGS="${HFLAGS} --set nginx.development=true"
-      shift
-      ;;
-    --dev-wps)
-      HFLAGS="${HFLAGS} --set wps.development=true"
-      shift
-      ;;
-    --dev-wps-beat)
-      HFLAGS="${HFLAGS} --set wps.beat.development=true"
-      shift
-      ;;
-    --dev-celery)
-      HFLAGS="${HFLAGS} --set celery.development=true"
-      shift
-      ;;
-    --dev-celery-backend)
-      HFLAGS="${HFLAGS} --set celery.backend.development=true"
       shift
       ;;
     --external-host)

@@ -55,17 +55,6 @@ spec:
           - --lifetime
           - "{{ .Values.provisioner.lifetime }}"
         {{- end }}
-        env:
-        - name: FRONTEND_PORT
-          value: {{ .Values.provisioner.frontendPort | quote }}
-        - name: BACKEND_PORT
-          value: {{ .Values.provisioner.backendPort | quote }}
-        - name: REDIS_HOST 
-          value: {{ template "redis.fullname" $ }}-master
-        - name: LIFETIME
-          value: {{ .Values.provisioner.lifetime | quote }}
-        - name: NAMESPACE
-          value: {{ .Release.Namespace }}
         {{- if not .Values.provisioner.development }}
         livenessProbe:
           tcpSocket:
@@ -82,15 +71,3 @@ spec:
         ports:
         - containerPort: {{ .Values.provisioner.frontendPort }}
         - containerPort: {{ .Values.provisioner.backendPort }}
-        {{- if $.Values.provisioner.development }}
-        volumeMounts:
-        - name: devel-volume
-          mountPath: /devel
-        {{- end }}
-      volumes:
-      {{- if $.Values.provisioner.development }}
-      - name: devel-volume
-        hostPath: 
-          path: /opt/cwt/devel
-          type: DirectoryOrCreate
-      {{- end }}

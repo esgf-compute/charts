@@ -67,42 +67,16 @@ spec:
         - name: WPS_DEBUG
           value: "1"
         {{- end }}
-        - name: CRONTAB_HOUR
-          value: {{ .Values.wps.beat.crontabHour | quote }}
-        - name: CRONTAB_MINUTE
-          value: {{ .Values.wps.beat.crontabMinute | quote }}
-        - name: JOB_EXPIRATION
-          value: {{ .Values.wps.beat.jobExpiration | quote }}
-        - name: JOB_WARN
-          value: {{ .Values.wps.beat.jobWarn | quote }}
-        - name: SECRET_KEY
-          value: {{ required "A valid wps.secretKey is required" .Values.wps.secretKey }}
-        - name: CELERY_BROKER_URL
-          value: redis://{{ template "redis.fullname" . }}-master/0
-        - name: CELERY_RESULT_BACKEND
-          value: redis://{{ template "redis.fullname" . }}-master/0
-        - name: POSTGRES_HOST
-          value: {{ template "postgresql.fullname" . }}
-        - name: PROVISIONER_FRONTEND
-          value: {{ template "esgf-compute-wps.fullname" . }}-provisioner.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.frontendPort }}
         envFrom:
+        - configMapRef:
+            name: {{ template "esgf-compute-wps.fullname" . }}-wps-beat-config
         - secretRef:
-            name: {{ template "esgf-compute-wps.fullname" . }}-wps
+            name: {{ template "esgf-compute-wps.fullname" . }}-wps-secret
         volumeMounts:
         - mountPath: /data/public
           name: data-volume
           subPath: public
-        {{- if .Values.wps.beat.development }}
-        - name: devel-volume
-          mountPath: /devel
-        {{- end }}
       volumes:
-      {{- if .Values.wps.beat.development }}
-      - name: devel-volume
-        hostPath: 
-          path: /opt/cwt/devel
-          type: DirectoryOrCreate
-      {{- end }}
       - name: data-volume
         persistentVolumeClaim:
           claimName: {{ .Values.persistence.dataClaimName | default "data-pvc" }}
