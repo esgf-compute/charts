@@ -21,6 +21,8 @@ spec:
         app.kubernetes.io/name: {{ template "esgf-compute-wps.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/component: wps-beat
+      annotations:
+        checksum/config: {{ list (include (print $.Template.BasePath "/wps-secret.yaml") $) (include (print $.Template.BasePath "/celery-backend-configmap.yaml") $) | join " " | sha256sum }}
     spec:
       nodeSelector: 
         {{ .Values.wps.nodeSelector | toYaml | trimSuffix "\n" }}

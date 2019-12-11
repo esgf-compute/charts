@@ -21,7 +21,7 @@ spec:
         app.kubernetes.io/instance: {{ $.Release.Name }}
         app.kubernetes.io/component: celery
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/wps-secret.yaml") $ | sha256sum }}
+        checksum/config: {{ list (include (print $.Template.BasePath "/wps-secret.yaml") $) (include (print $.Template.BasePath "/celery-backend-configmap.yaml") $) | join " " | sha256sum }}
       {{- if $.Values.celery.annotations }}
         {{- $.Values.celery.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
       {{- end }}
