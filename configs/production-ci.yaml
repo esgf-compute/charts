@@ -28,7 +28,7 @@ persistence:
 
 wps:
   image: aims2.llnl.gov/compute-wps
-  imageTag: 6a8484c9
+  imageTag: '54715135'
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
