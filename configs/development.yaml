@@ -21,7 +21,7 @@ provisioner:
 
 nginx:
   image: aims2.llnl.gov/compute-webapp
-  imageTag: acd9e9f
+  imageTag: 9d808f11
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
