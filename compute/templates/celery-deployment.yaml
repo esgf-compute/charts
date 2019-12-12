@@ -94,9 +94,6 @@ spec:
         {{- end }}
         resources: 
         {{ $.Values.celery.resources | toYaml | trimSuffix "\n" | nindent 10 }}
-        envFrom:
-        - configMapRef:
-            name: {{ template "esgf-compute-wps.fullname" $ }}-celery-backend-config
         env:
         {{- if $.Values.celery.development }}
         - name: DEV
@@ -109,6 +106,8 @@ spec:
         envFrom:
         - secretRef:
             name: {{ template "esgf-compute-wps.fullname" $ }}-wps-secret
+        - configMapRef:
+            name: {{ template "esgf-compute-wps.fullname" $ }}-celery-backend-config
         volumeMounts:
         - mountPath: /metrics
           name: metrics-volume
