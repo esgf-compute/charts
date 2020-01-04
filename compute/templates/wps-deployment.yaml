@@ -44,7 +44,6 @@ spec:
           - sleep
           - infinity
         {{- end }}
-        {{- if not $.Values.development }}
         livenessProbe:
           httpGet:
             path: /api/ping/
@@ -59,7 +58,6 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 30
           timeoutSeconds: 5
-        {{- end }}
         resources: {{ $.Values.wps.resources | toYaml | trimSuffix "\n" | nindent 10 }}
         env:
         {{- if $.Values.wps.development }}
