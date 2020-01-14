@@ -56,14 +56,26 @@ spec:
       - name: {{ template "esgf-compute-wps.name" . }}-nginx
         image: {{ .Values.nginx.image }}:{{ .Values.nginx.imageTag }}
         imagePullPolicy: {{ .Values.nginx.imagePullPolicy }}
+        {{- if .Values.nginx.development }}
+        command: ['/bin/sleep', 'infinity']
+        {{- end }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
         resources: 
           {{ $.Values.nginx.resources | toYaml | trimSuffix "\n" | nindent 10 }}
         volumeMounts:
         - mountPath: /usr/share/nginx/html/static
           name: static-volume
-        {{- if .Values.nginx.development }}
-        command: ['/bin/sleep', 'infinity']
-        {{- end }}
       volumes:
       - name: static-volume
         emptyDir: {}

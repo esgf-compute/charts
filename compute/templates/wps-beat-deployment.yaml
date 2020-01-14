@@ -43,8 +43,6 @@ spec:
           - infinity
         {{- else }}
         args:
-          - /bin/bash
-        args:
           - celery
           - worker
           - -A
@@ -61,6 +59,26 @@ spec:
           - --without-mingle
           - -B
         {{- end }}
+        livenessProbe:
+          exec:
+            command:
+            - celery
+            - inspect
+            - -d
+            - celery@periodic
+            - ping
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - celery
+            - inspect
+            - -d
+            - celery@periodic
+            - ping
+          initialDelaySeconds: 10
+          periodSeconds: 5
         resources: {{ $.Values.wps.beat.resources | toYaml | trimSuffix "\n" | nindent 10 }}
         env:
         {{- if $.Values.wps.beat.development }}

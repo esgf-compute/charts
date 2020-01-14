@@ -74,7 +74,6 @@ spec:
           - sleep
           - infinity
         {{- end }}
-        {{- if not $.Values.development }}
         livenessProbe:
           exec:
             command:
@@ -91,7 +90,6 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 30
           timeoutSeconds: 5
-        {{- end }}
         resources: 
         {{ $.Values.celery.resources | toYaml | trimSuffix "\n" | nindent 10 }}
         env:

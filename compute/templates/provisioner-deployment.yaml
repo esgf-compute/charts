@@ -55,7 +55,6 @@ spec:
           - --lifetime
           - "{{ .Values.provisioner.lifetime }}"
         {{- end }}
-        {{- if not .Values.provisioner.development }}
         livenessProbe:
           tcpSocket:
             port: {{ .Values.provisioner.frontendPort }}
@@ -66,7 +65,6 @@ spec:
             port: {{ .Values.provisioner.frontendPort }}
           initialDelaySeconds: 40
           periodSeconds: 20
-        {{- end }}
         resources: {{ $.Values.provisioner.resources | toYaml | trimSuffix "\n" | nindent 10 }}
         ports:
         - containerPort: {{ .Values.provisioner.frontendPort }}

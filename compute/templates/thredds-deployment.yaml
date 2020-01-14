@@ -41,7 +41,6 @@ spec:
           value: {{ .Values.thredds.heapInit }}
         - name: JAVA_HEAP_MAX
           value: {{ .Values.thredds.heapMax }}
-        {{- if not $.Values.development }}
         livenessProbe:
           httpGet:
             path: /threddsCWT/catalog.html
@@ -54,7 +53,6 @@ spec:
             port: 8080
           initialDelaySeconds: 40
           periodSeconds: 20
-        {{- end }}
         resources: {{ $.Values.thredds.resources | toYaml | trimSuffix "\n" | nindent 10 }}
         ports:
         - containerPort: 8080
