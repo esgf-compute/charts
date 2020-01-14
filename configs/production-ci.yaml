@@ -50,7 +50,7 @@ wps:
   adminEmail:
 
 celery:
-  image: aims2.llnl.gov/compute-celery
+  image: aims2.llnl.gov/compute-tasks
   imageTag: 7f1738b2
   imagePullPolicy: Always
   imagePullSecret: docker-registry

@@ -201,7 +201,7 @@ celery:
   annotations: {}
   nodeSelector: {}
 
-  image: jasonb87/compute-celery
+  image: jasonb87/compute-tasks
   imageTag: 2.2.0
   metrics: /metrics
 
