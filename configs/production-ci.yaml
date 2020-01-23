@@ -62,7 +62,7 @@ celery:
 
 provisioner:
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: 48c96830
+  imageTag: 4a7ec2aa
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
