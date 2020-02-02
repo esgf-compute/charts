@@ -4,12 +4,12 @@ dependencies:
   version: 8.2.1
 - name: redis
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 10.4.0
+  version: 9.5.5
 - name: traefik
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 1.86.1
 - name: prometheus
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 10.4.0
-digest: sha256:a83326da49207b7f1ab7438a1ce8730ae09d96bfbec10aefc6fa57f1365c487b
-generated: "2020-02-02T04:13:02.469122144-08:00"
+digest: sha256:57a9689f5f909e122969b9cfcb29dbef1ca0afae5a10a5ce82cff6c0236b52ab
+generated: "2020-02-02T13:30:49.335604185-08:00"
