@@ -31,7 +31,7 @@ nginx:
 
 wps:
   image: aims2.llnl.gov/compute-wps
-  imageTag: 2686ddc2
+  imageTag: 944923ac
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
