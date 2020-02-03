@@ -78,7 +78,7 @@ wps:
 
 celery:
   image: aims2.llnl.gov/compute-tasks
-  imageTag: 6e7240a7
+  imageTag: ed549edb
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
