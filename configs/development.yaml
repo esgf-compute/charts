@@ -31,7 +31,7 @@ nginx:
 
 wps:
   image: aims2.llnl.gov/compute-wps
-  imageTag: 944923ac
+  imageTag: caa3a3db
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
@@ -78,7 +78,7 @@ wps:
 
 celery:
   image: aims2.llnl.gov/compute-tasks
-  imageTag: d1c61888
+  imageTag: caa3a3db
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
