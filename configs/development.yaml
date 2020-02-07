@@ -12,7 +12,7 @@ persistence:
 
 provisioner:
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: e39ca5c7
+  imageTag: e5439726
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
