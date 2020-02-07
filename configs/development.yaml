@@ -12,7 +12,7 @@ persistence:
 
 provisioner:
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: f9428aee
+  imageTag: 6e043a8e
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
@@ -78,7 +78,7 @@ wps:
 
 celery:
   image: aims2.llnl.gov/compute-tasks
-  imageTag: a807e9f7
+  imageTag: 6e043a8e
   imagePullPolicy: Always
   imagePullSecret: docker-registry
 
