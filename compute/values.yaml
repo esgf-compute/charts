@@ -80,6 +80,8 @@ provisioner:
   frontendPort: 7777
   backendPort: 7778
 
+  timeout: 60
+  resourceTimeout: 60
   # Number of seconds that a users dask scheduler and workers will live for (default: 1 hour).
   lifetime: 3600
 
