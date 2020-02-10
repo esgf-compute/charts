@@ -41,6 +41,7 @@ spec:
           - python
           - -m
           - compute_provisioner.kube_cluster
+          - main
           - --redis-host
           - {{ template "redis.fullname" . }}-master
           - --namespace
