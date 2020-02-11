@@ -1,13 +1,12 @@
 pipeline {
-  agent any
+  agent {
+    node {
+      label 'jenkins-helm'
+    }
+
+  }
   stages {
     stage('Deploy Dev') {
-      agent {
-        node {
-          label 'jenkins-helm'
-        }
-
-      }
       when {
         branch 'devel'
       }
