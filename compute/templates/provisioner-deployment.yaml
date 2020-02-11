@@ -34,14 +34,8 @@ spec:
       - name: resource-monitor
         image: {{ .Values.provisioner.image }}:{{ .Values.provisioner.imageTag }}
         imagePullPolicy: {{ .Values.provisioner.imagePullPolicy }}
-        command:
-          - tini
-          - --
         args:
-          - python
-          - -m
-          - compute_provisioner.kube_cluster
-          - main
+          - compute-resource-monitor
           - --redis-host
           - {{ template "redis.fullname" . }}-master
           - --namespace
@@ -52,14 +46,6 @@ spec:
       - name: {{ template "esgf-compute-wps.name" . }}-provisioner
         image: {{ .Values.provisioner.image }}:{{ .Values.provisioner.imageTag }}
         imagePullPolicy: {{ .Values.provisioner.imagePullPolicy }}
-        {{- if .Values.provisioner.development }}
-        command:
-          - tini
-          - --
-        args:
-          - /bin/sleep
-          - infinity
-        {{- else }}
         args:
           - python
           - -m
@@ -72,7 +58,6 @@ spec:
           - "{{ .Values.provisioner.timeout }}"
           - --lifetime
           - "{{ .Values.provisioner.lifetime }}"
-        {{- end }}
         livenessProbe:
           tcpSocket:
             port: {{ .Values.provisioner.frontendPort }}
