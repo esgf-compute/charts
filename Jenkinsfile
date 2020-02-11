@@ -22,7 +22,7 @@ helm repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storag
 
 helm ${KUBECONFIG} dependency update compute/
 
-helm ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ -f configs/development.yaml --reuse-values --wait --timeout 300'''
+helm ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ -f /compute-env/development.yaml --wait --timeout 300'''
         }
 
       }
