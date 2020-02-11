@@ -31,10 +31,10 @@ traefik:
     - TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA
     - TLS_ECDHE_ECDSA_WITH_RC4_128_SHA
     generateTLS: true
-    
+
   dashboard:
     enabled: true
-    domain: ""
+    domain: ''
     ingress:
       annotations:
         traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
@@ -73,7 +73,7 @@ provisioner:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: 1fef77fd
+  imageTag: 9a53fe37
   imagePullPolicy: Always
 
   frontendPort: 7777
@@ -102,7 +102,7 @@ nginx:
 
     labels:
       traffic-type: external
-  
+
 wps:
   nodeSelector: {}
 
@@ -136,21 +136,21 @@ wps:
   adminEmail: admin@wps
 
   # Configure the values that will be used in creating WPS responses
-  title: "LLNL WPS Server"
-  abstract: "LLNL WPS Compute Service"
+  title: LLNL WPS Server
+  abstract: LLNL WPS Compute Service
   keywords:
-    - "WPS"
+  - WPS
 
   provider:
-    name: "Admin"
-    site: "https://aims2.llnl.gov"
+    name: Admin
+    site: https://aims2.llnl.gov
 
   contact:
     name:
     position:
     phone:
 
-  address: 
+  address:
     delivery:
     city:
     area:
@@ -159,9 +159,9 @@ wps:
     email:
 
   annotations:
-    prometheus.io/scrape: "true"
+    prometheus.io/scrape: 'true'
     prometheus.io/path: /api/metrics/
-    prometheus.io/port: "8000"
+    prometheus.io/port: '8000'
 
   resources: {}
 
@@ -173,15 +173,15 @@ wps:
   email:
     host: email@host
     port: 25
-    user: ""
-    password: ""
+    user: ''
+    password: ''
 
   ingress:
     annotations:
-      ingress.kubernetes.io/ssl-redirect: "true"
-      ingress.kubernetes.io/hsts-max-age: "31536000"
-      ingress.kubernetes.io/hsts-include-subdomains: "true"
-      ingress.kubernetes.io/force-hsts: "true"
+      ingress.kubernetes.io/ssl-redirect: 'true'
+      ingress.kubernetes.io/hsts-max-age: '31536000'
+      ingress.kubernetes.io/hsts-include-subdomains: 'true'
+      ingress.kubernetes.io/force-hsts: 'true'
 
   instances:
   - name: external
@@ -235,9 +235,9 @@ celery:
       port: 8080
 
       annotations:
-        prometheus.io/scrape: "true"
+        prometheus.io/scrape: 'true'
         prometheus.io/path: /metrics
-        prometheus.io/port: "8080"
+        prometheus.io/port: '8080'
 
 thredds:
   nodeSelector: {}
@@ -313,9 +313,9 @@ twitcher:
 
   ingress:
     annotations:
-      ingress.kubernetes.io/ssl-redirect: "true"
-      ingress.kubernetes.io/hsts-max-age: "31536000"
-      ingress.kubernetes.io/hsts-include-subdomains: "true"
-      ingress.kubernetes.io/force-hsts: "true"
+      ingress.kubernetes.io/ssl-redirect: 'true'
+      ingress.kubernetes.io/hsts-max-age: '31536000'
+      ingress.kubernetes.io/hsts-include-subdomains: 'true'
+      ingress.kubernetes.io/force-hsts: 'true'
     labels:
       traffic-type: external
