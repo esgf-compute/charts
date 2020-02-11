@@ -207,8 +207,6 @@ celery:
   imageTag: 652dc588
   imagePullPolicy: Always
 
-  metrics: /metrics
-
   prometheusUrl: prometheus.host
 
   resources: {}
