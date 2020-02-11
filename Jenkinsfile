@@ -16,8 +16,6 @@ pipeline {
 
 KUBECONFIG="--kubeconfig /jenkins-config/jenkins-config"
 
-cd charts/
-
 helm ${KUBECONFIG} init --client-only
 
 helm repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storage.googleapis.com/
