@@ -72,9 +72,8 @@ persistence: {}
 provisioner:
   nodeSelector: {}
 
-  image: jasonb87/compute-provisioner
-  imageTag: 2.2.0
-
+  image: aims2.llnl.gov/compute-provisioner
+  imageTag: 1fef77fd
   imagePullPolicy: Always
 
   frontendPort: 7777
@@ -92,8 +91,9 @@ nginx:
 
   nodeSelector: {}
 
-  image: jasonb87/compute-webapp
-  imageTag: 2.2.0
+  image: aims2.llnl.gov/compute-webapp
+  imageTag: 9d808f11
+  imagePullPolicy: Always
 
   resources: {}
 
@@ -107,8 +107,8 @@ wps:
   nodeSelector: {}
 
   replicas: 1
-  image: jasonb87/compute-wps
-  imageTag: 2.2.0
+  image: aims2.llnl.gov/compute-wps
+  imageTag: b88dca71
   imagePullPolicy: Always
 
   beat:
@@ -203,11 +203,11 @@ celery:
   annotations: {}
   nodeSelector: {}
 
-  image: jasonb87/compute-tasks
-  imageTag: 2.2.0
-  metrics: /metrics
-
+  image: aims2.llnl.gov/compute-tasks
+  imageTag: 652dc588
   imagePullPolicy: Always
+
+  metrics: /metrics
 
   prometheusUrl: prometheus.host
 
@@ -245,8 +245,9 @@ thredds:
   nodeSelector: {}
 
   replicas: 1
-  image: jasonb87/compute-thredds
-  imageTag: 4.6.10
+  image: aims2.llnl.gov/compute-thredds
+  imageTag: ec3a3b4e
+  imagePullPolicy: Always
 
   # Set java parameters for tomcat server
   heapMax: 1g
