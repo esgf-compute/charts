@@ -92,7 +92,7 @@ nginx:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-webapp
-  imageTag: 9d808f11
+  imageTag: e11035de
   imagePullPolicy: Always
 
   resources: {}
