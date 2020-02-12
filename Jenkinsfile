@@ -6,9 +6,9 @@ pipeline {
 
   }
   stages {
-    stage('Deploy Dev') {
+    stage('Deploy') {
       parallel {
-        stage('Deploy Dev') {
+        stage('Development') {
           when {
             branch 'devel'
           }
@@ -31,6 +31,9 @@ helm ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ -f /compute-env/developm
         }
 
         stage('Production') {
+          when {
+            branch 'master'
+          }
           steps {
             container(name: 'helm', shell: '/bin/bash') {
               sh '''#! /bin/bash
