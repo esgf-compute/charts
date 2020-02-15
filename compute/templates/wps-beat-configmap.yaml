@@ -7,7 +7,11 @@ data:
   CRONTAB_MINUTE: {{ $.Values.wps.beat.crontabMinute | quote }}
   JOB_EXPIRATION: {{ $.Values.wps.beat.jobExpiration | quote }}
   JOB_WARN: {{ $.Values.wps.beat.jobWarn | quote }}
-  SECRET_KEY: {{ required "A valid wps.secretKey is required" $.Values.wps.secretKey }}
+{{- if .Values.wps.secretKey }}
+  SECRET_KEY: {{ $.Values.wps.secretKey }}
+{{- else }}
+  SECRET_KEY: {{ randAlphaNum 32 }}
+{{- end }}
   CELERY_BROKER_URL: redis://{{ template "redis.fullname" $ }}-master/0
   CELERY_RESULT_BACKEND: redis://{{ template "redis.fullname" $ }}-master/0
   POSTGRES_HOST: {{ template "postgresql.fullname" $ }}
