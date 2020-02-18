@@ -1,7 +1,7 @@
 kind: ServiceAccount
 apiVersion: v1
 metadata:
-  name: wps
+  name: compute
   namespace: {{ .Release.Namespace }}
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -12,7 +12,7 @@ metadata:
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: wps
+  name: compute
   namespace: {{ .Release.Namespace }}
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -20,14 +20,29 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 rules:
-- apiGroups: ["", "apps", "extensions"]
-  resources: ["pods", "pods/status", "deployments", "deployments/status", "services", "services/status", "ingresses", "ingresses/status"]
-  verbs: ["get", "list", "watch", "create", "delete"]
+- apiGroups:
+    - ""
+    - apps
+    - networking.k8s.io
+  resources:
+    - namespace
+    - serviceaccount
+    - role
+    - rolebinding
+    - resourcequota
+    - pods
+    - deployments
+    - services
+    - ingress
+  verbs:
+    - list
+    - create
+    - delete
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: wps
+  name: compute
   namespace: {{ .Release.Namespace }}
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -36,8 +51,8 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
 - kind: ServiceAccount
-  name: wps
+  name: compute
 roleRef:
   kind: Role
-  name: wps
+  name: compute
 apiGroup: rbac.authorization.k8s.io
