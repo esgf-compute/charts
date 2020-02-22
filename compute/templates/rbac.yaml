@@ -23,7 +23,7 @@ rules:
 - apiGroups:
     - ""
     - apps
-    - networking.k8s.io
+    - extensions
   resources:
     - namespace
     - serviceaccount
@@ -33,7 +33,7 @@ rules:
     - pods
     - deployments
     - services
-    - ingress
+    - ingresses
   verbs:
     - list
     - create
