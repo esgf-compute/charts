@@ -68,6 +68,14 @@ traefik:
 #     path: null
 persistence: {}
 
+userResources:
+  limit:
+    cpu: 4
+    memory: 4Gi
+  request:
+    cpu: 1
+    memory: 256Mi
+
 # Provisioner
 provisioner:
   nodeSelector: {}

@@ -9,8 +9,8 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 ---
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: compute
   namespace: {{ .Release.Namespace }}
@@ -22,25 +22,39 @@ metadata:
 rules:
 - apiGroups:
     - ""
+    - rbac.authorization.k8s.io
     - apps
     - extensions
   resources:
-    - namespace
-    - serviceaccount
-    - role
-    - rolebinding
-    - resourcequota
+    - namespaces
+    - serviceaccounts
+    - roles
+    - rolebindings
+    - resourcequotas
     - pods
     - deployments
     - services
     - ingresses
   verbs:
+    - get
     - list
     - create
     - delete
+- apiGroups:
+    - ""
+    - apps
+    - extensions
+  resources:
+    - namespaces
+    - pods
+    - deployments
+    - services
+    - ingresses
+  verbs:
+    - patch
 ---
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: compute
   namespace: {{ .Release.Namespace }}
@@ -52,7 +66,8 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: compute
+  namespace: {{ .Release.Namespace }}
 roleRef:
-  kind: Role
+  kind: ClusterRole
   name: compute
-apiGroup: rbac.authorization.k8s.io
+  apiGroup: rbac.authorization.k8s.io
