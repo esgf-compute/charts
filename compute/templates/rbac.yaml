@@ -51,6 +51,14 @@ rules:
 - apiGroups:
     - ""
     - apps
+  resources:
+    - pods/logs
+  verbs:
+    - get
+    - watch
+- apiGroups:
+    - ""
+    - apps
     - extensions
   resources:
     - namespaces
