@@ -54,8 +54,6 @@ spec:
           - {{ template "redis.fullname" . }}-master
           - --namespace
           - {{ .Release.Namespace }}
-          - --timeout
-          - "{{ .Values.provisioner.timeout }}"
           - --lifetime
           - "{{ .Values.provisioner.lifetime }}"
         env:
@@ -67,6 +65,13 @@ spec:
             value: {{ .Values.userResources.request.cpu | quote }}
           - name: USER_REQUEST_MEMORY
             value: {{ .Values.userResources.request.memory | quote }}
+      {{- with .Values.imagePullSecrets }}
+        volumeMounts:
+        {{- range $index, $item := . }}
+          - name: imagepullsecret-{{ $index }}
+            mountPath: /etc/imagepullsecrets/{{ $item }}
+        {{- end }}
+      {{- end }}
         livenessProbe:
           tcpSocket:
             port: {{ .Values.provisioner.frontendPort }}
@@ -81,3 +86,11 @@ spec:
         ports:
         - containerPort: {{ .Values.provisioner.frontendPort }}
         - containerPort: {{ .Values.provisioner.backendPort }}
+    {{- with .Values.imagePullSecrets }}
+      volumes:
+      {{- range $index, $item := . }}
+        - name: imagepullsecret-{{ $index }}
+          secret:
+            secretName: {{ $item }}
+      {{- end }}
+    {{- end }}

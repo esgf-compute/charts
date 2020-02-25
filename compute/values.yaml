@@ -73,8 +73,11 @@ userResources:
     cpu: 4
     memory: 4Gi
   request:
-    cpu: 1
-    memory: 256Mi
+    cpu: 4
+    memory: 4Gi
+
+imagePullSecrets:
+  - docker-registry
 
 # Provisioner
 provisioner:
@@ -227,10 +230,10 @@ celery:
     schedulerCpu: 1
     schedulerMemory: 1Gi
 
-    workers: 10
-    workerNThreads: 4
-    workerCpu: 1
-    workerMemory: 1Gi
+    workers: 2
+    workerNThreads: 1
+    workerCpu: 0.5
+    workerMemory: 512Mi
 
     trafficType: external
 
