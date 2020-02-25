@@ -42,6 +42,13 @@ rules:
     - delete
 - apiGroups:
     - ""
+  resources:
+    - secrets
+    - persistentvolumeclaims
+  verbs:
+    - create
+- apiGroups:
+    - ""
     - apps
     - extensions
   resources:
