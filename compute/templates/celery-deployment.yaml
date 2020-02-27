@@ -111,7 +111,6 @@ spec:
           name: metrics-volume
         - mountPath: /data/public
           name: data-volume
-          subPath: public
       volumes:
       - name: metrics-volume
         emptyDir: {}

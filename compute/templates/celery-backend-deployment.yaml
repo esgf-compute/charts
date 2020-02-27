@@ -93,6 +93,3 @@ spec:
       volumes:
       - name: metrics-volume
         emptyDir: {}
-      - name: data-volume
-        persistentVolumeClaim:
-          claimName: {{ $.Values.persistence.dataClaimName | default "data-pvc" }}

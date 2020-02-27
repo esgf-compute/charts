@@ -52,11 +52,11 @@ spec:
           - compute_provisioner.provisioner
           - --redis-host
           - {{ template "redis.fullname" . }}-master
-          - --namespace
-          - {{ .Release.Namespace }}
           - --lifetime
           - "{{ .Values.provisioner.lifetime }}"
         env:
+          - name: NAMESPACE
+            value: {{ .Release.Namespace }}
           - name: USER_LIMIT_CPU
             value: {{ .Values.userResources.limit.cpu | quote }}
           - name: USER_LIMIT_MEMORY
