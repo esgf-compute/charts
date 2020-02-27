@@ -56,11 +56,6 @@ spec:
       - name: {{ template "esgf-compute-wps.name" $ }}-celery-backend
         image: {{ $.Values.celery.image }}:{{ $.Values.celery.imageTag }}
         imagePullPolicy: {{ $.Values.celery.imagePullPolicy }}
-        {{- if $.Values.celery.backend.development }}
-        command:
-          - /bin/sleep
-          - infinity
-        {{- else }}
         command:
           - tini
           - --
@@ -68,7 +63,6 @@ spec:
           - /bin/bash
           - -c
           - "mkdir -p /metrics && compute-tasks-backend --queue-host ${PROVISIONER_BACKEND}"
-        {{- end }}
         resources:
           {{ $.Values.celery.backend.resources | toYaml | trimSuffix "\n" | nindent 10 }}
         envFrom:
@@ -79,6 +73,8 @@ spec:
           - name: DEV
             value: "1"
         {{- end }}
+          - name: WORKERS
+            value: {{ .Values.userResources.workers | quote }}
           - name: USER_LIMIT_CPU
             value: {{ .Values.userResources.limit.cpu | quote }}
           - name: USER_LIMIT_MEMORY

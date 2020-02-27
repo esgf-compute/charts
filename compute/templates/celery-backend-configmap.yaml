@@ -18,9 +18,6 @@ data:
   
   SCHEDULER_CPU: {{ $.Values.celery.backend.schedulerCpu | quote }}
   SCHEDULER_MEMORY: {{ $.Values.celery.backend.schedulerMemory | quote }}
-  WORKERS: {{ $.Values.celery.backend.workers | quote }}
-  WORKER_CPU: {{ $.Values.celery.backend.workerCpu | quote }}
-  WORKER_MEMORY: {{ $.Values.celery.backend.workerMemory | quote }}
   WORKER_NTHREADS: {{ $.Values.celery.backend.workerNThreads | quote }}
   
   TRAFFIC_TYPE: {{ $.Values.celery.backend.trafficType }}

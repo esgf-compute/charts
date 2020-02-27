@@ -69,15 +69,14 @@ traefik:
 persistence: {}
 
 userResources:
+  workers: 2
+
   limit:
     cpu: 4
     memory: 4Gi
   request:
     cpu: 4
     memory: 4Gi
-
-imagePullSecrets:
-  - docker-registry
 
 # Provisioner
 provisioner:
@@ -91,7 +90,6 @@ provisioner:
   backendPort: 7778
 
   timeout: 60
-  resourceTimeout: 60
   # Number of seconds that a users dask scheduler and workers will live for (default: 1 hour).
   lifetime: 3600
 
@@ -227,13 +225,9 @@ celery:
 
     development: false
 
+    workerNThreads: 1
     schedulerCpu: 1
     schedulerMemory: 1Gi
-
-    workers: 2
-    workerNThreads: 1
-    workerCpu: 0.5
-    workerMemory: 512Mi
 
     trafficType: external
 

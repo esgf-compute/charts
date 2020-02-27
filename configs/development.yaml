@@ -1,6 +1,3 @@
-# Disables health/readiness checks and persistent storage.
-development: true
-
 persistence:
   dataClaimName: data-dev-pvc
 
@@ -13,7 +10,6 @@ persistence:
 provisioner:
   imagePullSecret: docker-registry
 
-  timeout: 60
   lifetime: 240
 
 nginx:
