@@ -21,7 +21,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/component: provisioner
     spec:
-      serviceAccountName: wps
+      serviceAccountName: compute
       {{- if .Values.provisioner.nodeSelector }}
       nodeSelector: 
         {{ .Values.provisioner.nodeSelector | toYaml | trimSuffix "\n" }}
@@ -41,7 +41,7 @@ spec:
           - --namespace
           - {{ .Release.Namespace }}
           - --timeout
-          - {{ .Values.provisioner.resourceTimeout | quote }}
+          - {{ .Values.provisioner.timeout | quote }}
         resources: {{ $.Values.provisioner.resources | toYaml | trimSuffix "\n" | nindent 10 }}
       - name: {{ template "esgf-compute-wps.name" . }}-provisioner
         image: {{ .Values.provisioner.image }}:{{ .Values.provisioner.imageTag }}
@@ -52,12 +52,26 @@ spec:
           - compute_provisioner.provisioner
           - --redis-host
           - {{ template "redis.fullname" . }}-master
-          - --namespace
-          - {{ .Release.Namespace }}
-          - --timeout
-          - "{{ .Values.provisioner.timeout }}"
           - --lifetime
           - "{{ .Values.provisioner.lifetime }}"
+        env:
+          - name: NAMESPACE
+            value: {{ .Release.Namespace }}
+          - name: USER_LIMIT_CPU
+            value: {{ .Values.userResources.limit.cpu | quote }}
+          - name: USER_LIMIT_MEMORY
+            value: {{ .Values.userResources.limit.memory | quote }}
+          - name: USER_REQUEST_CPU
+            value: {{ .Values.userResources.request.cpu | quote }}
+          - name: USER_REQUEST_MEMORY
+            value: {{ .Values.userResources.request.memory | quote }}
+      {{- with .Values.imagePullSecrets }}
+        volumeMounts:
+        {{- range $index, $item := . }}
+          - name: imagepullsecret-{{ $index }}
+            mountPath: /etc/imagepullsecrets/{{ $item }}
+        {{- end }}
+      {{- end }}
         livenessProbe:
           tcpSocket:
             port: {{ .Values.provisioner.frontendPort }}
@@ -72,3 +86,11 @@ spec:
         ports:
         - containerPort: {{ .Values.provisioner.frontendPort }}
         - containerPort: {{ .Values.provisioner.backendPort }}
+    {{- with .Values.imagePullSecrets }}
+      volumes:
+      {{- range $index, $item := . }}
+        - name: imagepullsecret-{{ $index }}
+          secret:
+            secretName: {{ $item }}
+      {{- end }}
+    {{- end }}

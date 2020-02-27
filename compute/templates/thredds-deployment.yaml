@@ -59,7 +59,6 @@ spec:
         volumeMounts:
         - name: data-volume
           mountPath: /data/public
-          subPath: public
       volumes:
       - name: data-volume
         persistentVolumeClaim:

@@ -1,6 +1,3 @@
-# Disables health/readiness checks and persistent storage.
-development: true
-
 persistence:
   dataClaimName: data-dev-pvc
 
@@ -11,18 +8,11 @@ persistence:
       path: /p/cscratch/nimbus/wps-dev/data
 
 provisioner:
-  image: aims2.llnl.gov/compute-provisioner
-  imageTag: fd086299
-  imagePullPolicy: Always
   imagePullSecret: docker-registry
 
-  timeout: 60
   lifetime: 240
 
 nginx:
-  image: aims2.llnl.gov/compute-webapp
-  imageTag: 9d808f11
-  imagePullPolicy: Always
   imagePullSecret: docker-registry
 
   ingress:
@@ -30,9 +20,6 @@ nginx:
       traffic-type: development
 
 wps:
-  image: aims2.llnl.gov/compute-wps
-  imageTag: b88dca71
-  imagePullPolicy: Always
   imagePullSecret: docker-registry
 
   beat:
@@ -77,9 +64,6 @@ wps:
       traffic-type: development
 
 celery:
-  image: aims2.llnl.gov/compute-tasks
-  imageTag: 652dc588
-  imagePullPolicy: Always
   imagePullSecret: docker-registry
 
   prometheusUrl: adsadas
@@ -88,9 +72,6 @@ celery:
     trafficType: development
 
 thredds:
-  image: aims2.llnl.gov/compute-thredds
-  imageTag: ec3a3b4e
-  imagePullPolicy: Always
   imagePullSecret: docker-registry
 
   ingress:
