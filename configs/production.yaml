@@ -3,8 +3,6 @@ imagePullSecrets:
 
 persistence:
   dataClaimName: compute-data
-  storageClassName: slow
-  capacity: 100Gi
 
 traefik:
   dashboard:

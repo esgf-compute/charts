@@ -44,10 +44,7 @@ traefik:
       restrictAccess: true
 
 persistence:
-  dataClaimName: data-public 
-  size: 10Gi
-  storageClassName: slow
-  volumeBindingMode: WaitForFirstConsumer
+  dataClaimName: compute-data
 
 imagePullSecrets:
   - name: docker-registry
