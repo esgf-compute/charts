@@ -1,40 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "esgf-compute-wps.fullname" $ }}-celery-backend
+  name: {{ template "compute.celery.fullname" . }}-backend
   labels:
-    app.kubernetes.io/managed-by: {{ $.Release.Service }}
-    app.kubernetes.io/instance: {{ $.Release.Name }}
-    app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+    {{- include "compute.celery.labels" . | nindent 4 }}
 spec:
-  replicas: {{ $.Values.celery.backend.replicas }}
+  replicas: {{ .Values.celery.backend.replicas }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-      app.kubernetes.io/instance: {{ $.Release.Name }}
-      app.kubernetes.io/component: celery
+    {{- include "compute.celery.matchLabels" . | nindent 6 }}
+      component/part: backend
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-        app.kubernetes.io/instance: {{ $.Release.Name }}
-        app.kubernetes.io/component: celery
+      {{- include "compute.celery.matchLabels" . | nindent 8 }}
+        component/part: backend
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/celery-backend-configmap.yaml") $ | sha256sum }}
+        checksum/config: {{ include (print .Template.BasePath "/celery-backend-configmap.yaml") . | sha256sum }}
     spec:
-      {{- if $.Values.celery.nodeSelector }}
+      {{- if .Values.celery.nodeSelector }}
       nodeSelector: 
-        {{ $.Values.celery.nodeSelector | toYaml | trimSuffix "\n" }}
+      {{ .Values.celery.nodeSelector | toYaml | nindent 8 }}
       {{- end }}
-      {{- if $.Values.celery.imagePullSecret }}
+      {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ $.Values.celery.imagePullSecret }}
+      {{ .Values.imagePullSecrets | toYaml | nindent 8 }}
       {{- end }}
       initContainers:
       - name: register
-        image: {{ $.Values.celery.image }}:{{ $.Values.celery.imageTag }}
-        imagePullPolicy: {{ $.Values.celery.imagePullPolicy }}
+        image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
+        imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
         command:
           - tini
           - --
@@ -43,19 +38,14 @@ spec:
           - -c
           - "mkdir -p /metrics; until nslookup ${INTERNAL_LB}; do echo 'Waiting'; done; compute-tasks-register"
         resources:
-          {{ $.Values.celery.backend.resources | toYaml | trimSuffix "\n" | nindent 10 }}
+        {{ .Values.celery.backend.resources | toYaml | nindent 10 }}
         envFrom:
         - configMapRef:
-            name: {{ template "esgf-compute-wps.fullname" $ }}-celery-backend-config
-        env:
-        {{- if $.Values.celery.backend.development }}
-        - name: DEV
-          value: "1"
-        {{- end }}
+            name: {{ template "compute.celery.fullname" . }}-backend
       containers:
-      - name: {{ template "esgf-compute-wps.name" $ }}-celery-backend
-        image: {{ $.Values.celery.image }}:{{ $.Values.celery.imageTag }}
-        imagePullPolicy: {{ $.Values.celery.imagePullPolicy }}
+      - name: backend
+        image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
+        imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
         command:
           - tini
           - --
@@ -64,15 +54,11 @@ spec:
           - -c
           - "mkdir -p /metrics && compute-tasks-backend --queue-host ${PROVISIONER_BACKEND}"
         resources:
-          {{ $.Values.celery.backend.resources | toYaml | trimSuffix "\n" | nindent 10 }}
+        {{ .Values.celery.backend.resources | toYaml | nindent 10 }}
         envFrom:
         - configMapRef:
-            name: {{ template "esgf-compute-wps.fullname" $ }}-celery-backend-config
+            name: {{ template "compute.celery.fullname" . }}-backend
         env:
-        {{- if $.Values.celery.backend.development }}
-          - name: DEV
-            value: "1"
-        {{- end }}
           - name: WORKERS
             value: {{ .Values.userResources.workers | quote }}
           - name: USER_LIMIT_CPU

@@ -2,19 +2,16 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "esgf-compute-wps.fullname" $ }}-wps-{{ .name }}
+  name: {{ template "compute.wps.fullname" $ }}-{{ .name }}
   labels:
-    app.kubernetes.io/managed-by: {{ $.Release.Service }}
-    app.kubernetes.io/instance: {{ $.Release.Name }}
-    app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
-{{- if .labels }}
-{{- toYaml .labels | nindent 4 }}
-{{- end }}
-{{- if $.Values.wps.ingress.annotations }}
+  {{- include "compute.wps.labels" $ | nindent 4 }}
+  {{- if .labels }}
+  {{- toYaml .labels | nindent 4 }}
+  {{- end }}
+  {{- if $.Values.wps.ingress.annotations }}
   annotations:
-{{- toYaml $.Values.wps.ingress.annotations | nindent 4 }}
-{{- end }}
+  {{- toYaml $.Values.wps.ingress.annotations | nindent 4 }}
+  {{- end }}
 spec:
   rules:
   - http:
@@ -24,7 +21,7 @@ spec:
 {{- range $paths }}
       - path: {{ . }}
         backend:
-          serviceName: {{ template "esgf-compute-wps.fullname" $ }}-wps-{{ $name }}
+          serviceName: {{ template "compute.wps.fullname" $ }}-{{ $name }}
           servicePort: 8000
 {{- end }}
 ---

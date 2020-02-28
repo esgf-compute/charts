@@ -1,27 +1,20 @@
-persistence:
-  dataClaimName: data-dev-pvc
+imagePullSecrets:
+  - name: docker-registry
 
-  volumes:
-    data-dev:
-      storageClassName: slow
-      capacity: 100Gi
-      path: /p/cscratch/nimbus/wps-dev/data
+persistence:
+  dataClaimName: compute-data-dev
+  storageClassName: slow
+  capacity: 100Gi
 
 provisioner:
-  imagePullSecret: docker-registry
-
   lifetime: 240
 
 nginx:
-  imagePullSecret: docker-registry
-
   ingress:
     labels:
       traffic-type: development
 
 wps:
-  imagePullSecret: docker-registry
-
   beat:
     enabled: true
 
@@ -64,16 +57,12 @@ wps:
       traffic-type: development
 
 celery:
-  imagePullSecret: docker-registry
-
   prometheusUrl: adsadas
 
   backend:
     trafficType: development
 
 thredds:
-  imagePullSecret: docker-registry
-
   ingress:
     labels:
       traffic-type: development

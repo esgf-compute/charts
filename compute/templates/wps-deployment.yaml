@@ -2,48 +2,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "esgf-compute-wps.fullname" $ }}-wps-{{ .name }}
+  name: {{ template "compute.wps.fullname" $ }}-{{ .name }}
   labels:
-    app.kubernetes.io/managed-by: {{ $.Release.Service }}
-    app.kubernetes.io/instance: {{ $.Release.Name }}
-    app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+  {{- include "compute.wps.labels" $ | nindent 4 }}
 spec:
-  replicas: {{ $.Values.wps.replicas }}
+  replicas: {{ .replicas | default 1 }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-      app.kubernetes.io/instance: {{ $.Release.Name }}
-      app.kubernetes.io/component: wps-{{ .name }}
+    {{- include "compute.wps.matchLabels" $ | nindent 6 }}
+      component/part: {{ .name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-        app.kubernetes.io/instance: {{ $.Release.Name }}
-        app.kubernetes.io/component: wps-{{ .name }}
+      {{- include "compute.wps.matchLabels" $ | nindent 8 }}
+        component/part: {{ .name }}
       annotations:
         checksum/config: {{ list (include (print $.Template.BasePath "/wps-beat-configmap.yaml") $) (include (print $.Template.BasePath "/wps-secret.yaml") $) (include (print $.Template.BasePath "/wps-configmap.yaml") $) | join " " | sha256sum }}
-      {{- $.Values.wps.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
+      {{- if $.Values.wps.annotations }}
+      {{- $.Values.wps.annotations | toYaml | nindent 8 }}
+      {{- end }}
     spec:
       {{- if $.Values.wps.nodeSelector }}
       nodeSelector: 
-        {{ $.Values.wps.nodeSelector | toYaml | trimSuffix "\n" }}
+      {{- $.Values.wps.nodeSelector | toYaml | nindent 8 }}
       {{- end }}
-      {{- if $.Values.wps.imagePullSecret }}
+      {{- if $.Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ $.Values.wps.imagePullSecret }}
+      {{- $.Values.imagePullSecrets | toYaml | nindent 8 }}
       {{- end }}
       containers:
       - name: wps
         image: {{ $.Values.wps.image }}:{{ $.Values.wps.imageTag }}
         imagePullPolicy: {{ $.Values.wps.imagePullPolicy }}
-        {{- if $.Values.wps.development }}
-        command:
-          - tini
-          - --
-          - sleep
-          - infinity
-        {{- end }}
         livenessProbe:
           httpGet:
             path: /api/ping/
@@ -58,29 +48,23 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 30
           timeoutSeconds: 5
-        resources: {{ $.Values.wps.resources | toYaml | trimSuffix "\n" | nindent 10 }}
+        resources:
+        {{ $.Values.wps.resources | toYaml | nindent 10 }}
         env:
-        {{- if $.Values.wps.development }}
-        - name: DEV
-          value: "1"
-        - name: WPS_DEBUG
-          value: "1"
-        {{- end }}
         envFrom:
         - configMapRef:
-            name: {{ template "esgf-compute-wps.fullname" $ }}-wps-beat-config
+            name: {{ template "compute.wps.fullname" $ }}-beat
         - secretRef:
-            name: {{ template "esgf-compute-wps.fullname" $ }}-wps-secret
+            name: {{ template "compute.wps.fullname" $ }}
         volumeMounts:
         - name: config-volume
           mountPath: /etc/config
         - mountPath: /data/public
           name: data-volume
-          subPath: public
       volumes:
       - name: config-volume
         configMap:
-          name: {{ template "esgf-compute-wps.fullname" $ }}-wps-config
+          name: {{ template "compute.wps.fullname" $ }}
       - name: data-volume
         persistentVolumeClaim:
           claimName: {{ $.Values.persistence.dataClaimName | default "data-pvc" }}

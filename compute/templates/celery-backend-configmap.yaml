@@ -1,23 +1,23 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "esgf-compute-wps.fullname" $ }}-celery-backend-config
+  name: {{ template "compute.celery.fullname" . }}-backend
 data:
-  NAMESPACE: {{ $.Release.Namespace }}
-  IMAGE: {{ $.Values.celery.image }}:{{ $.Values.celery.imageTag }}
-  IMAGE_PULL_SECRET: {{ $.Values.celery.imagePullSecret }}
-  IMAGE_PULL_POLICY: {{ $.Values.celery.imagePullPolicy }}
-  DATA_CLAIM_NAME: {{ $.Values.persistence.dataClaimName }}
-  PROVISIONER_BACKEND: {{ template "esgf-compute-wps.fullname" $ }}-provisioner.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.backendPort }}
-  INTERNAL_LB: {{ template "traefik.fullname" $ }}.{{ $.Release.Namespace }}.svc
-  API_USERNAME: {{ $.Values.wps.apiUsername }}
-  API_PASSWORD: {{ $.Values.wps.apiPassword }}
-  CELERY_BROKER_URL: redis://{{ template "redis.fullname" $ }}-master/0
-  CELERY_RESULT_BACKEND: redis://{{ template "redis.fullname" $ }}-master/0
+  NAMESPACE: {{ .Release.Namespace }}
+  IMAGE: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
+  IMAGE_PULL_SECRET: {{ .Values.celery.imagePullSecret }}
+  IMAGE_PULL_POLICY: {{ .Values.celery.imagePullPolicy }}
+  DATA_CLAIM_NAME: {{ .Values.persistence.dataClaimName }}
+  PROVISIONER_BACKEND: {{ template "compute.provisioner.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.provisioner.backendPort }}
+  INTERNAL_LB: {{ template "traefik.fullname" . }}.{{ .Release.Namespace }}.svc
+  API_USERNAME: {{ .Values.wps.apiUsername }}
+  API_PASSWORD: {{ .Values.wps.apiPassword }}
+  CELERY_BROKER_URL: redis://{{ template "redis.fullname" . }}-master/0
+  CELERY_RESULT_BACKEND: redis://{{ template "redis.fullname" . }}-master/0
   DATA_PATH: /data/public
   
-  SCHEDULER_CPU: {{ $.Values.celery.backend.schedulerCpu | quote }}
-  SCHEDULER_MEMORY: {{ $.Values.celery.backend.schedulerMemory | quote }}
-  WORKER_NTHREADS: {{ $.Values.celery.backend.workerNThreads | quote }}
+  SCHEDULER_CPU: {{ .Values.celery.backend.schedulerCpu | quote }}
+  SCHEDULER_MEMORY: {{ .Values.celery.backend.schedulerMemory | quote }}
+  WORKER_NTHREADS: {{ .Values.celery.backend.workerNThreads | quote }}
   
-  TRAFFIC_TYPE: {{ $.Values.celery.backend.trafficType }}
+  TRAFFIC_TYPE: {{ .Values.celery.backend.trafficType }}

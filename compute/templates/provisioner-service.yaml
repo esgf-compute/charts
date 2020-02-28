@@ -1,17 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "esgf-compute-wps.fullname" $ }}-provisioner
+  name: {{ template "compute.provisioner.fullname" . }}
   labels:
-    app.kubernetes.io/managed-by: {{ $.Release.Service }}
-    app.kubernetes.io/instance: {{ $.Release.Name }}
-    app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+  {{- include "compute.provisioner.labels" . | nindent 4 }}
 spec:
   selector:
-    app.kubernetes.io/instance: {{ $.Release.Name }}
-    app.kubernetes.io/name: {{ template "esgf-compute-wps.name" $ }}
-    app.kubernetes.io/component: provisioner
+  {{- include "compute.provisioner.matchLabels" . | nindent 4 }}
   ports:
   - port: {{ .Values.provisioner.frontendPort }}
     name: frontend

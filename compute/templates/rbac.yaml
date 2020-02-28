@@ -1,7 +1,7 @@
 kind: ServiceAccount
 apiVersion: v1
 metadata:
-  name: compute
+  name: {{ template "compute.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -12,7 +12,7 @@ metadata:
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: compute
+  name: {{ template "compute.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -46,10 +46,10 @@ rules:
     - get
     - watch
 ---
-kind: ClusterRoleBinding
+kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: compute
+  name: {{ template "compute.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -58,9 +58,9 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
 - kind: ServiceAccount
-  name: compute
+  name: {{ template "compute.fullname" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
-  kind: ClusterRole
-  name: compute
+  kind: Role
+  name: {{ template "compute.fullname" . }}
   apiGroup: rbac.authorization.k8s.io
