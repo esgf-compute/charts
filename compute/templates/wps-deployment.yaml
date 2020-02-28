@@ -30,10 +30,26 @@ spec:
       imagePullSecrets:
       {{- $.Values.imagePullSecrets | toYaml | nindent 8 }}
       {{- end }}
+      initContainers:
+      - name: migrate-db
+        image: {{ $.Values.wps.image }}:{{ $.Values.wps.imageTag }}
+        imagePullPolicy: {{ $.Values.wps.imagePullPolicy }}
+        command: ["/bin/bash", "init.sh"]
+        envFrom:
+        - configMapRef:
+            name: {{ template "compute.wps.fullname" $ }}-beat
+        - secretRef:
+            name: {{ template "compute.wps.fullname" $ }}
+        resources:
+        {{ $.Values.wps.resources | toYaml | nindent 10 }}
+        volumeMounts:
+        - mountPath: /etc/config
+          name: config-volume
       containers:
       - name: wps
         image: {{ $.Values.wps.image }}:{{ $.Values.wps.imageTag }}
         imagePullPolicy: {{ $.Values.wps.imagePullPolicy }}
+        command: ["/bin/bash", "entrypoint.sh"]
         livenessProbe:
           httpGet:
             path: /api/ping/
@@ -50,15 +66,14 @@ spec:
           timeoutSeconds: 5
         resources:
         {{ $.Values.wps.resources | toYaml | nindent 10 }}
-        env:
         envFrom:
         - configMapRef:
             name: {{ template "compute.wps.fullname" $ }}-beat
         - secretRef:
             name: {{ template "compute.wps.fullname" $ }}
         volumeMounts:
-        - name: config-volume
-          mountPath: /etc/config
+        - mountPath: /etc/config
+          name: config-volume
         - mountPath: /data/public
           name: data-volume
       volumes:
