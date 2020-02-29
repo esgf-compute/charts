@@ -47,7 +47,7 @@ persistence:
   dataClaimName: compute-data
 
 imagePullSecrets:
-  - name: docker-registry
+- name: docker-registry
 
 userResources:
   workers: 2
@@ -66,7 +66,7 @@ provisioner:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: 77e4850c
+  imageTag: 319c1189
   imagePullPolicy: Always
 
   frontendPort: 7777
@@ -104,7 +104,7 @@ wps:
 
   replicas: 1
   image: aims2.llnl.gov/compute-wps
-  imageTag: b88dca71
+  imageTag: 319c1189
   imagePullPolicy: Always
 
   beat:
@@ -202,7 +202,7 @@ celery:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-tasks
-  imageTag: 652dc588
+  imageTag: 319c1189
   imagePullPolicy: Always
 
   prometheusUrl: prometheus.host
