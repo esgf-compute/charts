@@ -49,6 +49,12 @@ spec:
           - --lifetime
           - "{{ .Values.provisioner.lifetime }}"
         env:
+          - name: SERVICE_ACCOUNT_NAME
+            value: {{ template "compute.fullname" . }}
+          - name: IMAGE_PULL_SECRET
+            {{- with first .Values.imagePullSecrets }}
+            value: {{ .name }}
+            {{- end }}
           - name: NAMESPACE
             value: {{ .Release.Namespace }}
           - name: USER_LIMIT_CPU
