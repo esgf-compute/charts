@@ -66,7 +66,7 @@ provisioner:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: 319c1189
+  imageTag: '507117e9'
   imagePullPolicy: Always
 
   frontendPort: 7777
@@ -104,7 +104,7 @@ wps:
 
   replicas: 1
   image: aims2.llnl.gov/compute-wps
-  imageTag: 319c1189
+  imageTag: '507117e9'
   imagePullPolicy: Always
 
   beat:
@@ -202,7 +202,7 @@ celery:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-tasks
-  imageTag: 319c1189
+  imageTag: '507117e9'
   imagePullPolicy: Always
 
   prometheusUrl: prometheus.host
