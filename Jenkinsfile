@@ -24,7 +24,7 @@ helm repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storag
 
 helm ${KUBECONFIG} dependency update compute/
 
-helm ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ -f /compute-dev-env/development.yaml --atomic --timeout 300'''
+helm ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ -f /compute-env/development.yaml --atomic --timeout 300'''
             }
 
           }
@@ -46,7 +46,7 @@ helm repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storag
 
 helm ${KUBECONFIG} dependency update compute/
 
-helm ${KUBECONFIG} upgrade ${PROD_RELEASE_NAME} compute/ -f /compute-prod-env/production.yaml --atomic --timeout 300'''
+helm ${KUBECONFIG} upgrade ${PROD_RELEASE_NAME} compute/ -f /compute-env/production.yaml --atomic --timeout 300'''
             }
 
           }
