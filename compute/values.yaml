@@ -43,6 +43,15 @@ traefik:
       enabled: true
       restrictAccess: true
 
+  resources: {}
+    # requests:
+    #   cpu: 200m
+    #   memory: 256Mi
+
+    # limits:
+    #   cpu: 500m
+    #   memory: 512Mi
+
 persistence:
   dataClaimName: compute-data
 
@@ -77,6 +86,12 @@ provisioner:
   lifetime: 3600
 
   resources: {}
+    # limits:
+    #   cpu: 500m
+    #   memory: 128Mi
+    # request:
+    #   cpu: 100m
+    #   memory: 32Mi
 
 nginx:
   name: nginx
@@ -90,6 +105,12 @@ nginx:
   imagePullPolicy: Always
 
   resources: {}
+    # limits:
+    #   cpu: 500m
+    #   memory: 1Gi
+    # requests:
+    #   cpu: 100m
+    #   memory: 256Mi
 
   ingress:
     annotations: {}
@@ -107,6 +128,14 @@ wps:
   imageTag: '507117e9'
   imagePullPolicy: Always
 
+  resources: {}
+    # limits:
+    #   cpu: 500m
+    #   memory: 512Mi
+    # requests:
+    #   cpu: 200m
+    #   memory: 256Mi
+
   beat:
     enabled: true
     development: false
@@ -121,6 +150,12 @@ wps:
     crontabMinute: 0
 
     resources: {}
+      # limits:
+      #   cpu: 500m
+      #   memory: 512Mi
+      # requests:
+      #   cpu: 200m
+      #   memory: 256Mi
 
   # Set to external hostname of cluster
   externalHost: 127.0.0.1
@@ -158,8 +193,6 @@ wps:
     prometheus.io/scrape: 'true'
     prometheus.io/path: /api/metrics/
     prometheus.io/port: '8000'
-
-  resources: {}
 
   # OAuth configuration
   oauth:
@@ -208,6 +241,12 @@ celery:
   prometheusUrl: prometheus.host
 
   resources: {}
+    # limits:
+    #   cpu: 1
+    #   memory: 2Gi
+    # requests:
+    #   cpu: 500m
+    #   memory: 1Gi
 
   backend:
     replicas: 1
@@ -221,9 +260,22 @@ celery:
     trafficType: external
 
     resources: {}
+      # limits:
+      #   cpu: 1
+      #   memory: 2Gi
+      # requests:
+      #   cpu: 500m
+      #   memory: 1Gi
 
   metrics:
     resources: {}
+      # limits:
+      #   cpu: 1
+      #   memory: 2Gi
+      # requests:
+      #   cpu: 500m
+      #   memory: 1Gi
+
 
     service:
       port: 8080
@@ -248,6 +300,12 @@ thredds:
   heapInit: 512m
 
   resources: {}
+    # limits:
+    #   cpu: 1
+    #   memory: 2Gi
+    # requests:
+    #   cpu: 500m
+    #   memory: 512Mi
 
   ingress:
     path: /threddsCWT
@@ -258,8 +316,6 @@ thredds:
       traffic-type: external
 
 postgresql:
-  image:
-    debug: true
   postgresqlUsername: postgres
   postgresqlPassword: abcd1234
   port: 5432
@@ -277,6 +333,12 @@ postgresql:
     tag: 10.6.0
 
   resources: {}
+    # limits:
+    #   cpu: 500m
+    #   memory: 512Mi
+    # requests:
+    #   cpu: 250m
+    #   memory: 256Mi
 
 redis:
   cluster:
@@ -295,8 +357,32 @@ redis:
       type: ClusterIP
 
     resources: {}
+      # limits:
+      #   cpu: 2
+      #   memory: 4Gi
+      # requests:
+      #   cpu: 2
+      #   memory: 4Gi
 
     nodeSelector: {}
+
+  slave:
+    resources: {}
+      # limits:
+      #   cpu: 2
+      #   memory: 4Gi
+      # requests:
+      #   cpu: 2
+      #   memory: 4Gi
+
+  sentinel:
+    resources: {}
+      # limit:
+      #   cpu: 500m
+      #   memory: 512Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 256Mi
 
 prometheus:
   enabled: false

@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: compute-data-dev
+  name: compute-data
 spec:
   accessModes:
     - ReadWriteMany
@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: compute-data-dev
+  name: compute-data
 spec:
   capacity:
     storage: 100Gi
@@ -24,5 +24,5 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: slow
   hostPath:
-    path: /p/cscratch/nimbus/data-dev
+    path: /p/cscratch/nimbus/data
     type: DirectoryOrCreate
