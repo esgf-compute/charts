@@ -76,7 +76,7 @@ userResources:
     resources:
       limits:
         cpu: 1
-        memory: 512Mi 
+        memory: 512Mi
 
   worker:
     nThreads: 2
@@ -89,7 +89,7 @@ provisioner:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: 5db723d3
+  imageTag: 92f75b78
   imagePullPolicy: Always
 
   frontendPort: 7777
@@ -249,7 +249,7 @@ celery:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-tasks
-  imageTag: 30a721b6
+  imageTag: 92f75b78
   imagePullPolicy: Always
 
   prometheusUrl: prometheus.host
