@@ -58,17 +58,6 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ template "compute.celery.fullname" . }}-backend
-        env:
-          - name: WORKERS
-            value: {{ .Values.userResources.workers | quote }}
-          - name: USER_LIMIT_CPU
-            value: {{ .Values.userResources.limit.cpu | quote }}
-          - name: USER_LIMIT_MEMORY
-            value: {{ .Values.userResources.limit.memory | quote }}
-          - name: USER_REQUEST_CPU
-            value: {{ .Values.userResources.request.cpu | quote }}
-          - name: USER_REQUEST_MEMORY
-            value: {{ .Values.userResources.request.memory | quote }}
         volumeMounts:
         - mountPath: /metrics
           name: metrics-volume

@@ -58,15 +58,29 @@ persistence:
 imagePullSecrets:
 - name: docker-registry
 
+# User resources
+# 
+# Per worker allocation is calculate as follows
+# worker cpu and memory = (total - scheduler) / instances
 userResources:
-  workers: 2
+  # Total resources allocated for a single user
+  resources:
+    limits:
+      cpu: 2
+      memory: 2Gi
+    requests:
+      cpu: 2
+      memory: 2Gi
 
-  limit:
-    cpu: 4
-    memory: 4Gi
-  request:
-    cpu: 4
-    memory: 4Gi
+  scheduler:
+    resources:
+      limits:
+        cpu: 1
+        memory: 512Mi 
+
+  worker:
+    nThreads: 2
+    instances: 2
 
 # Provisioner
 provisioner:
@@ -253,9 +267,7 @@ celery:
 
     development: false
 
-    workerNThreads: 1
-    schedulerCpu: 1
-    schedulerMemory: 1Gi
+    redisDB: 3
 
     trafficType: external
 

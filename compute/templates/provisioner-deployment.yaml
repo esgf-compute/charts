@@ -57,14 +57,6 @@ spec:
             {{- end }}
           - name: NAMESPACE
             value: {{ .Release.Namespace }}
-          - name: USER_LIMIT_CPU
-            value: {{ .Values.userResources.limit.cpu | quote }}
-          - name: USER_LIMIT_MEMORY
-            value: {{ .Values.userResources.limit.memory | quote }}
-          - name: USER_REQUEST_CPU
-            value: {{ .Values.userResources.request.cpu | quote }}
-          - name: USER_REQUEST_MEMORY
-            value: {{ .Values.userResources.request.memory | quote }}
         livenessProbe:
           tcpSocket:
             port: {{ .Values.provisioner.frontendPort }}

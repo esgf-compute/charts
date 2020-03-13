@@ -41,6 +41,13 @@ rules:
     - ""
     - apps
   resources:
+    - pods
+  verbos:
+    - patch
+- apiGroups:
+    - ""
+    - apps
+  resources:
     - pods/logs
   verbs:
     - get
