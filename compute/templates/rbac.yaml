@@ -42,7 +42,7 @@ rules:
     - apps
   resources:
     - pods
-  verbos:
+  verbs:
     - patch
 - apiGroups:
     - ""
