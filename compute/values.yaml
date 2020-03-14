@@ -249,7 +249,7 @@ celery:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-tasks
-  imageTag: 99bbcfb4
+  imageTag: 6c1e2bb2
   imagePullPolicy: Always
 
   prometheusUrl: prometheus.host
