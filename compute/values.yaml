@@ -358,15 +358,12 @@ redis:
 
   usePassword: false
 
-  # Cannot use permission init container when using existing claim 
-  # chown -R 1001:1001
   persistence:
-    enabled: false
-    existingClaim: redis-pvc
+    existingClaim: null
 
   master:
-    service:
-      type: ClusterIP
+    persistence:
+      enabled: false
 
     resources: {}
       # limits:
@@ -379,6 +376,9 @@ redis:
     nodeSelector: {}
 
   slave:
+    persistence:
+      enabled: false
+
     resources: {}
       # limits:
       #   cpu: 2
@@ -388,6 +388,9 @@ redis:
       #   memory: 4Gi
 
   sentinel:
+    persistence:
+      enabled: false
+
     resources: {}
       # limit:
       #   cpu: 500m
