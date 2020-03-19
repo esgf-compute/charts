@@ -12,6 +12,7 @@ BUILD = docker run \
 				-it --rm \
 				--privileged \
 				-v ${PWD}:/build -w /build \
+				-v ${PWD}/cache:/cache \
 				--entrypoint=/bin/sh \
 				moby/buildkit:master
 endif
