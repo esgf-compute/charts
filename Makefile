@@ -1,6 +1,6 @@
 .PHONY:
 
-VERSION = 1.0.0
+VERSION = 1.0.1
 
 IMAGE = $(if $(REGISTRY),$(REGISTRY)/)helm
 OUTPUT = --output type=image,ref=$(IMAGE):$(VERSION),push=true
