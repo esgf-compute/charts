@@ -139,7 +139,7 @@ wps:
 
   replicas: 1
   image: aims2.llnl.gov/compute-wps
-  imageTag: '507117e9'
+  imageTag: 26c8de7a
   imagePullPolicy: Always
 
   resources: {}
@@ -249,7 +249,7 @@ celery:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-tasks
-  imageTag: ae161679
+  imageTag: 26c8de7a
   imagePullPolicy: Always
 
   prometheusUrl: prometheus.host
@@ -359,7 +359,7 @@ redis:
   usePassword: false
 
   persistence:
-    existingClaim: null
+    existingClaim:
 
   master:
     persistence:
