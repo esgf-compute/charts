@@ -18,13 +18,11 @@ pipeline {
 
 KUBECONFIG="--kubeconfig /jenkins-config/jenkins-config"
 
-helm ${KUBECONFIG} init --client-only
+helm3 repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storage.googleapis.com/
 
-helm repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storage.googleapis.com/
+helm3 ${KUBECONFIG} dependency update compute/
 
-helm ${KUBECONFIG} dependency update compute/
-
-helm ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 300'''
+helm3 ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 300'''
             }
 
           }
@@ -40,13 +38,11 @@ helm ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 300''
 
 KUBECONFIG="--kubeconfig /jenkins-config/jenkins-config"
 
-helm ${KUBECONFIG} init --client-only
+helm3 repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storage.googleapis.com/
 
-helm repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storage.googleapis.com/
+helm3 ${KUBECONFIG} dependency update compute/
 
-helm ${KUBECONFIG} dependency update compute/
-
-helm ${KUBECONFIG} upgrade ${PROD_RELEASE_NAME} compute/ --atomic --timeout 300'''
+helm3 ${KUBECONFIG} upgrade ${PROD_RELEASE_NAME} compute/ --atomic --timeout 300'''
             }
 
           }
