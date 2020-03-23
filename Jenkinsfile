@@ -22,7 +22,7 @@ helm3 repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.stora
 
 helm3 ${KUBECONFIG} dependency update compute/
 
-helm3 ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 300'''
+helm3 ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 3m'''
             }
 
           }
@@ -42,7 +42,7 @@ helm3 repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.stora
 
 helm3 ${KUBECONFIG} dependency update compute/
 
-helm3 ${KUBECONFIG} upgrade ${PROD_RELEASE_NAME} compute/ --atomic --timeout 300'''
+helm3 ${KUBECONFIG} upgrade ${PROD_RELEASE_NAME} compute/ --atomic --timeout 3m'''
             }
 
           }
