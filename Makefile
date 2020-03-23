@@ -1,9 +1,7 @@
-.PHONY:
+.PHONY: helm
 
-VERSION = 1.0.1
+export
 
-IMAGE = $(if $(REGISTRY),$(REGISTRY)/)helm
-OUTPUT = --output type=image,name=$(IMAGE):$(VERSION),push=true
 CACHE = --export-cache type=local,dest=/cache,mode=max \
 				--import-cache type=local,src=/cache
 
@@ -14,18 +12,13 @@ BUILD = docker run \
 				-v ${PWD}:/build -w /build \
 				-v ${PWD}/cache:/cache \
 				-v ${PWD}/output:/output \
+				-v ${HOME}/.docker:/root/.docker \
 				--entrypoint=/bin/sh \
 				moby/buildkit:master
 endif
 
 helm:
-	$(BUILD) build.sh . $(CACHE) $(OUTPUT)
+	$(MAKE) -C dockerfiles/helm
 
-patch:
-	bump2version patch
-
-minor:
-	bump2version minor
-
-major:
-	bump2version major
+buildkit:
+	$(MAKE) -C dockerfiles/buildkit
