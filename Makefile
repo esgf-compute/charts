@@ -3,7 +3,7 @@
 VERSION = 1.0.1
 
 IMAGE = $(if $(REGISTRY),$(REGISTRY)/)helm
-OUTPUT = --output type=image,ref=$(IMAGE):$(VERSION),push=true
+OUTPUT = --output type=image,name=$(IMAGE):$(VERSION),push=true
 CACHE = --export-cache type=local,dest=/cache,mode=max \
 				--import-cache type=local,src=/cache
 
@@ -13,6 +13,7 @@ BUILD = docker run \
 				--privileged \
 				-v ${PWD}:/build -w /build \
 				-v ${PWD}/cache:/cache \
+				-v ${PWD}/output:/output \
 				--entrypoint=/bin/sh \
 				moby/buildkit:master
 endif

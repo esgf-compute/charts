@@ -55,8 +55,8 @@ traefik:
 persistence:
   dataClaimName: compute-data
 
-imagePullSecrets:
-- name: docker-registry
+imagePullSecrets: []
+# - name: docker-registry
 
 # User resources
 # 
