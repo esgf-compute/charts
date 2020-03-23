@@ -89,7 +89,7 @@ provisioner:
   nodeSelector: {}
 
   image: aims2.llnl.gov/compute-provisioner
-  imageTag: 151b2ac4
+  imageTag: a84476bb
   imagePullPolicy: Always
 
   frontendPort: 7777
