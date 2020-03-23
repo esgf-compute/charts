@@ -139,7 +139,7 @@ wps:
 
   replicas: 1
   image: aims2.llnl.gov/compute-wps
-  imageTag: 26c8de7a
+  imageTag: a84476bb
   imagePullPolicy: Always
 
   resources: {}
@@ -304,7 +304,7 @@ thredds:
 
   replicas: 1
   image: aims2.llnl.gov/compute-thredds
-  imageTag: ec3a3b4e
+  imageTag: a84476bb
   imagePullPolicy: Always
 
   # Set java parameters for tomcat server
