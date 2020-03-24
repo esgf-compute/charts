@@ -271,6 +271,15 @@ celery:
 
     trafficType: external
 
+    # Provides mapping for local data
+    # mounts and the mapping will be available to a compute backend to translate urls to local data paths.
+    localMapping: {}
+    #   mounts:
+    #     - path: /data
+    #       type: hostpath
+    #   mapping:
+    #     test: /data/test
+
     resources: {}
       # limits:
       #   cpu: 1
