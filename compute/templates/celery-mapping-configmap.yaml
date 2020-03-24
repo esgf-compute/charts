@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "compute.celery.fullname" . }}-mapping-backend
+  name: {{ template "compute.celery.fullname" . }}-mapping
 data:
   mapping.json: |
     {{ toJson .Values.celery.backend.localMapping }}

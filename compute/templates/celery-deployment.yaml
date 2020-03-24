@@ -14,7 +14,7 @@ spec:
       labels:
       {{- include "compute.celery.matchLabels" . | nindent 8 }}
       annotations:
-        checksum/config: {{ list (include (print .Template.BasePath "/wps-secret.yaml") .) (include (print .Template.BasePath "/celery-backend-configmap.yaml") .) | join " " | sha256sum }}
+        checksum/config: {{ list (include (print .Template.BasePath "/wps-secret.yaml") .) (include (print .Template.BasePath "/celery-backend-configmap.yaml") .) (include (print .Template.BasePath "/celery-mapping-configmap.yaml") .) | join " " | sha256sum }}
       {{- if .Values.celery.annotations }}
       {{- .Values.celery.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
       {{- end }}
@@ -91,7 +91,12 @@ spec:
           name: metrics-volume
         - mountPath: /data/public
           name: data-volume
+        - mountPath: /etc/config
+          name: mapping-volume
       volumes:
+      - name: mapping-volume
+        configMap:
+          name: {{ template "compute.celery.fullname" . }}-mapping
       - name: metrics-volume
         emptyDir: {}
       - name: data-volume
