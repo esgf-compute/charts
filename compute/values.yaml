@@ -115,7 +115,7 @@ nginx:
   nodeSelector: {}
 
   image: nimbus16.llnl.gov:8443/default/compute-webapp
-  imageTag: 8ebcc668
+  imageTag: 2d4060a
   imagePullPolicy: Always
 
   resources: {}
