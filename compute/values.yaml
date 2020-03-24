@@ -88,7 +88,7 @@ provisioner:
 
   nodeSelector: {}
 
-  image: aims2.llnl.gov/compute-provisioner
+  image: nimbus16.llnl.gov:8443/default/compute-provisioner
   imageTag: a84476bb
   imagePullPolicy: Always
 
@@ -114,7 +114,7 @@ nginx:
 
   nodeSelector: {}
 
-  image: aims2.llnl.gov/compute-webapp
+  image: nimbus16.llnl.gov:8443/default/compute-webapp
   imageTag: 5f96e429
   imagePullPolicy: Always
 
@@ -138,7 +138,7 @@ wps:
   nodeSelector: {}
 
   replicas: 1
-  image: aims2.llnl.gov/compute-wps
+  image: nimbus16.llnl.gov:8443/default/compute-wps
   imageTag: a84476bb
   imagePullPolicy: Always
 
@@ -188,7 +188,7 @@ wps:
 
   provider:
     name: Admin
-    site: https://aims2.llnl.gov
+    site: https://nimbus16.llnl.gov:8443/default
 
   contact:
     name:
@@ -248,7 +248,7 @@ celery:
   annotations: {}
   nodeSelector: {}
 
-  image: aims2.llnl.gov/compute-tasks
+  image: nimbus16.llnl.gov:8443/default/compute-tasks
   imageTag: a84476bb
   imagePullPolicy: Always
 
@@ -303,7 +303,7 @@ thredds:
   nodeSelector: {}
 
   replicas: 1
-  image: aims2.llnl.gov/compute-thredds
+  image: nimbus16.llnl.gov:8443/default/compute-thredds
   imageTag: a84476bb
   imagePullPolicy: Always
 
