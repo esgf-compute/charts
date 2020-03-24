@@ -26,7 +26,7 @@ traefik:
     generateTLS: true
 
   dashboard:
-    enabled: true
+    enabled: false
     domain: ''
     ingress:
       annotations:

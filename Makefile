@@ -22,3 +22,6 @@ helm:
 
 buildkit:
 	$(MAKE) -C dockerfiles/buildkit
+
+traefik:
+	helm3 install traefik stable/traefik -f samples/traefik.yaml
