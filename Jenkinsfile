@@ -16,13 +16,11 @@ pipeline {
             container(name: 'helm', shell: '/bin/bash') {
               sh '''#! /bin/bash
 
-KUBECONFIG="--kubeconfig /jenkins-config/jenkins-config"
-
 helm3 repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storage.googleapis.com/
 
-helm3 ${KUBECONFIG} dependency update compute/
+helm3 dependency update compute/
 
-helm3 ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 3m'''
+helm3 upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 3m'''
             }
 
           }
@@ -36,13 +34,11 @@ helm3 ${KUBECONFIG} upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 3m''
             container(name: 'helm', shell: '/bin/bash') {
               sh '''#! /bin/bash
 
-KUBECONFIG="--kubeconfig /jenkins-config/jenkins-config"
-
 helm3 repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storage.googleapis.com/
 
-helm3 ${KUBECONFIG} dependency update compute/
+helm3 dependency update compute/
 
-helm3 ${KUBECONFIG} upgrade ${PROD_RELEASE_NAME} compute/ --atomic --timeout 3m'''
+helm3 upgrade ${PROD_RELEASE_NAME} compute/ --atomic --timeout 3m'''
             }
 
           }
