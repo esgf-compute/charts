@@ -61,6 +61,23 @@ spec:
         volumeMounts:
         - mountPath: /metrics
           name: metrics-volume
+        - mountPath: /etc/config
+          name: mapping-volume
+      {{- range .Values.celery.backend.localMapping.mounts }}
+        - name: mapping-{{ .path | toString | sha256sum | substr 0 8}}
+          mountPath: {{ .path }}
+          readOnly: true
+      {{- end }}
       volumes:
       - name: metrics-volume
         emptyDir: {}
+      - name: mapping-volume
+        configMap:
+          name: {{ template "compute.celery.fullname" . }}-mapping
+    {{- range .Values.celery.backend.localMapping.mounts }}
+      {{- if eq .type "hostpath" }}
+      - name: mapping-{{ .path | toString | sha256sum | substr 0 8}}
+        hostPath:
+          path: {{ .path }}
+      {{- end }}
+    {{- end }}
