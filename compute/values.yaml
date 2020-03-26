@@ -108,6 +108,8 @@ provisioner:
     #   memory: 32Mi
 
 nginx:
+  enabled: true
+
   name: nginx
 
   replicas: 1
