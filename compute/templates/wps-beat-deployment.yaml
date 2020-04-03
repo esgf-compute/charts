@@ -32,7 +32,7 @@ spec:
         image: {{ .Values.wps.image }}:{{ .Values.wps.imageTag }}
         imagePullPolicy: {{ .Values.wps.imagePullPolicy }}
         command:
-          - tini
+          - /tini
           - --
         args:
           - celery

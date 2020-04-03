@@ -32,7 +32,6 @@ spec:
         env:
         - name: SECRET_KEY
           value: "SECRET_KEY"
-        command: ['tini', '--']
         args: ['/bin/bash', '-c', 'mkdir -p /compute/assets && python /compute/manage.py collectstatic --no-input']
         volumeMounts:
         - mountPath: /var/www/static

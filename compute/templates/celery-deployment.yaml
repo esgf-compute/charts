@@ -34,9 +34,6 @@ spec:
         ports:
         - containerPort: {{ .Values.celery.metrics.service.port }}
           protocol: TCP
-        command:
-          - tini
-          - --
         args:
           - /bin/bash
           - -c
@@ -46,9 +43,6 @@ spec:
       - name: worker
         image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
         imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
-        command:
-          - tini
-          - --
         args: 
           - /bin/bash
           - entrypoint.sh

@@ -30,9 +30,6 @@ spec:
       - name: register
         image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
         imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
-        command:
-          - tini
-          - --
         args:
           - /bin/bash
           - -c
@@ -46,9 +43,6 @@ spec:
       - name: backend
         image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
         imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
-        command:
-          - tini
-          - --
         args:
           - /bin/bash
           - -c
