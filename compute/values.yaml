@@ -251,7 +251,7 @@ celery:
   nodeSelector: {}
 
   image: nimbus16.llnl.gov:8443/default/compute-tasks
-  imageTag: 848b9428
+  imageTag: b11964f1
   imagePullPolicy: Always
 
   prometheusUrl: prometheus.host
