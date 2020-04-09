@@ -141,7 +141,7 @@ wps:
 
   replicas: 1
   image: nimbus16.llnl.gov:8443/default/compute-wps
-  imageTag: 9b919147
+  imageTag: a080ace4
   imagePullPolicy: Always
 
   resources: {}
