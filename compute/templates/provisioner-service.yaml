@@ -8,6 +8,8 @@ spec:
   selector:
   {{- include "compute.provisioner.matchLabels" . | nindent 4 }}
   ports:
+  - port: 8888
+    name: metrics
   - port: {{ .Values.provisioner.frontendPort }}
     name: frontend
   - port: {{ .Values.provisioner.backendPort }}

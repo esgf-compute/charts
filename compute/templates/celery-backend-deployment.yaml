@@ -33,7 +33,7 @@ spec:
         args:
           - /bin/bash
           - -c
-          - "mkdir -p /metrics; until nslookup ${INTERNAL_LB}; do echo 'Waiting'; done; compute-tasks-register"
+          - "until nslookup ${INTERNAL_LB}; do echo 'Waiting'; done; compute-tasks-register"
         resources:
         {{ .Values.celery.backend.resources | toYaml | nindent 10 }}
         envFrom:
@@ -46,15 +46,13 @@ spec:
         args:
           - /bin/bash
           - -c
-          - "mkdir -p /metrics && compute-tasks-backend --queue-host ${PROVISIONER_BACKEND}"
+          - "compute-tasks-backend --queue-host ${PROVISIONER_BACKEND}"
         resources:
         {{ .Values.celery.backend.resources | toYaml | nindent 10 }}
         envFrom:
         - configMapRef:
             name: {{ template "compute.celery.fullname" . }}-backend
         volumeMounts:
-        - mountPath: /metrics
-          name: metrics-volume
         - mountPath: /etc/config
           name: mapping-volume
       {{- range .Values.celery.backend.localMapping.mounts }}
@@ -63,8 +61,6 @@ spec:
           readOnly: true
       {{- end }}
       volumes:
-      - name: metrics-volume
-        emptyDir: {}
       - name: mapping-volume
         configMap:
           name: {{ template "compute.celery.fullname" . }}-mapping
