@@ -5,6 +5,7 @@ metadata:
   name: {{ template "compute.wps.fullname" $ }}-{{ .name }}
   labels:
   {{- include "compute.wps.labels" $ | nindent 4 }}
+    component/part: {{ .name }}
 spec:
   selector:
   {{- include "compute.wps.matchLabels" $ | nindent 4 }}
@@ -12,5 +13,6 @@ spec:
   ports:
     - port: 8000
       protocol: TCP
+      name: metrics
 ---
 {{- end }}

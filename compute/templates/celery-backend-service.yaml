@@ -11,3 +11,4 @@ spec:
   ports:
     - port: 8888
       protocol: TCP
+      name: metrics

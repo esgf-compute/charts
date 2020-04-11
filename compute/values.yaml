@@ -52,6 +52,9 @@ traefik:
     #   cpu: 500m
     #   memory: 512Mi
 
+prometheusOperator:
+  enabled: False
+
 persistence:
   dataClaimName: compute-data
 

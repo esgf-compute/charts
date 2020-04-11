@@ -1,0 +1,16 @@
+{{- if $.Values.prometheusOperator.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "compute.celery.fullname" $ }}-backend
+  labels:
+  {{- include "compute.celery.labels" $ | nindent 4 }}
+    release: prometheus 
+spec:
+  selector:
+    matchLabels:
+    {{- include "compute.celery.matchLabels" $ | nindent 6 }}
+  endpoints:
+  - port: metrics
+    interval: 10s
+{{- end }}

@@ -28,18 +28,6 @@ spec:
       {{ .Values.imagePullSecrets | toYaml | nindent 8 }}
       {{- end }}
       containers:
-      - name: metrics
-        image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
-        imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
-        ports:
-        - containerPort: {{ .Values.celery.metrics.service.port }}
-          protocol: TCP
-        args:
-          - /bin/bash
-          - -c
-          - "mkdir -p /metrics && compute-tasks-metrics"
-        resources:
-        {{ .Values.celery.metrics.resources | toYaml | nindent 10 }}
       - name: worker
         image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
         imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
@@ -81,8 +69,6 @@ spec:
         - configMapRef:
             name: {{ template "compute.celery.fullname" . }}-backend
         volumeMounts:
-        - mountPath: /metrics
-          name: metrics-volume
         - mountPath: /data/public
           name: data-volume
       {{- range .Values.celery.backend.localMapping.mounts }}
@@ -91,8 +77,6 @@ spec:
           readOnly: true
       {{- end }}
       volumes:
-      - name: metrics-volume
-        emptyDir: {}
       - name: data-volume
         persistentVolumeClaim:
           claimName: {{ .Values.persistence.dataClaimName }}
