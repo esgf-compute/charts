@@ -89,7 +89,7 @@ provisioner:
   nodeSelector: {}
 
   image: nimbus16.llnl.gov:8443/default/compute-provisioner
-  imageTag: 22ad0d7c
+  imageTag: 825242d5
   imagePullPolicy: Always
 
   frontendPort: 7777
