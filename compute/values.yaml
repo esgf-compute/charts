@@ -53,7 +53,7 @@ traefik:
     #   memory: 512Mi
 
 prometheusOperator:
-  enabled: False
+  enabled: false
 
 persistence:
   dataClaimName: compute-data
@@ -254,7 +254,7 @@ celery:
   nodeSelector: {}
 
   image: nimbus16.llnl.gov:8443/default/compute-tasks
-  imageTag: 825242d5
+  imageTag: 4fe4bcb4
   imagePullPolicy: Always
 
   prometheusUrl: prometheus.host
