@@ -92,7 +92,7 @@ provisioner:
   nodeSelector: {}
 
   image: nimbus16.llnl.gov:8443/default/compute-provisioner
-  imageTag: 825242d5
+  imageTag: a3466cef
   imagePullPolicy: Always
 
   frontendPort: 7777
@@ -254,7 +254,7 @@ celery:
   nodeSelector: {}
 
   image: nimbus16.llnl.gov:8443/default/compute-tasks
-  imageTag: b3e6dccc
+  imageTag: a3466cef
   imagePullPolicy: Always
 
   prometheusUrl: prometheus.host
