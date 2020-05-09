@@ -1,6 +1,6 @@
 provisioner:
   image: nimbus16.llnl.gov:8443/default/compute-provisioner
-  imageTag: a3466cef
+  imageTag: c8fd7426
 
 nginx:
   image: nimbus16.llnl.gov:8443/default/compute-webapp
@@ -8,12 +8,12 @@ nginx:
 
 wps:
   image: nimbus16.llnl.gov:8443/default/compute-wps
-  imageTag: a3466cef
+  imageTag: c8fd7426
 
 celery:
   image: nimbus16.llnl.gov:8443/default/compute-tasks
-  imageTag: f717ffbd
+  imageTag: c8fd7426
 
 thredds:
   image: nimbus16.llnl.gov:8443/default/compute-thredds
-  imageTag: 22ad0d7c
+  imageTag: c8fd7426
