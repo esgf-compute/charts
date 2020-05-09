@@ -91,8 +91,8 @@ provisioner:
 
   nodeSelector: {}
 
-  image: nimbus16.llnl.gov:8443/default/compute-provisioner
-  imageTag: a3466cef
+  image: nimbus16.llnl.gov:8443/public/compute-provisioner
+  imageTag: 2.3.0
   imagePullPolicy: Always
 
   frontendPort: 7777
@@ -119,8 +119,8 @@ nginx:
 
   nodeSelector: {}
 
-  image: nimbus16.llnl.gov:8443/default/compute-webapp
-  imageTag: 2d4060a
+  image: nimbus16.llnl.gov:8443/public/compute-webapp
+  imageTag: 2.3.0
   imagePullPolicy: Always
 
   resources: {}
@@ -143,8 +143,8 @@ wps:
   nodeSelector: {}
 
   replicas: 1
-  image: nimbus16.llnl.gov:8443/default/compute-wps
-  imageTag: a3466cef
+  image: nimbus16.llnl.gov:8443/public/compute-wps
+  imageTag: 2.3.0
   imagePullPolicy: Always
 
   resources: {}
@@ -253,8 +253,8 @@ celery:
   annotations: {}
   nodeSelector: {}
 
-  image: nimbus16.llnl.gov:8443/default/compute-tasks
-  imageTag: f717ffbd
+  image: nimbus16.llnl.gov:8443/public/compute-tasks
+  imageTag: 2.3.0
   imagePullPolicy: Always
 
   prometheusUrl: prometheus.host
@@ -317,8 +317,8 @@ thredds:
   nodeSelector: {}
 
   replicas: 1
-  image: nimbus16.llnl.gov:8443/default/compute-thredds
-  imageTag: 22ad0d7c
+  image: nimbus16.llnl.gov:8443/public/compute-thredds
+  imageTag: 2.3.0
   imagePullPolicy: Always
 
   # Set java parameters for tomcat server
