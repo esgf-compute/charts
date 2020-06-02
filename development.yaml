@@ -12,7 +12,7 @@ wps:
 
 celery:
   image: nimbus16.llnl.gov:8443/default/compute-tasks
-  imageTag: d568fa58
+  imageTag: 45d837a8
 
 thredds:
   image: nimbus16.llnl.gov:8443/default/compute-thredds
