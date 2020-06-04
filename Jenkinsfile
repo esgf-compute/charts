@@ -20,7 +20,7 @@ helm3 repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.stora
 
 helm3 dependency update compute/
 
-helm3 upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 3m'''
+helm3 upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 3m -f development.yaml'''
             }
 
           }
