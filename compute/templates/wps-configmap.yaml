@@ -11,7 +11,7 @@ data:
     allowed.cidr={{ .Values.wps.allowedCIDR }}
     {{- end }}
     host={{ required "Set wps.externalHost" .Values.wps.externalHost }}
-    internal.lb={{ template "traefik.fullname" . }}.{{ .Release.Namespace }}.svc
+    internal_api.host={{ template "compute.wps.fullname" . }}-internal.{{ .Release.Namespace }}.svc
 
     [email]
     host={{ required "Set wps.email.host" .Values.wps.email.host }}

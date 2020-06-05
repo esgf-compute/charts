@@ -1,3 +1,6 @@
+imagePullSecrets:
+  - name: docker-registry
+
 provisioner:
   image: nimbus16.llnl.gov:8443/default/compute-provisioner
   imageTag: bc2327e9
