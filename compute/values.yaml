@@ -353,11 +353,6 @@ postgresql:
     enabled: false
     existingClaim: postgresql-pvc
 
-  backup:
-    enabled: false
-    image: bitnami/postgresql
-    tag: 10.6.0
-
   resources: {}
     # limits:
     #   cpu: 500m
