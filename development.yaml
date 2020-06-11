@@ -3,7 +3,7 @@ imagePullSecrets:
 
 provisioner:
   image: nimbus16.llnl.gov:8443/default/compute-provisioner
-  imageTag: 99fd4d82
+  imageTag: 1650bc36
 
 nginx:
   image: nimbus16.llnl.gov:8443/default/compute-webapp
