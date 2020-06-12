@@ -39,7 +39,7 @@ spec:
           - "-Q"
           - "ingress"
           - "-l"
-          - "DEBUG"
+          - "INFO"
           - "--max-tasks-per-child"
           - "1"
         livenessProbe:

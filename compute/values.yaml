@@ -45,8 +45,7 @@ provisioner:
   backendPort: 7778
 
   timeout: 60
-  # Number of seconds that a users dask scheduler and workers will live for (default: 1 hour).
-  lifetime: 3600
+  lifetime: 240
 
   resources: {}
     # limits:
@@ -60,11 +59,8 @@ nginx:
   enabled: true
 
   name: nginx
-
-  replicas: 1
-
   nodeSelector: {}
-
+  replicas: 1
   image: nimbus16.llnl.gov:8443/public/compute-webapp
   imageTag: 2.3.0
   imagePullPolicy: Always
@@ -78,16 +74,17 @@ nginx:
     #   memory: 256Mi
 
   ingress:
-    annotations: {}
+    annotations:
+      ingress.kubernetes.io/ssl-redirect: 'true'
+      ingress.kubernetes.io/hsts-max-age: '31536000'
+      ingress.kubernetes.io/hsts-include-subdomains: 'true'
+      ingress.kubernetes.io/force-hsts: 'true'
 
-    labels:
-      traffic-type: external
+    labels: {}
 
 wps:
   name: wps
-
   nodeSelector: {}
-
   replicas: 1
   image: nimbus16.llnl.gov:8443/public/compute-wps
   imageTag: 2.3.0
@@ -126,10 +123,10 @@ wps:
   externalHost: 127.0.0.1
   allowedCIDR: 172.17.0.0/16
 
-  apiUsername: wps_api_username
-  apiPassword: wps_api_password
+  apiUsername: default_api_username
+  apiPassword: default_api_password
 
-  adminEmail: admin@wps
+  adminEmail: admin@wps.local
 
   # Configure the values that will be used in creating WPS responses
   title: LLNL WPS Server
@@ -138,8 +135,8 @@ wps:
   - WPS
 
   provider:
-    name: Admin
-    site: https://nimbus16.llnl.gov:8443/default
+    name: ESGF
+    site: https://esgf.llnl.gov
 
   contact:
     name:
@@ -165,7 +162,7 @@ wps:
     secret: fake_oauth_secret
 
   email:
-    host: email@host
+    host: user@wps.local
     port: 25
     user: ''
     password: ''
@@ -183,14 +180,10 @@ wps:
     paths:
     - /api
     - /wps
-    labels:
-      traffic-type: external
   - name: internal
     enabled: true
     paths:
     - /internal_api
-    labels:
-      traffic-type: internal
 
 celery:
   name: celery
@@ -283,9 +276,7 @@ thredds:
     path: /threddsCWT
 
     annotations: {}
-
-    labels:
-      traffic-type: external
+    labels: {}
 
 postgresql:
   postgresqlUsername: postgres

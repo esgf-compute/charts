@@ -1,18 +1,29 @@
-{{- range $.Values.wps.instances }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "compute.wps.fullname" $ }}-{{ .name }}
+  name: {{ template "compute.wps.fullname" $ }}-external
   labels:
   {{- include "compute.wps.labels" $ | nindent 4 }}
-    component/part: {{ .name }}
+    component/part: external
 spec:
   selector:
   {{- include "compute.wps.matchLabels" $ | nindent 4 }}
-    component/part: {{ .name }}
+    component/part: external
   ports:
     - port: 8000
       protocol: TCP
-      name: metrics
 ---
-{{- end }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "compute.wps.fullname" $ }}-internal
+  labels:
+  {{- include "compute.wps.labels" $ | nindent 4 }}
+    component/part: internal
+spec:
+  selector:
+  {{- include "compute.wps.matchLabels" $ | nindent 4 }}
+    component/part: internal
+  ports:
+    - port: 8000
+      protocol: TCP
