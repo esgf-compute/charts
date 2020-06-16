@@ -11,10 +11,10 @@ args = parser.parse_args()
 yaml = YAML()
 
 with open(args.file1, 'r') as f:
-    file1 = yaml.load(f.read(), Loader=yaml.SafeLoader)
+    file1 = yaml.load(f.read())
 
 with open(args.file2, 'r') as f:
-    file2 = yaml.load(f.read(), Loader=yaml.SafeLoader)
+    file2 = yaml.load(f.read())
 
 def merge(x, y):
     for z in x:
