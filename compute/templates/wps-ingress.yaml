@@ -1,24 +1,23 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "compute.wps.fullname" $ }}-external
+  name: {{ template "compute.wps.fullname" . }}
   labels:
-  {{- include "compute.wps.labels" $ | nindent 4 }}
-    component/part: external
-  {{- toYaml $.Values.wps.ingress.labels | nindent 4 }}
-  {{- if $.Values.wps.ingress.annotations }}
-  annotations:
-  {{- toYaml $.Values.wps.ingress.annotations | nindent 4 }}
+  {{- include "compute.wps.labels" . | nindent 4 }}
+  {{- if .Values.wps.ingress.labels }}
+  {{- toYaml .Values.wps.ingress.labels | nindent 4 }}
   {{- end }}
+  annotations:
+  {{- toYaml .Values.wps.ingress.annotations | nindent 4 }}
 spec:
   rules:
   - http:
       paths:
       - path: /api
         backend:
-          serviceName: {{ template "compute.wps.fullname" $ }}-external
+          serviceName: {{ template "compute.wps.fullname" . }}
           servicePort: 8000
       - path: /wps
         backend:
-          serviceName: {{ template "compute.wps.fullname" $ }}-external
+          serviceName: {{ template "compute.wps.fullname" . }}
           servicePort: 8000

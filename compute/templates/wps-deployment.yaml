@@ -1,8 +1,7 @@
-{{- range .Values.wps.instances }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "compute.wps.fullname" $ }}-{{ .name }}
+  name: {{ template "compute.wps.fullname" $ }}
   labels:
   {{- include "compute.wps.labels" $ | nindent 4 }}
 spec:
@@ -10,12 +9,10 @@ spec:
   selector:
     matchLabels:
     {{- include "compute.wps.matchLabels" $ | nindent 6 }}
-      component/part: {{ .name }}
   template:
     metadata:
       labels:
       {{- include "compute.wps.matchLabels" $ | nindent 8 }}
-        component/part: {{ .name }}
       annotations:
         checksum/config: {{ list (include (print $.Template.BasePath "/wps-beat-configmap.yaml") $) (include (print $.Template.BasePath "/wps-secret.yaml") $) (include (print $.Template.BasePath "/wps-configmap.yaml") $) | join " " | sha256sum }}
       {{- if $.Values.wps.annotations }}
@@ -83,5 +80,3 @@ spec:
       - name: data-volume
         persistentVolumeClaim:
           claimName: {{ $.Values.persistence.dataClaimName | default "data-pvc" }}
----
-{{- end }}

@@ -173,17 +173,7 @@ wps:
       ingress.kubernetes.io/hsts-max-age: '31536000'
       ingress.kubernetes.io/hsts-include-subdomains: 'true'
       ingress.kubernetes.io/force-hsts: 'true'
-
-  instances:
-  - name: external
-    enabled: true
-    paths:
-    - /api
-    - /wps
-  - name: internal
-    enabled: true
-    paths:
-    - /internal_api
+    labels: {}
 
 celery:
   name: celery

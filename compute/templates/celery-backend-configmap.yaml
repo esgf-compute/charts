@@ -10,8 +10,8 @@ data:
   DATA_CLAIM_NAME: {{ .Values.persistence.dataClaimName }}
   PROVISIONER_BACKEND: {{ template "compute.provisioner.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.provisioner.backendPort }}
   
-  API_HOST: {{ template "compute.wps.fullname" . }}-internal.{{ .Release.Namespace }}.svc
-  API_URL: http://{{ template "compute.wps.fullname" . }}-internal.{{ .Release.Namespace }}.svc:8000/internal_api/schema
+  API_HOST: {{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc
+  API_URL: http://{{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc:8000/internal_api/schema
   API_USERNAME: {{ .Values.wps.apiUsername }}
   API_PASSWORD: {{ .Values.wps.apiPassword }}
   DATA_PATH: /data/public
