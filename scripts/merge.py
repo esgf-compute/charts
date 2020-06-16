@@ -1,5 +1,5 @@
 import argparse
-import yaml
+from ruamel.yaml import YAML
 
 parser = argparse.ArgumentParser()
 parser.add_argument('file1', help='Source file to merge into file2')
@@ -7,6 +7,8 @@ parser.add_argument('file2', help='Source that file1 will be merged into')
 parser.add_argument('--dry-run', help='Runs without modifying file', action='store_true')
 
 args = parser.parse_args()
+
+yaml = YAML()
 
 with open(args.file1, 'r') as f:
     file1 = yaml.load(f.read(), Loader=yaml.SafeLoader)
