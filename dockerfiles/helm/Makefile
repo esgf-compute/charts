@@ -1,6 +1,6 @@
 .DEFAULT_GOAL = helm
 
-VERSION = 1.0.1
+VERSION = 1.0.2
 
 IMAGE = $(if $(REGISTRY),$(REGISTRY)/)helm
 OUTPUT = --output type=image,name=$(IMAGE):$(VERSION),push=true
