@@ -311,6 +311,9 @@ redis:
 
     nodeSelector: {}
 
+    service:
+      port: 6379
+
   slave:
     persistence:
       enabled: false
