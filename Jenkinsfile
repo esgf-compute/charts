@@ -1,47 +1,25 @@
 pipeline {
-  agent {
-    node {
-      label 'jenkins-helm'
-    }
-
-  }
+  agent none
   stages {
-    stage('Deploy') {
-      parallel {
-        stage('Development') {
-          when {
-            branch 'devel'
-          }
-          steps {
-            container(name: 'helm', shell: '/bin/bash') {
-              sh '''#! /bin/bash
-
-helm3 repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storage.googleapis.com/
-
-helm3 dependency update compute/
-
-helm3 upgrade ${DEV_RELEASE_NAME} compute/ --atomic --timeout 3m -f development.yaml'''
-            }
-
-          }
+    stage('Lint') {
+      agent {
+        node {
+          label 'jenkins-helm'
         }
 
-        stage('Production') {
-          when {
-            branch 'master'
-          }
-          steps {
-            container(name: 'helm', shell: '/bin/bash') {
-              sh '''#! /bin/bash
+      }
+      when {
+        branch 'devel'
+      }
+      steps {
+        container(name: 'helm', shell: '/bin/bash') {
+          sh '''#! /bin/bash
 
-helm3 repo add --ca-file /ssl/llnl.ca.pem stable https://kubernetes-charts.storage.googleapis.com/
+ls -la
 
-helm3 dependency update compute/
+helm3 version
 
-helm3 upgrade ${PROD_RELEASE_NAME} compute/ --atomic --timeout 3m'''
-            }
-
-          }
+helm3 lint compute/'''
         }
 
       }
