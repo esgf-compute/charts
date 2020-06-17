@@ -17,6 +17,8 @@ pipeline {
 
 ls -la
 
+helm3 version
+
 helm3 lint compute/'''
         }
 
