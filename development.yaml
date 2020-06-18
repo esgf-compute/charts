@@ -18,5 +18,5 @@ thredds:
   image: nimbus16.llnl.gov:8443/default/compute-thredds
   imageTag: bc2327e9
 webapp:
-  imageTag: c4bb58f7
+  imageTag: 93b93353
 
