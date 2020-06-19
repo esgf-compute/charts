@@ -7,6 +7,7 @@ metadata:
 spec:
   selector:
   {{- include "compute.wps.matchLabels" $ | nindent 4 }}
+    component/part: wps
   ports:
     - port: 8000
       protocol: TCP
