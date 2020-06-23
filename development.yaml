@@ -4,7 +4,7 @@ provisioner:
 
 nginx:
   image: nimbus16.llnl.gov:8443/default/compute-webapp
-  imageTag: 2d4060a
+  imageTag: 3aec87ca
 
 wps:
   image: nimbus16.llnl.gov:8443/default/compute-wps
