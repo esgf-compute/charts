@@ -16,5 +16,5 @@ COPY --from=base linux-amd64/helm /usr/local/bin/helm
 COPY --from=base kubectl /usr/local/bin/kubectl
 
 RUN conda update -n base -c defaults conda && \
-      conda install -c conda-forge ruamel.yaml && \
+      conda install -c conda-forge ruamel.yaml make && \
       conda clean -a -y
