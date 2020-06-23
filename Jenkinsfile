@@ -17,9 +17,9 @@ pipeline {
 
 ls -la
 
-helm3 version
+helm version
 
-helm3 lint compute/'''
+helm lint compute/'''
         }
 
       }
