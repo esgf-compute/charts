@@ -7,7 +7,8 @@ RUN conda install -c conda-forge curl
 
 RUN conda install -c conda-forge curl && \
       curl -k https://get.helm.sh/helm-${HELM_VER}-linux-amd64.tar.gz | tar -xz && \
-      curl -kLO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER}/bin/linux/amd64/kubectl
+      curl -kLO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER}/bin/linux/amd64/kubectl && \
+      chmod +x kubectl
 
 FROM continuumio/miniconda3:4.8.2
 
