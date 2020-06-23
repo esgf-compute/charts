@@ -9,12 +9,10 @@ spec:
   selector:
     matchLabels:
     {{- include "compute.wps.matchLabels" $ | nindent 6 }}
-      component/part: wps
   template:
     metadata:
       labels:
       {{- include "compute.wps.matchLabels" $ | nindent 8 }}
-        component/part: wps
       annotations:
         checksum/config: {{ list (include (print $.Template.BasePath "/wps-beat-configmap.yaml") $) (include (print $.Template.BasePath "/wps-secret.yaml") $) (include (print $.Template.BasePath "/wps-configmap.yaml") $) | join " " | sha256sum }}
       {{- if $.Values.wps.annotations }}

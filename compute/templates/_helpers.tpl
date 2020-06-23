@@ -76,6 +76,16 @@ component: {{ .Values.wps.name | quote }}
 {{ include "compute.common.matchLabels" . }}
 {{- end -}}
 
+{{- define "compute.wps_beat.labels" -}}
+{{ include "compute.wps_beat.matchLabels" . }}
+{{ include "compute.common.metaLabels" . }}
+{{- end -}}
+
+{{- define "compute.wps_beat.matchLabels" -}}
+component: "{{ .Values.wps.name }}-beat"
+{{ include "compute.common.matchLabels" . }}
+{{- end -}}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).

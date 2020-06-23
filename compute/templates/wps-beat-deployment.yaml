@@ -4,18 +4,16 @@ kind: Deployment
 metadata:
   name: {{ template "compute.wps.fullname" . }}-beat
   labels:
-  {{- include "compute.wps.labels" . | nindent 4 }}
+  {{- include "compute.wps_beat.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.wps.replicas }}
   selector:
     matchLabels:
-    {{- include "compute.wps.matchLabels" . | nindent 6 }}
-      component/part: beat
+    {{- include "compute.wps_beat.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-      {{- include "compute.wps.matchLabels" . | nindent 8 }}
-        component/part: beat
+      {{- include "compute.wps_beat.matchLabels" . | nindent 8 }}
       annotations:
         checksum/config: {{ list (include (print .Template.BasePath "/wps-secret.yaml") .) (include (print .Template.BasePath "/celery-backend-configmap.yaml") .) | join " " | sha256sum }}
     spec:
