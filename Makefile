@@ -1,4 +1,4 @@
-.PHONY: helm buildkit
+.PHONY: helm buildkit lint deploy upgrade traefik
 
 export
 
@@ -24,6 +24,9 @@ helm:
 
 buildkit:
 	$(MAKE) -C dockerfiles/buildkit
+
+lint:
+	helm lint compute/
 	
 deploy: REPO_ADD_EXTRA := $(if $(CA_FILE),--ca-file $(CA_FILE))
 deploy: FILES := $(if $(findstring $(BRANCH_NAME),devel),--values development.yaml)
