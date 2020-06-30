@@ -4,6 +4,7 @@ export
 
 BRANCH_NAME ?= $(shell git rev-parse --abbrev-ref HEAD)
 RELEASE_NAME ?= compute-dev
+KUBE_CONTEXT ?= default
 
 CACHE = --export-cache type=local,dest=/cache,mode=max \
 				--import-cache type=local,src=/cache
@@ -35,7 +36,8 @@ deploy:
 
 	helm dep up compute/ 
 
-	helm upgrade $(RELEASE) compute/ --install $(FILES) $(SET_EXTRA)
+	helm upgrade $(RELEASE) compute/ --install --kube-context $(KUBE_CONTEXT) \
+		$(FILES) $(SET_EXTRA)
 
 upgrade: REPO_ADD_EXTRA := $(if $(CA_FILE),--ca-file $(CA_FILE))
 upgrade: TIMEOUT ?= 4m
@@ -47,7 +49,8 @@ upgrade:
 
 	helm status $(RELEASE)
 
-	helm upgrade $(RELEASE) compute/ --reuse-values $(FILES) --wait --timeout $(TIMEOUT)
+	helm upgrade $(RELEASE) compute/ --reuse-values --kube-context $(KUBE_CONTEXT) \
+		$(FILES) --wait --timeout $(TIMEOUT)
 
 traefik:
 	helm install traefik stable/traefik -f samples/traefik.yaml
