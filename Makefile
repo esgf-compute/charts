@@ -47,7 +47,7 @@ upgrade:
 
 	helm dep up compute/ 
 
-	helm status $(RELEASE)
+	helm status $(RELEASE) --kube-context $(KUBE_CONTEXT)
 
 	helm upgrade $(RELEASE) compute/ --reuse-values --kube-context $(KUBE_CONTEXT) \
 		$(FILES) --wait --timeout $(TIMEOUT)
