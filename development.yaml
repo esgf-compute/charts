@@ -1,6 +1,6 @@
 provisioner:
   image: nimbus16.llnl.gov:8443/default/compute-provisioner
-  imageTag: 2.3.0_devel_9a7a1365
+  imageTag: 2.3.0_devel_ac2bfe8e
 
 nginx:
   image: nimbus16.llnl.gov:8443/default/compute-webapp
