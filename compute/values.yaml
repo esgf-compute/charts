@@ -247,7 +247,7 @@ thredds:
 
   replicas: 1
   image: nimbus16.llnl.gov:8443/public/compute-thredds
-  imageTag: 2.3.0
+  imageTag: 2.3.1
   imagePullPolicy: Always
 
   # Set java parameters for tomcat server
