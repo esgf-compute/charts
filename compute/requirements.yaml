@@ -5,3 +5,6 @@ dependencies:
   - name: redis
     version: 9.5.5
     repository: https://kubernetes-charts.storage.googleapis.com/
+  - name: prometheus-pushgateway
+    version: 1.4.0
+    repository: https://kubernetes-charts.storage.googleapis.com/

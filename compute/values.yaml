@@ -338,6 +338,13 @@ redis:
       #   cpu: 100m
       #   memory: 256Mi
 
+prometheus-pushgateway:
+  serviceMonitor:
+    enabled: false
+    namespace: default
+    additionalLabels:
+      prometheus.io: default
+
 twitcher:
   enabled: false
 

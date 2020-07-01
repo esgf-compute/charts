@@ -5,5 +5,8 @@ dependencies:
 - name: redis
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 9.5.5
-digest: sha256:6480ca94f975a1d1a7622673cede115e5622eccc8a17e0bae055d65ab3b2d31d
-generated: "2020-06-04T23:45:59.463105592-07:00"
+- name: prometheus-pushgateway
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 1.4.0
+digest: sha256:ba080749bb0a5df2db9289f050dfc7eb84797587401c0438f7bfe140155a58fa
+generated: "2020-07-01T02:25:14.841057468-07:00"

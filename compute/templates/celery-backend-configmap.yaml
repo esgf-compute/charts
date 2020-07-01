@@ -31,3 +31,5 @@ data:
   REDIS_HOST: {{ template "redis.fullname" . }}-master.{{ .Release.Namespace }}.svc
   REDIS_PORT: {{ .Values.redis.master.service.port | quote }}
   REDIS_DB: {{ .Values.celery.backend.redisDB | quote }}
+
+  PROMETHEUS_PUSHGATEWAY_HOST: {{ template "prometheus-pushgateway.fullname" . }}.{{ .Release.Namespace }}.svc

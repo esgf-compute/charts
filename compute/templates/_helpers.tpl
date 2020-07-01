@@ -130,3 +130,6 @@ External full qualified app names.
 {{- define "prometheus-server.fullname" -}}
 {{- printf "%s-%s-server" .Release.Name "prometheus" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+{{- define "prometheus-pushgateway.fullname" -}}
+{{- printf "%s-prometheus-pushgateway" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
