@@ -1,5 +1,7 @@
-prometheusOperator:
-  enabled: false
+metrics:
+  serviceMonitor:
+    enabled: false
+    labels: {}
 
 persistence:
   dataClaimName: compute-data

@@ -1,21 +1,17 @@
-{{- if $.Values.prometheusOperator.enabled }}
-{{- range $.Values.wps.instances }}
+{{- if $.Values.metrics.serviceMonitor.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ template "compute.wps.fullname" $ }}-{{ .name }}
   labels:
   {{- include "compute.wps.labels" $ | nindent 4 }}
-    release: prometheus
+  {{- toYaml $.Values.metrics.serviceMonitor.labels | nindent 4 }}
 spec:
   selector:
     matchLabels:
     {{- include "compute.wps.matchLabels" $ | nindent 6 }}
-      component/part: {{ .name }}
   endpoints:
   - port: metrics
     interval: 10s
     path: /api/metrics/
----
-{{- end }}
 {{- end }}

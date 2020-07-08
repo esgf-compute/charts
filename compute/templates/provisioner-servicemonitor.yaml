@@ -1,11 +1,11 @@
-{{- if $.Values.prometheusOperator.enabled }}
+{{- if $.Values.metrics.serviceMonitor.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ template "compute.provisioner.fullname" . }}
   labels:
   {{- include "compute.provisioner.labels" $ | nindent 4 }}
-    release: prometheus
+  {{- toYaml $.Values.metrics.serviceMonitor.labels | nindent 4 }}
 spec:
   selector:
     matchLabels:
