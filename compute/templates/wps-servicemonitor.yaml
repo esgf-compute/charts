@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ template "compute.wps.fullname" $ }}-{{ .name }}
+  name: {{ template "compute.wps.fullname" $ }}
   labels:
   {{- include "compute.wps.labels" $ | nindent 4 }}
   {{- toYaml $.Values.metrics.serviceMonitor.labels | nindent 4 }}
