@@ -15,7 +15,11 @@ spec:
   rules:
     - http:
         paths:
-          - path: {{ .Values.thredds.ingress.path }}
+          - path: /threddsCWT/fileServer
+            backend:
+              serviceName: {{ template "compute.thredds.fullname" . }}
+              servicePort: 8080
+          - path: /threddsCWT/dodsC
             backend:
               serviceName: {{ template "compute.thredds.fullname" . }}
               servicePort: 8080
