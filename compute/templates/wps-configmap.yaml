@@ -13,6 +13,9 @@ data:
     host={{ required "Set wps.externalHost" .Values.wps.externalHost }}
     internal_api.host={{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc
 
+    [auth]
+    traefik={{ .Values.wps.auth.traefik }}
+
     [email]
     host={{ required "Set wps.email.host" .Values.wps.email.host }}
     port={{ .Values.wps.email.port }}
