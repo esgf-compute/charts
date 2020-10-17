@@ -14,7 +14,11 @@ data:
     internal_api.host={{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc
 
     [auth]
-    traefik={{ .Values.wps.auth.traefik }}
+    traefik={{ .Values.wps.auth.traefik.enabled }}
+    keycloak={{ .Values.wps.auth.keycloak.enabled }}
+    keycloak.url={{ .Values.wps.auth.keycloak.url }}
+    keycloak.client_id={{ .Value.wps.auth.keycloak.client_id }}
+    keycloak.client_secret={{ .Values.wps.auth.keycloak.client_secret }}
 
     [email]
     host={{ required "Set wps.email.host" .Values.wps.email.host }}

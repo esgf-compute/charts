@@ -101,7 +101,15 @@ wps:
     #   memory: 256Mi
 
   auth:
-    traefik: true
+    traefik:
+      enabled: true
+    keycloak:
+      enabled: false
+      # Base url for keycloak service
+      url: 
+      realm:
+      client_id: 
+      client_secret:
 
   beat:
     enabled: true
