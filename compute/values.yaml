@@ -76,12 +76,8 @@ nginx:
     #   memory: 256Mi
 
   ingress:
-    annotations:
-      ingress.kubernetes.io/ssl-redirect: 'true'
-      ingress.kubernetes.io/hsts-max-age: '31536000'
-      ingress.kubernetes.io/hsts-include-subdomains: 'true'
-      ingress.kubernetes.io/force-hsts: 'true'
-
+    enabled: false
+    annotations: {}
     labels: {}
 
 wps:
@@ -181,11 +177,8 @@ wps:
     password: ''
 
   ingress:
-    annotations:
-      ingress.kubernetes.io/ssl-redirect: 'true'
-      ingress.kubernetes.io/hsts-max-age: '31536000'
-      ingress.kubernetes.io/hsts-include-subdomains: 'true'
-      ingress.kubernetes.io/force-hsts: 'true'
+    enabled: false
+    annotations: {}
     labels: {}
 
 celery:
@@ -276,6 +269,7 @@ thredds:
     #   memory: 512Mi
 
   ingress:
+    enabled: false
     annotations: {}
     labels: {}
 
