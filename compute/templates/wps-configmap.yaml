@@ -11,7 +11,7 @@ data:
     allowed.cidr={{ .Values.wps.allowedCIDR }}
     {{- end }}
     host={{ required "Set wps.externalHost" .Values.wps.externalHost }}
-    internal_api.host={{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc
+    internal_api_url=http://{{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc
 
     [auth]
     traefik={{ .Values.wps.auth.traefik.enabled }}
