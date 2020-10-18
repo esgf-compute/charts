@@ -17,7 +17,7 @@ data:
     traefik={{ .Values.wps.auth.traefik.enabled }}
     keycloak={{ .Values.wps.auth.keycloak.enabled }}
     keycloak.url={{ .Values.wps.auth.keycloak.url }}
-    keycloak.client_id={{ .Value.wps.auth.keycloak.client_id }}
+    keycloak.client_id={{ .Values.wps.auth.keycloak.client_id }}
     keycloak.client_secret={{ .Values.wps.auth.keycloak.client_secret }}
 
     [email]
