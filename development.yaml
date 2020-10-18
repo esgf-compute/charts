@@ -8,7 +8,7 @@ nginx:
 
 wps:
   image: nimbus16.llnl.gov:8443/default/compute-wps
-  imageTag: 2.3.0-271d9aa5
+  imageTag: 2.3.0-e2c293e9
 
 celery:
   image: nimbus16.llnl.gov:8443/default/compute-tasks
