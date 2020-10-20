@@ -84,27 +84,6 @@ wps:
       client_id: 
       client_secret:
 
-  beat:
-    enabled: true
-    development: false
-
-    # Days until a job expires
-    jobExpiration: 30
-    # Days before expiration to warn
-    jobWarn: 10
-
-    # Configure the celery crontab https://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#crontab-schedules
-    crontabHour: 23
-    crontabMinute: 0
-
-    resources: {}
-      # limits:
-      #   cpu: 500m
-      #   memory: 512Mi
-      # requests:
-      #   cpu: 200m
-      #   memory: 256Mi
-
   # Set to external hostname of cluster
   externalHost: 127.0.0.1
   allowedCIDR: 172.17.0.0/16
