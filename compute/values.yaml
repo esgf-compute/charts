@@ -36,12 +36,10 @@ userResources:
 # Provisioner
 provisioner:
   name: provisioner
-
   nodeSelector: {}
-
   image: nimbus16.llnl.gov:8443/public/compute-provisioner
   imageTag: 2.3.0
-  imagePullPolicy: Always
+  imagePullPolicy: IfNotPresent
 
   frontendPort: 7777
   backendPort: 7778
@@ -63,7 +61,7 @@ wps:
   replicas: 1
   image: nimbus16.llnl.gov:8443/public/compute-wps
   imageTag: 2.3.0
-  imagePullPolicy: Always
+  imagePullPolicy: IfNotPresent
 
   resources: {}
     # limits:
@@ -86,7 +84,7 @@ wps:
 
   # Set to external hostname of cluster
   externalHost: 127.0.0.1
-  allowedCIDR: 172.17.0.0/16
+  allowedCIDR: 127.0.0.1/16
 
   apiUsername: default_api_username
   apiPassword: default_api_password
@@ -121,11 +119,6 @@ wps:
     prometheus.io/path: /api/metrics/
     prometheus.io/port: '8000'
 
-  # OAuth configuration
-  oauth:
-    client: fake_oauth_client
-    secret: fake_oauth_secret
-
   email:
     host: user@wps.local
     port: 25
@@ -139,14 +132,12 @@ wps:
 
 celery:
   name: celery
-
   replicas: 1
   annotations: {}
   nodeSelector: {}
-
   image: nimbus16.llnl.gov:8443/public/compute-tasks
   imageTag: 2.3.0
-  imagePullPolicy: Always
+  imagePullPolicy: IfNotPresent
 
   prometheusUrl: prometheus.host
 
@@ -160,13 +151,8 @@ celery:
 
   backend:
     replicas: 1
-
-    development: false
-
     redisDB: 3
-
-    trafficType: external
-
+    
     # Provides mapping for local data
     # mounts and the mapping will be available to a compute backend to translate urls to local data paths.
     localMapping: {}
@@ -193,7 +179,6 @@ celery:
       #   cpu: 500m
       #   memory: 1Gi
 
-
     service:
       port: 8080
 
@@ -204,13 +189,11 @@ celery:
 
 thredds:
   name: thredds
-
   nodeSelector: {}
-
   replicas: 1
   image: nimbus16.llnl.gov:8443/public/compute-thredds
   imageTag: 2.3.1
-  imagePullPolicy: Always
+  imagePullPolicy: IfNotPresent
 
   # Set java parameters for tomcat server
   heapMax: 1g

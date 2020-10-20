@@ -6,7 +6,6 @@ data:
   IMAGE: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
   # IMAGE_PULL_SECRET: {{ .Values.celery.imagePullSecret }}
   IMAGE_PULL_POLICY: {{ .Values.celery.imagePullPolicy }}
-  TRAFFIC_TYPE: {{ .Values.celery.backend.trafficType }}
   DATA_CLAIM_NAME: {{ .Values.persistence.dataClaimName }}
   PROVISIONER_BACKEND: {{ template "compute.provisioner.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.provisioner.backendPort }}
   

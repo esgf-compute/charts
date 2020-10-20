@@ -14,7 +14,7 @@ spec:
       labels:
       {{- include "compute.wps.matchLabels" $ | nindent 8 }}
       annotations:
-        checksum/config: {{ list (include (print $.Template.BasePath "/wps-beat-configmap.yaml") $) (include (print $.Template.BasePath "/wps-secret.yaml") $) (include (print $.Template.BasePath "/wps-configmap.yaml") $) | join " " | sha256sum }}
+        checksum/config: {{ list (include (print $.Template.BasePath "/wps-secret.yaml") $) (include (print $.Template.BasePath "/wps-configmap.yaml") $) | join " " | sha256sum }}
       {{- if $.Values.wps.annotations }}
       {{- $.Values.wps.annotations | toYaml | nindent 8 }}
       {{- end }}
@@ -32,9 +32,12 @@ spec:
         image: {{ $.Values.wps.image }}:{{ $.Values.wps.imageTag }}
         imagePullPolicy: {{ $.Values.wps.imagePullPolicy }}
         command: ["/bin/bash", "init.sh"]
+        env:
+        - name: POSTGRES_HOST
+          value: {{ template "postgresql.fullname" . }}
+        - name: PROVISIONER_FRONTEND
+          value: {{ template "compute.provisioner.fullname" . }}.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.frontendPort }}
         envFrom:
-        - configMapRef:
-            name: {{ template "compute.wps.fullname" $ }}-beat
         - secretRef:
             name: {{ template "compute.wps.fullname" $ }}
         resources:
@@ -63,9 +66,12 @@ spec:
           timeoutSeconds: 5
         resources:
         {{ $.Values.wps.resources | toYaml | nindent 10 }}
+        env:
+        - name: POSTGRES_HOST
+          value: {{ template "postgresql.fullname" . }}
+        - name: PROVISIONER_FRONTEND
+          value: {{ template "compute.provisioner.fullname" . }}.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.frontendPort }}
         envFrom:
-        - configMapRef:
-            name: {{ template "compute.wps.fullname" $ }}-beat
         - secretRef:
             name: {{ template "compute.wps.fullname" $ }}
         volumeMounts:
