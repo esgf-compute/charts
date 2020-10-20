@@ -326,20 +326,3 @@ prometheus-pushgateway:
     namespace: default
     additionalLabels:
       prometheus.io: default
-
-twitcher:
-  enabled: false
-
-  image: birdhouse/twitcher
-  imageTag: latest
-
-  resources: {}
-
-  ingress:
-    annotations:
-      ingress.kubernetes.io/ssl-redirect: 'true'
-      ingress.kubernetes.io/hsts-max-age: '31536000'
-      ingress.kubernetes.io/hsts-include-subdomains: 'true'
-      ingress.kubernetes.io/force-hsts: 'true'
-    labels:
-      traffic-type: external
