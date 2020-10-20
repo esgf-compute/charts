@@ -57,29 +57,6 @@ provisioner:
     #   cpu: 100m
     #   memory: 32Mi
 
-nginx:
-  enabled: true
-
-  name: nginx
-  nodeSelector: {}
-  replicas: 1
-  image: nimbus16.llnl.gov:8443/public/compute-webapp
-  imageTag: 2.3.0
-  imagePullPolicy: Always
-
-  resources: {}
-    # limits:
-    #   cpu: 500m
-    #   memory: 1Gi
-    # requests:
-    #   cpu: 100m
-    #   memory: 256Mi
-
-  ingress:
-    enabled: false
-    annotations: {}
-    labels: {}
-
 wps:
   name: wps
   nodeSelector: {}
