@@ -1,78 +1,30 @@
+# ESGF WPS
 
-# esgf-compute-wps
-
-[esgf-compute-wps](https://github.com/ESGF/esgf-compute-wps) is a software stack built to provide compute capabilites through a web service. 
+[ESGF WPS](https://github.com/ESGF/esgf-compute-wps) is a software stack providing compute resource through a [Web Processing Service](https://www.ogc.org/standards/wps) interface.
 
 ## Introduction
 
-The service consists of a 1.0.0 WPS server. The service accepts requests created by the [esgf-compute-api](https://github.com/ESGF/esgf-compute-api) library. These compute graphs are converted using Xarray and submitted to a dynamically allocated and scaled Dask cluster.
+This chart deploys the [esgf-compute-wps](https://github.com/ESGF/esgf-compute-wps) software stack which provides a service
+to reduce data transfer through primitive geo-spatial and temporal reduction functions. The service provides these capabilities 
+through a [Web Processing Service (WPS)](https://www.ogc.org/standards/wps) interface backed by [Xarray](http://xarray.pydata.org/en/stable/) and [Dask](https://dask.org/).
 
-## Prerequisites
 
-- Kubernetes 1.16+
-- Helm 2.11+
-- Proxy/Load-balancer; This chart was developed with Traefik in mind
-- Prometheus server to collect metrics
-- PV provisioner support in the underlying infrastructure
+## Installation
 
-## Installing the Chart
-
-To install the chart with the release name `my-release`:
+### Add Helm Repository
 
 ```bash
-$ helm install compute/ --name my-release
-```
-The command deploys esgf-compute-wps on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
-
-> **Tip**: List all releases using `helm list`
-
-## Uninstalling the Chart
-
-To uninstall/delete the `my-release` deployment:
-
-```bash
-$ helm delete my-release
+helm repo add esgf-compute https://nimbus16.llnl.gov:8443/chartrepo/public
 ```
 
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+### Configure the chart
 
-## Parameters
+See `compute/values.yaml` for available settings.
 
-The following table lists the configurable parameters of the Redis chart and their default values.
+### Install the chart
 
-| Parameter                                     | Description                                                                                                                                         | Default                                                 |
-| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| `global.imageRegistry`                        | Global Docker image registry                                                                                                                        | `nil`                                                   |
-
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+To install the chart with the release name `compute`:
 
 ```bash
-$ helm install compute/ --name my-release \
-  --set password=secretpassword
-```
-
-The above command sets the Redis server password to `secretpassword`.
-
-Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
-
-```bash
-$ helm install compute/ --name my-release -f values.yaml
-```
-
-> **Tip**: You can use the default [values.yaml](values.yaml)
-
-## Configuration and installation details
-
-## Persistence
-
-By default, the chart mounts various [Persistent Volume](http://kubernetes.io/docs/user-guide/persistent-volumes/). The volumes are created using dynamic volume provisioning. If a Persistent Volume Claim already exists, specify it during installation.
-
-### Existing PersistentVolumeClaim
-
-1. Create the PersistentVolume
-2. Create the PersistentVolumeClaim
-3. Install the chart
-
-```bash
-$ helm install compute --name my-release --set persistence.existingClaim=PVC_NAME
+helm install compute esgf-compute/compute
 ```
