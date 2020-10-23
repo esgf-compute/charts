@@ -73,7 +73,7 @@ wps:
 
   auth:
     traefik:
-      enabled: true
+      enabled: false
     keycloak:
       enabled: false
       # Base url for keycloak service
@@ -81,6 +81,7 @@ wps:
       realm:
       client_id: 
       client_secret:
+      reg_access_token: 
 
   # Set to external hostname of cluster
   externalHost: 127.0.0.1

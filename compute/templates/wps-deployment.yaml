@@ -5,7 +5,7 @@ metadata:
   labels:
   {{- include "compute.wps.labels" $ | nindent 4 }}
 spec:
-  replicas: {{ .replicas | default 1 }}
+  replicas: {{ $.Values.wps.replicas }}
   selector:
     matchLabels:
     {{- include "compute.wps.matchLabels" $ | nindent 6 }}
@@ -71,6 +71,8 @@ spec:
           value: {{ template "postgresql.fullname" . }}
         - name: PROVISIONER_FRONTEND
           value: {{ template "compute.provisioner.fullname" . }}.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.frontendPort }}
+        - name: DJANGO_CONFIG_PATH
+          value: /etc/config/django.properties
         envFrom:
         - secretRef:
             name: {{ template "compute.wps.fullname" $ }}
