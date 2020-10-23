@@ -60,7 +60,7 @@ wps:
   nodeSelector: {}
   replicas: 1
   image: nimbus16.llnl.gov:8443/public/compute-wps
-  imageTag: 2.3.0
+  imageTag: 2.3.1
   imagePullPolicy: IfNotPresent
 
   resources: {}
