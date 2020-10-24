@@ -6,7 +6,7 @@ metadata:
   labels:
   {{- include "compute.common.labels" . | nindent 4 }}
 spec:
-  accessMode:
+  accessModes:
     - ReadWriteMany
   resources:
     requests:
