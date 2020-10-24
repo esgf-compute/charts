@@ -79,12 +79,7 @@ spec:
         volumeMounts:
         - mountPath: /etc/config
           name: config-volume
-        - mountPath: /data/public
-          name: data-volume
       volumes:
       - name: config-volume
         configMap:
           name: {{ template "compute.wps.fullname" $ }}
-      - name: data-volume
-        persistentVolumeClaim:
-          claimName: {{ $.Values.persistence.dataClaimName | default "data-pvc" }}

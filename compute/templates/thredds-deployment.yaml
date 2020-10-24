@@ -53,4 +53,5 @@ spec:
       volumes:
       - name: data-volume
         persistentVolumeClaim:
-          claimName: {{ .Values.persistence.dataClaimName }}
+          claimName: {{ .Values.persistence.existingClaim | default (include "compute.wps.fullname" .) }}
+

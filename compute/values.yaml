@@ -4,7 +4,9 @@ metrics:
     labels: {}
 
 persistence:
-  dataClaimName: compute-data
+  existingClaim:
+  storageClassName:
+  size: 8Gi
 
 imagePullSecrets: []
 # - name: docker-registry

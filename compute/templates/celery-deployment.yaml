@@ -79,7 +79,7 @@ spec:
       volumes:
       - name: data-volume
         persistentVolumeClaim:
-          claimName: {{ .Values.persistence.dataClaimName }}
+          claimName: {{ .Values.persistence.existingClaim | default (include "compute.wps.fullname" .) }}
     {{- range .Values.celery.backend.localMapping.mounts }}
       {{- if eq .type "hostpath" }}
       - name: mapping-{{ .path | toString | sha256sum | substr 0 8}}
