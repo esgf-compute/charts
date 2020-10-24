@@ -59,16 +59,16 @@ spec:
             value: {{ .Release.Namespace }}
         livenessProbe:
           tcpSocket:
-            port: {{ .Values.provisioner.frontendPort }}
+            port: 7777
           initialDelaySeconds: 20
           periodSeconds: 10
         readinessProbe:
           tcpSocket:
-            port: {{ .Values.provisioner.frontendPort }}
+            port: 7777
           initialDelaySeconds: 40
           periodSeconds: 20
         resources: 
         {{ .Values.provisioner.resources | toYaml | nindent 10 }}
         ports:
-        - containerPort: {{ .Values.provisioner.frontendPort }}
-        - containerPort: {{ .Values.provisioner.backendPort }}
+        - containerPort: 7777
+        - containerPort: 7778

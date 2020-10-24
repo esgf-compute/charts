@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8888
     name: metrics
-  - port: {{ .Values.provisioner.frontendPort }}
+  - port: 7777
     name: frontend
-  - port: {{ .Values.provisioner.backendPort }}
+  - port: 7778
     name: backend

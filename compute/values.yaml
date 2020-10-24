@@ -43,9 +43,6 @@ provisioner:
   imageTag: 2.3.0
   imagePullPolicy: IfNotPresent
 
-  frontendPort: 7777
-  backendPort: 7778
-
   timeout: 60
   lifetime: 240
 

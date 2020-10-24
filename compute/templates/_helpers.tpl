@@ -1,4 +1,13 @@
 {{/* vim: set filetype=mustache: */}}
+
+{{- define "compute.provisioner.frontendService" -}}
+{{- printf "%s.%s.svc:7777" (include "compute.provisioner.fullname" .) $.Release.Namespace -}}
+{{- end -}}
+
+{{- define "compute.provisioner.backendService" -}}
+{{- printf "%s.%s.svc:7778" (include "compute.provisioner.fullname" .) $.Release.Namespace -}}
+{{- end -}}
+
 {{/*
 Expand the name of the chart.
 */}}

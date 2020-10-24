@@ -36,7 +36,7 @@ spec:
         - name: POSTGRES_HOST
           value: {{ template "postgresql.fullname" . }}
         - name: PROVISIONER_FRONTEND
-          value: {{ template "compute.provisioner.fullname" . }}.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.frontendPort }}
+          value: {{ template "compute.provisioner.frontendService" . }}
         envFrom:
         - secretRef:
             name: {{ template "compute.wps.fullname" $ }}
@@ -70,7 +70,7 @@ spec:
         - name: POSTGRES_HOST
           value: {{ template "postgresql.fullname" . }}
         - name: PROVISIONER_FRONTEND
-          value: {{ template "compute.provisioner.fullname" . }}.{{ $.Release.Namespace }}.svc:{{ $.Values.provisioner.frontendPort }}
+          value: {{ template "compute.provisioner.frontendService" . }}
         - name: DJANGO_CONFIG_PATH
           value: /etc/config/django.properties
         envFrom:
