@@ -26,6 +26,11 @@ chart: {{ template "compute.chart" . }}
 heritage: {{ .Release.Service }}
 {{- end -}}
 
+{{- define "compute.common.labels" -}}
+{{ include "compute.common.matchLabels" . }}
+{{ include "compute.common.metaLabels" . }}
+{{- end -}}
+
 {{- define "compute.celery.labels" -}}
 {{ include "compute.celery.matchLabels" . }}
 {{ include "compute.common.metaLabels" . }}

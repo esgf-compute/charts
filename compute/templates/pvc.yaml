@@ -2,7 +2,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "compute.wps.fullname" . }}
+  name: {{ template "compute.fullname" . }}
+  labels:
+    {{ template "compute.common.labels" . }}
 spec:
   accessMode:
     - ReadWriteMany
