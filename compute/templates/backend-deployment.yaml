@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "compute.celery.fullname" . }}-backend
+  name: {{ template "compute.backend.fullname" . }}-backend
   labels:
-    {{- include "compute.celery.labels" . | nindent 4 }}
+    {{- include "compute.backend.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.celery.backend.replicas }}
+  replicas: {{ .Values.backend.replicas }}
   selector:
     matchLabels:
-    {{- include "compute.celery.matchLabels" . | nindent 6 }}
+    {{- include "compute.backend.matchLabels" . | nindent 6 }}
       component/part: backend
   template:
     metadata:
       labels:
-      {{- include "compute.celery.matchLabels" . | nindent 8 }}
+      {{- include "compute.backend.matchLabels" . | nindent 8 }}
         component/part: backend
       annotations:
-        checksum/config: {{ include (print .Template.BasePath "/celery-backend-configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print .Template.BasePath "/backend-configmap.yaml") . | sha256sum }}
     spec:
-      {{- if .Values.celery.nodeSelector }}
+      {{- if .Values.backend.nodeSelector }}
       nodeSelector: 
-      {{ .Values.celery.nodeSelector | toYaml | nindent 8 }}
+      {{ .Values.backend.nodeSelector | toYaml | nindent 8 }}
       {{- end }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -28,34 +28,34 @@ spec:
       {{- end }}
       initContainers:
       - name: register
-        image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
-        imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
+        image: {{ .Values.backend.image }}:{{ .Values.backend.imageTag }}
+        imagePullPolicy: {{ .Values.backend.imagePullPolicy }}
         args:
           - /bin/bash
           - -c
           - "until nslookup ${API_HOST}; do echo 'Waiting'; done; compute-tasks-register"
         resources:
-        {{ .Values.celery.backend.resources | toYaml | nindent 10 }}
+        {{ .Values.backend.resources | toYaml | nindent 10 }}
         envFrom:
         - configMapRef:
-            name: {{ template "compute.celery.fullname" . }}-backend
+            name: {{ template "compute.backend.fullname" . }}-backend
       containers:
       - name: backend
-        image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
-        imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
+        image: {{ .Values.backend.image }}:{{ .Values.backend.imageTag }}
+        imagePullPolicy: {{ .Values.backend.imagePullPolicy }}
         args:
           - /bin/bash
           - -c
           - "compute-tasks-backend --queue-host ${PROVISIONER_BACKEND}"
         resources:
-        {{ .Values.celery.backend.resources | toYaml | nindent 10 }}
+        {{ .Values.backend.resources | toYaml | nindent 10 }}
         envFrom:
         - configMapRef:
-            name: {{ template "compute.celery.fullname" . }}-backend
+            name: {{ template "compute.backend.fullname" . }}-backend
         volumeMounts:
         - mountPath: /etc/config
           name: mapping-volume
-      {{- range .Values.celery.backend.localMapping.mounts }}
+      {{- range .Values.backend.localMapping.mounts }}
         - name: mapping-{{ .path | toString | sha256sum | substr 0 8}}
           mountPath: {{ .path }}
           readOnly: true
@@ -63,8 +63,8 @@ spec:
       volumes:
       - name: mapping-volume
         configMap:
-          name: {{ template "compute.celery.fullname" . }}-mapping
-    {{- range .Values.celery.backend.localMapping.mounts }}
+          name: {{ template "compute.backend.fullname" . }}-mapping
+    {{- range .Values.backend.localMapping.mounts }}
       {{- if eq .type "hostpath" }}
       - name: mapping-{{ .path | toString | sha256sum | substr 0 8}}
         hostPath:

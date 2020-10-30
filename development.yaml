@@ -1,15 +1,15 @@
 provisioner:
   image: nimbus16.llnl.gov:8443/default/compute-provisioner
-  imageTag: 2.3.0-50e6e41d
+  imageTag: 2.3.0-896b9af1
 
 wps:
   image: nimbus16.llnl.gov:8443/default/compute-wps
-  imageTag: 2.3.0-588fb633
+  imageTag: 2.3.1-d809e020 
 
-celery:
+backend:
   image: nimbus16.llnl.gov:8443/default/compute-tasks
-  imageTag: 2.3.0-50e6e41d
+  imageTag: 2.3.0-d809e020 
 
 thredds:
   image: nimbus16.llnl.gov:8443/default/compute-thredds
-  imageTag: 2.3.1-50e6e41d
+  imageTag: 2.3.1-896b9af1

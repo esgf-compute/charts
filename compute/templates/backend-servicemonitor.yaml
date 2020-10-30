@@ -2,14 +2,14 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ template "compute.celery.fullname" $ }}-backend
+  name: {{ template "compute.backend.fullname" $ }}-backend
   labels:
-  {{- include "compute.celery.labels" $ | nindent 4 }}
+  {{- include "compute.backend.labels" $ | nindent 4 }}
   {{- toYaml $.Values.metrics.serviceMonitor.labels | nindent 4 }}
 spec:
   selector:
     matchLabels:
-    {{- include "compute.celery.matchLabels" $ | nindent 6 }}
+    {{- include "compute.backend.matchLabels" $ | nindent 6 }}
   endpoints:
   - port: metrics
     interval: 10s

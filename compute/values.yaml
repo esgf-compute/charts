@@ -82,14 +82,7 @@ wps:
       client_secret:
       reg_access_token: 
 
-  # Set to external hostname of cluster
-  externalHost: 127.0.0.1
-  allowedCIDR: 127.0.0.1/16
-
-  apiUsername: default_api_username
-  apiPassword: default_api_password
-
-  adminEmail: admin@wps.local
+  baseUrl: http://127.0.0.1
 
   # Configure the values that will be used in creating WPS responses
   title: LLNL WPS Server
@@ -130,8 +123,8 @@ wps:
     annotations: {}
     labels: {}
 
-celery:
-  name: celery
+backend:
+  name: backend
   replicas: 1
   annotations: {}
   nodeSelector: {}
@@ -141,6 +134,19 @@ celery:
 
   prometheusUrl: prometheus.host
 
+  clientID:
+  clientSecret:
+  tokenUrl:
+  
+  # Provides mapping for local data
+  # mounts and the mapping will be available to a compute backend to translate urls to local data paths.
+  localMapping: {}
+  #   mounts:
+  #     - path: /data
+  #       type: hostpath
+  #   mapping:
+  #     test: /data/test
+
   resources: {}
     # limits:
     #   cpu: 1
@@ -148,19 +154,9 @@ celery:
     # requests:
     #   cpu: 500m
     #   memory: 1Gi
-
-  backend:
-    replicas: 1
-    redisDB: 3
     
-    # Provides mapping for local data
-    # mounts and the mapping will be available to a compute backend to translate urls to local data paths.
-    localMapping: {}
-    #   mounts:
-    #     - path: /data
-    #       type: hostpath
-    #   mapping:
-    #     test: /data/test
+  worker:
+    replicas: 1
 
     resources: {}
       # limits:

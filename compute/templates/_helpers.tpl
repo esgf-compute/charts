@@ -40,13 +40,13 @@ heritage: {{ .Release.Service }}
 {{ include "compute.common.metaLabels" . }}
 {{- end -}}
 
-{{- define "compute.celery.labels" -}}
-{{ include "compute.celery.matchLabels" . }}
+{{- define "compute.backend.labels" -}}
+{{ include "compute.backend.matchLabels" . }}
 {{ include "compute.common.metaLabels" . }}
 {{- end -}}
 
-{{- define "compute.celery.matchLabels" -}}
-component: {{ .Values.celery.name | quote }}
+{{- define "compute.backend.matchLabels" -}}
+component: {{ .Values.backend.name | quote }}
 {{ include "compute.common.matchLabels" . }}
 {{- end -}}
 
@@ -109,8 +109,8 @@ If release name contains chart name it will be used as a full name.
 {{- printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "compute.celery.fullname" -}}
-{{- printf "%s-%s-%s" .Release.Name .Chart.Name .Values.celery.name | trunc 63 | trimSuffix "-" -}}
+{{- define "compute.backend.fullname" -}}
+{{- printf "%s-%s-%s" .Release.Name .Chart.Name .Values.backend.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "compute.nginx.fullname" -}}

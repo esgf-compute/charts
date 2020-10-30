@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "compute.backend.fullname" . }}-mapping
+data:
+  mapping.json: |
+    {{ toJson .Values.backend.worker.localMapping }}

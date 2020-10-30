@@ -1,18 +1,17 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "compute.celery.fullname" . }}-backend
+  name: {{ template "compute.backend.fullname" . }}-backend
 data:
-  IMAGE: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
-  # IMAGE_PULL_SECRET: {{ .Values.celery.imagePullSecret }}
-  IMAGE_PULL_POLICY: {{ .Values.celery.imagePullPolicy }}
+  IMAGE: {{ .Values.backend.image }}:{{ .Values.backend.imageTag }}
+  IMAGE_PULL_POLICY: {{ .Values.backend.imagePullPolicy }}
   DATA_CLAIM_NAME: {{ .Values.persistence.existingClaim | default (include "compute.fullname" .) }}
   PROVISIONER_BACKEND: {{ template "compute.provisioner.backendService" . }}
-  
-  API_HOST: {{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc
-  API_URL: http://{{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc:8000/internal_api/schema
-  API_USERNAME: {{ .Values.wps.apiUsername }}
-  API_PASSWORD: {{ .Values.wps.apiPassword }}
+
+  CLIENT_ID: {{ .Values.backend.clientID }}
+  CLIENT_SECRET: {{ .Values.backend.clientSecret }}
+  TOKEN_URL: {{ .Values.backend.tokenUrl }}
+  API_SCHEMA_URL: {{ .Values.baseUrl }}/api/schema/
   DATA_PATH: /data/public
 
   CELERY_BROKER_URL: redis://{{ template "redis.fullname" . }}-master/0
@@ -29,6 +28,6 @@ data:
 
   REDIS_HOST: {{ template "redis.fullname" . }}-master.{{ .Release.Namespace }}.svc
   REDIS_PORT: {{ .Values.redis.master.service.port | quote }}
-  REDIS_DB: {{ .Values.celery.backend.redisDB | quote }}
+  REDIS_DB: "0"
 
   PROMETHEUS_PUSHGATEWAY_HOST: {{ template "prometheus-pushgateway.fullname" . }}.{{ .Release.Namespace }}.svc

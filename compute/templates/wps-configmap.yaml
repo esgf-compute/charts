@@ -6,10 +6,6 @@ metadata:
   {{- include "compute.wps.labels" . | nindent 4 }}
 data:
   django.properties: |
-    [default]
-    host={{ required "Set wps.externalHost" .Values.wps.externalHost }}
-    internal_api_url=http://{{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc:8000
-
     [auth]
     traefik={{ .Values.wps.auth.traefik.enabled }}
     keycloak={{ .Values.wps.auth.keycloak.enabled }}
@@ -20,36 +16,30 @@ data:
     keycloak.reg_access_token={{ .Values.wps.auth.keycloak.reg_access_token }}
 
     [email]
-    host={{ required "Set wps.email.host" .Values.wps.email.host }}
+    host={{ .Values.wps.email.host }}
     port={{ .Values.wps.email.port }}
     user={{ .Values.wps.email.user }}
     password={{ .Values.wps.email.password }}
 
     [wps]
-    title={{ required "Set wps.title" .Values.wps.title }}
-    abstract={{ required "Set wps.abstract" .Values.wps.abstract }}
-    keywords={{ required "Set wps.keywords (list)" .Values.wps.keywords | join "," }}
-    provider.name={{ required "Set wps.provider.name" .Values.wps.provider.name }}
-    provider.site={{ required "Set wps.provider.site" .Values.wps.provider.site }}
-    contact.name={{ .Values.wps.contact.name | default "Unknown" }}
-    contact.position={{ .Values.wps.contact.position | default "Unknown" }}
-    contact.phone={{ .Values.wps.contact.phone | default "Unknown" }}
-    address.delivery={{ .Values.wps.address.delivery | default "Unknwon" }}
-    address.city={{ .Values.wps.address.city | default "Unknwon" }}
-    address.area={{ .Values.wps.address.area | default "Unknwon" }}
-    address.postal={{ .Values.wps.address.postal | default "Unknwon" }}
-    address.country={{ .Values.wps.address.country | default "Unknwon" }}
-    address.email={{ .Values.wps.address.email | default "Unknwon" }}
+    title={{ .Values.wps.title }}
+    abstract={{ .Values.wps.abstract }}
+    keywords={{ .Values.wps.keywords | join "," }}
+    provider.name={{ .Values.wps.provider.name }}
+    provider.site={{ .Values.wps.provider.site }}
+    contact.name={{ .Values.wps.contact.name }}
+    contact.position={{ .Values.wps.contact.position }}
+    contact.phone={{ .Values.wps.contact.phone }}
+    address.delivery={{ .Values.wps.address.delivery }}
+    address.city={{ .Values.wps.address.city }}
+    address.area={{ .Values.wps.address.area }}
+    address.postal={{ .Values.wps.address.postal }}
+    address.country={{ .Values.wps.address.country }}
+    address.email={{ .Values.wps.address.email }}
 
     [output]
-    fileserver.url=https://{{ .Values.wps.externalHost }}/threddsCWT/fileServer/public/{filename}
-    dodsc.url=https://{{ .Values.wps.externalHost }}/threddsCWT/dodsC/public/{filename}
-    local.path=/data/public
+    dodsc.url={{ .Values.wps.baseUrl }}/threddsCWT/dodsC/public/{filename}
 
     [server]
-    external.url=https://{{ .Values.wps.externalHost }}
-    admin.email={{ required "Set wps.adminEmail" .Values.wps.adminEmail }}
-
-    [external]
-    jobs.url=https://{{ .Values.wps.externalHost }}/user/jobs
-    login.url=https://{{ .Values.wps.externalHost }}/auth/login
+    allowed.hosts={{ .Values.wps.allowedHosts | join "," }}
+    base.url={{ .Values.wps.baseUrl }}

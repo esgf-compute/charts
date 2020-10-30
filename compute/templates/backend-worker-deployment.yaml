@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "compute.celery.fullname" . }}-worker
+  name: {{ template "compute.backend.fullname" . }}-worker
   labels:
-  {{- include "compute.celery.labels" . | nindent 4 }}
+  {{- include "compute.backend.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.celery.replicas }}
+  replicas: {{ .Values.backend.worker.replicas }}
   selector:
     matchLabels:
-    {{- include "compute.celery.matchLabels" . | nindent 6 }}
+    {{- include "compute.backend.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-      {{- include "compute.celery.matchLabels" . | nindent 8 }}
+      {{- include "compute.backend.matchLabels" . | nindent 8 }}
       annotations:
-        checksum/config: {{ list (include (print .Template.BasePath "/wps-secret.yaml") .) (include (print .Template.BasePath "/celery-backend-configmap.yaml") .) | join " " | sha256sum }}
-      {{- if .Values.celery.annotations }}
-      {{- .Values.celery.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
+        checksum/config: {{ list (include (print .Template.BasePath "/wps-secret.yaml") .) (include (print .Template.BasePath "/backend-configmap.yaml") .) | join " " | sha256sum }}
+      {{- if .Values.backend.annotations }}
+      {{- .Values.backend.worker.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
       {{- end }}
     spec:
-      {{- if .Values.celery.nodeSelector }}
+      {{- if .Values.backend.worker.nodeSelector }}
       nodeSelector: 
-      {{ .Values.celery.nodeSelector | toYaml | nindent 8 }}
+      {{ .Values.backend.worker.nodeSelector | toYaml | nindent 8 }}
       {{- end }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -29,8 +29,8 @@ spec:
       {{- end }}
       containers:
       - name: worker
-        image: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
-        imagePullPolicy: {{ .Values.celery.imagePullPolicy }}
+        image: {{ .Values.backend.image }}:{{ .Values.backend.imageTag }}
+        imagePullPolicy: {{ .Values.backend.imagePullPolicy }}
         args: 
           - /bin/bash
           - entrypoint.sh
@@ -59,19 +59,19 @@ spec:
           periodSeconds: 30
           timeoutSeconds: 5
         resources: 
-        {{ .Values.celery.resources | toYaml | nindent 10 }}
+        {{ .Values.backend.worker.resources | toYaml | nindent 10 }}
         env:
         - name: PROMETHEUS_HOST
-          value: {{ required "Set celery.prometheusUrl" .Values.celery.prometheusUrl }}
+          value: {{ required "Set backend.prometheusUrl" .Values.backend.prometheusUrl }}
         envFrom:
         - secretRef:
             name: {{ template "compute.wps.fullname" . }}
         - configMapRef:
-            name: {{ template "compute.celery.fullname" . }}-backend
+            name: {{ template "compute.backend.fullname" . }}-backend
         volumeMounts:
         - mountPath: /data/public
           name: data-volume
-      {{- range .Values.celery.backend.localMapping.mounts }}
+      {{- range .Values.backend.localMapping.mounts }}
         - name: mapping-{{ .path | toString | sha256sum | substr 0 8}}
           mountPath: {{ .path }}
           readOnly: true
@@ -80,7 +80,7 @@ spec:
       - name: data-volume
         persistentVolumeClaim:
           claimName: {{ .Values.persistence.existingClaim | default (include "compute.fullname" .) }}
-    {{- range .Values.celery.backend.localMapping.mounts }}
+    {{- range .Values.backend.localMapping.mounts }}
       {{- if eq .type "hostpath" }}
       - name: mapping-{{ .path | toString | sha256sum | substr 0 8}}
         hostPath:
