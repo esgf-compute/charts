@@ -6,7 +6,7 @@ data:
   IMAGE: {{ .Values.celery.image }}:{{ .Values.celery.imageTag }}
   # IMAGE_PULL_SECRET: {{ .Values.celery.imagePullSecret }}
   IMAGE_PULL_POLICY: {{ .Values.celery.imagePullPolicy }}
-  DATA_CLAIM_NAME: {{ .Values.persistence.existingClaim | default (include "compute.wps.fullname" .) }}
+  DATA_CLAIM_NAME: {{ .Values.persistence.existingClaim | default (include "compute.fullname" .) }}
   PROVISIONER_BACKEND: {{ template "compute.provisioner.backendService" . }}
   
   API_HOST: {{ template "compute.wps.fullname" . }}.{{ .Release.Namespace }}.svc
