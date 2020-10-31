@@ -4,4 +4,4 @@ metadata:
   name: {{ template "compute.backend.fullname" . }}-mapping
 data:
   mapping.json: |
-    {{ toJson .Values.backend.worker.localMapping }}
+    {{ toJson .Values.backend.localMapping }}
