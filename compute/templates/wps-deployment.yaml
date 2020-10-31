@@ -32,11 +32,6 @@ spec:
         image: {{ $.Values.wps.image }}:{{ $.Values.wps.imageTag }}
         imagePullPolicy: {{ $.Values.wps.imagePullPolicy }}
         command: ["/bin/bash", "init.sh"]
-        env:
-        - name: POSTGRES_HOST
-          value: {{ template "postgresql.fullname" . }}
-        - name: PROVISIONER_FRONTEND
-          value: {{ template "compute.provisioner.frontendService" . }}
         envFrom:
         - secretRef:
             name: {{ template "compute.wps.fullname" $ }}
@@ -67,10 +62,6 @@ spec:
         resources:
         {{ $.Values.wps.resources | toYaml | nindent 10 }}
         env:
-        - name: POSTGRES_HOST
-          value: {{ template "postgresql.fullname" . }}
-        - name: PROVISIONER_FRONTEND
-          value: {{ template "compute.provisioner.frontendService" . }}
         - name: DJANGO_CONFIG_PATH
           value: /etc/config/django.properties
         envFrom:

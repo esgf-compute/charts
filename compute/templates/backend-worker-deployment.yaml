@@ -60,9 +60,6 @@ spec:
           timeoutSeconds: 5
         resources: 
         {{ .Values.backend.worker.resources | toYaml | nindent 10 }}
-        env:
-        - name: PROMETHEUS_HOST
-          value: {{ required "Set backend.prometheusUrl" .Values.backend.prometheusUrl }}
         envFrom:
         - secretRef:
             name: {{ template "compute.wps.fullname" . }}

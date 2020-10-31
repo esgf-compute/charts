@@ -35,6 +35,8 @@ userResources:
     nThreads: 2
     instances: 2
 
+baseUrl: http://127.0.0.1
+
 # Provisioner
 provisioner:
   name: provisioner
@@ -82,7 +84,8 @@ wps:
       client_secret:
       reg_access_token: 
 
-  baseUrl: http://127.0.0.1
+  allowedHosts:
+    - "*"
 
   # Configure the values that will be used in creating WPS responses
   title: LLNL WPS Server

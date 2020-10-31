@@ -33,7 +33,7 @@ spec:
         args:
           - /bin/bash
           - -c
-          - "until nslookup ${API_HOST}; do echo 'Waiting'; done; compute-tasks-register"
+          - until nslookup {{ template "compute.wps.fullname" . }}; do echo 'Waiting'; done; compute-tasks-register
         resources:
         {{ .Values.backend.resources | toYaml | nindent 10 }}
         envFrom:

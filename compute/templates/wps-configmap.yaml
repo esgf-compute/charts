@@ -38,8 +38,9 @@ data:
     address.email={{ .Values.wps.address.email }}
 
     [output]
-    dodsc.url={{ .Values.wps.baseUrl }}/threddsCWT/dodsC/public/{filename}
+    dodsc.url={{ .Values.baseUrl }}/threddsCWT/dodsC/public/{filename}
 
     [server]
     allowed.hosts={{ .Values.wps.allowedHosts | join "," }}
-    base.url={{ .Values.wps.baseUrl }}
+    base.url={{ .Values.baseUrl }}
+    provisioner.frontend={{ template "compute.provisioner.frontendService" . }}
