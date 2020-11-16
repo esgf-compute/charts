@@ -75,8 +75,12 @@ spec:
       {{- end }}
       volumes:
       - name: data-volume
+      {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
           claimName: {{ .Values.persistence.existingClaim | default (include "compute.fullname" .) }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
     {{- range .Values.backend.localMapping.mounts }}
       {{- if eq .type "hostpath" }}
       - name: mapping-{{ .path | toString | sha256sum | substr 0 8}}

@@ -4,11 +4,11 @@ provisioner:
 
 wps:
   image: nimbus16.llnl.gov:8443/default/compute-wps
-  imageTag: 2.3.1-b5f67ca3
+  imageTag: 2.3.2-b11fcc17
 
 backend:
   image: nimbus16.llnl.gov:8443/default/compute-tasks
-  imageTag: 2.3.0-b5f67ca3
+  imageTag: 2.3.1-b11fcc17
 
 thredds:
   image: nimbus16.llnl.gov:8443/default/compute-thredds

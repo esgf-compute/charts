@@ -11,8 +11,9 @@ data:
   CLIENT_ID: {{ .Values.backend.clientID }}
   CLIENT_SECRET: {{ .Values.backend.clientSecret }}
   TOKEN_URL: {{ .Values.backend.tokenUrl }}
-  API_SCHEMA_URL: http://{{ template "compute.wps.fullname" . }}.{{ $.Release.Namespace }}.svc:8000/api/schema/
+  API_SCHEMA_URL: http://{{ template "compute.wps.fullname" . }}.{{ $.Release.Namespace }}.svc:8000/wps/api/schema/
   DATA_PATH: /data/public
+  THREDDS_URL: {{ .Values.threddsUrl }}
 
   CELERY_BROKER_URL: redis://{{ template "redis.fullname" . }}-master/0
   CELERY_RESULT_BACKEND: redis://{{ template "redis.fullname" . }}-master/0

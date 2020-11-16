@@ -11,9 +11,9 @@ data:
     keycloak={{ .Values.wps.auth.keycloak.enabled }}
     keycloak.url={{ .Values.wps.auth.keycloak.url }}
     keycloak.realm={{ .Values.wps.auth.keycloak.realm }}
-    keycloak.client_id={{ .Values.wps.auth.keycloak.client_id }}
-    keycloak.client_secret={{ .Values.wps.auth.keycloak.client_secret }}
-    keycloak.reg_access_token={{ .Values.wps.auth.keycloak.reg_access_token }}
+    keycloak.client_id={{ .Values.wps.auth.keycloak.clientID }}
+    keycloak.client_secret={{ .Values.wps.auth.keycloak.clientSecret }}
+    keycloak.reg_access_token={{ .Values.wps.auth.keycloak.regAccessToken }}
 
     [email]
     host={{ .Values.wps.email.host }}
