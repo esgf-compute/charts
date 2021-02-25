@@ -42,7 +42,7 @@ threddsUrl: http://127.0.0.1/threddsCWT/dodsC/public
 provisioner:
   name: provisioner
   nodeSelector: {}
-  image: nimbus16.llnl.gov:8443/public/compute-provisioner
+  image: nimbus2.llnl.gov/public/compute-provisioner
   imageTag: 2.3.0
   imagePullPolicy: IfNotPresent
 
@@ -61,7 +61,7 @@ wps:
   name: wps
   nodeSelector: {}
   replicas: 1
-  image: nimbus16.llnl.gov:8443/public/compute-wps
+  image: nimbus2.llnl.gov/public/compute-wps
   imageTag: 2.3.2
   imagePullPolicy: IfNotPresent
 
@@ -74,11 +74,9 @@ wps:
     #   memory: 256Mi
 
   auth:
+    type: noauth
     traefik:
-      enabled: false
     keycloak:
-      enabled: false
-      # Base url for keycloak service
       url: 
       realm:
       clientID:
@@ -132,15 +130,17 @@ backend:
   replicas: 1
   annotations: {}
   nodeSelector: {}
-  image: nimbus16.llnl.gov:8443/public/compute-tasks
+  image: nimbus2.llnl.gov/public/compute-tasks
   imageTag: 2.3.1
   imagePullPolicy: IfNotPresent
 
   prometheusUrl: prometheus.host
 
-  clientID:
-  clientSecret:
-  tokenUrl:
+  auth:
+    enabled: false
+    clientID:
+    clientSecret:
+    tokenUrl:
   
   # Provides mapping for local data
   # mounts and the mapping will be available to a compute backend to translate urls to local data paths.
@@ -191,7 +191,7 @@ thredds:
   name: thredds
   nodeSelector: {}
   replicas: 1
-  image: nimbus16.llnl.gov:8443/public/compute-thredds
+  image: nimbus2.llnl.gov/public/compute-thredds
   imageTag: 2.3.1
   imagePullPolicy: IfNotPresent
 
@@ -213,74 +213,16 @@ thredds:
     labels: {}
 
 postgresql:
-  postgresqlUsername: postgres
-  postgresqlPassword: abcd1234
-  port: 5432
-
-  master:
-    nodeSelector: {}
+  postgresqlPassword: postgres-abcd1234
 
   persistence:
     enabled: false
-    existingClaim: postgresql-pvc
 
-  resources: {}
-    # limits:
-    #   cpu: 500m
-    #   memory: 512Mi
-    # requests:
-    #   cpu: 250m
-    #   memory: 256Mi
-
-redis:
-  cluster:
-    enabled: false
-
+redis-cluster:
   usePassword: false
-
+  
   persistence:
-    existingClaim:
-
-  master:
-    persistence:
-      enabled: false
-
-    resources: {}
-      # limits:
-      #   cpu: 2
-      #   memory: 4Gi
-      # requests:
-      #   cpu: 2
-      #   memory: 4Gi
-
-    nodeSelector: {}
-
-    service:
-      port: 6379
-
-  slave:
-    persistence:
-      enabled: false
-
-    resources: {}
-      # limits:
-      #   cpu: 2
-      #   memory: 4Gi
-      # requests:
-      #   cpu: 2
-      #   memory: 4Gi
-
-  sentinel:
-    persistence:
-      enabled: false
-
-    resources: {}
-      # limit:
-      #   cpu: 500m
-      #   memory: 512Mi
-      # requests:
-      #   cpu: 100m
-      #   memory: 256Mi
+    enabled: false
 
 prometheus-pushgateway:
   serviceMonitor:

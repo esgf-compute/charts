@@ -8,9 +8,11 @@ data:
   DATA_CLAIM_NAME: {{ .Values.persistence.existingClaim | default (include "compute.fullname" .) }}
   PROVISIONER_BACKEND: {{ template "compute.provisioner.backendService" . }}
 
-  CLIENT_ID: {{ .Values.backend.clientID }}
-  CLIENT_SECRET: {{ .Values.backend.clientSecret }}
-  TOKEN_URL: {{ .Values.backend.tokenUrl }}
+{{- if .Values.backend.auth.enabled }}
+  CLIENT_ID: {{ .Values.backend.auth.clientID }}
+  CLIENT_SECRET: {{ .Values.backend.auth.clientSecret }}
+  TOKEN_URL: {{ .Values.backend.auth.tokenUrl }}
+{{- end }}
   API_SCHEMA_URL: http://{{ template "compute.wps.fullname" . }}.{{ $.Release.Namespace }}.svc:8000/wps/api/schema/
   DATA_PATH: /data/public
   THREDDS_URL: {{ .Values.threddsUrl }}
@@ -28,7 +30,7 @@ data:
   USER_REQUEST_MEMORY: {{ .Values.userResources.resources.requests.memory | quote }}
 
   REDIS_HOST: {{ template "redis.fullname" . }}-master.{{ .Release.Namespace }}.svc
-  REDIS_PORT: {{ .Values.redis.master.service.port | quote }}
+  REDIS_PORT: {{ index .Values "redis-cluster" "service" "port" | quote }}
   REDIS_DB: "0"
 
   PROMETHEUS_PUSHGATEWAY_HOST: {{ template "prometheus-pushgateway.fullname" . }}.{{ .Release.Namespace }}.svc

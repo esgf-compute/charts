@@ -1,0 +1,14 @@
+auth:
+  adminPassword: abcd1234
+  managementPassword: abcd1234
+
+# proxyAddressForwarding: true
+
+service:
+  type: ClusterIP
+
+postgresql:
+  postgresqlPostgresPassword: some-password
+
+  persistence:
+    enabled: false

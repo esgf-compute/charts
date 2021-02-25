@@ -1,15 +1,15 @@
 provisioner:
-  image: nimbus16.llnl.gov:8443/default/compute-provisioner
+  image: nimbus2.llnl.gov/default/compute-provisioner
   imageTag: 2.3.0-896b9af1
 
 wps:
-  image: nimbus16.llnl.gov:8443/default/compute-wps
+  image: nimbus2.llnl.gov/default/compute-wps
   imageTag: 2.3.2-b11fcc17
 
 backend:
-  image: nimbus16.llnl.gov:8443/default/compute-tasks
+  image: nimbus2.llnl.gov/default/compute-tasks
   imageTag: 2.3.1-b11fcc17
 
 thredds:
-  image: nimbus16.llnl.gov:8443/default/compute-thredds
+  image: nimbus2.llnl.gov/default/compute-thredds
   imageTag: 2.3.1-896b9af1

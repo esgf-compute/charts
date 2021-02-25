@@ -24,19 +24,6 @@ spec:
       {{ .Values.imagePullSecrets | toYaml | nindent 8 }}
       {{- end }}
       containers:
-      - name: resource-monitor
-        image: {{ .Values.provisioner.image }}:{{ .Values.provisioner.imageTag }}
-        imagePullPolicy: {{ .Values.provisioner.imagePullPolicy }}
-        args:
-          - compute-resource-monitor
-          - --redis-host
-          - {{ template "redis.fullname" . }}-master
-          - --namespace
-          - {{ .Release.Namespace }}
-          - --timeout
-          - {{ .Values.provisioner.timeout | quote }}
-        resources: 
-        {{ .Values.provisioner.resources | toYaml | nindent 10 }}
       - name: provisioner
         image: {{ .Values.provisioner.image }}:{{ .Values.provisioner.imageTag }}
         imagePullPolicy: {{ .Values.provisioner.imagePullPolicy }}
@@ -44,17 +31,17 @@ spec:
           - python
           - -m
           - compute_provisioner.provisioner
-          - --redis-host
-          - {{ template "redis.fullname" . }}-master
-          - --lifetime
-          - "{{ .Values.provisioner.lifetime }}"
         env:
+          - name: LOG_LEVEL
+            value: "DEBUG"
           - name: SERVICE_ACCOUNT_NAME
             value: {{ template "compute.fullname" . }}
           - name: IMAGE_PULL_SECRET
             {{- with first .Values.imagePullSecrets }}
             value: {{ .name }}
             {{- end }}
+          - name: LIFETIME
+            value: "{{ .Values.provisioner.lifetime }}"
           - name: NAMESPACE
             value: {{ .Release.Namespace }}
         livenessProbe:

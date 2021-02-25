@@ -1,12 +1,12 @@
 dependencies:
 - name: postgresql
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 8.2.1
-- name: redis
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 9.5.5
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.2.1
+- name: redis-cluster
+  repository: https://charts.bitnami.com/bitnami
+  version: 4.2.3
 - name: prometheus-pushgateway
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 1.4.0
-digest: sha256:ba080749bb0a5df2db9289f050dfc7eb84797587401c0438f7bfe140155a58fa
-generated: "2020-07-01T02:25:14.841057468-07:00"
+digest: sha256:5772a9364cd6d07068e3913e385bb4ff464053b468407c2039fac27bfbbdb38b
+generated: "2021-01-12T16:16:46.983677-08:00"
