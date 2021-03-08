@@ -5,35 +5,26 @@ metrics:
 
 persistence:
   existingClaim:
+  name: esgf-compute-data
   storageClassName:
   size: 8Gi
+
+deploy:
+  daskgateway: true
+  traefik: false
+  traefikIngressRoute: true
+
+ingressRoute:
+  labels:
+    kubernetes.io/component: esgf-compute
 
 imagePullSecrets: []
 # - name: docker-registry
 
-# User resources
-# 
-# Per worker allocation is calculate as follows
-# worker cpu and memory = (total - scheduler) / instances
-userResources:
-  # Total resources allocated for a single user
-  resources:
-    limits:
-      cpu: 2
-      memory: 2Gi
-    requests:
-      cpu: 2
-      memory: 2Gi
-
-  scheduler:
-    resources:
-      limits:
-        cpu: 1
-        memory: 512Mi
-
-  worker:
-    nThreads: 2
-    instances: 2
+# Configure user resources in dask-gateway chart
+userWorkers: 2
+# Maximum user storage in MB
+maxStorage: 1000
 
 baseUrl: http://127.0.0.1
 threddsUrl: http://127.0.0.1/threddsCWT/dodsC/public
@@ -212,15 +203,21 @@ thredds:
     annotations: {}
     labels: {}
 
+dask-gateway:
+  gateway:
+    backend:
+      # Needs to be the same as backend image/imageTag
+      image:
+        name: nimbus2.llnl.gov/public/compute-tasks
+        imageTag: 2.3.1
+
+  traefik:
+    service:
+      type: ClusterIP
+
 postgresql:
   postgresqlPassword: postgres-abcd1234
 
-  persistence:
-    enabled: false
-
-redis-cluster:
-  usePassword: false
-  
   persistence:
     enabled: false
 
@@ -230,3 +227,20 @@ prometheus-pushgateway:
     namespace: default
     additionalLabels:
       prometheus.io: default
+
+traefik:
+  logs:
+    general:
+      level: DEBUG
+
+  ports:
+    traefik:
+      expose: true
+
+  ingressRoute:
+    dashboard:
+      labels:
+        kubernetes.io/component: esgf-compute
+
+  additionalArguments:
+    - '--providers.kubernetescrd.labelselector=kubernetes.io/component=esgf-compute'

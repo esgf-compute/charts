@@ -32,8 +32,6 @@ spec:
           - -m
           - compute_provisioner.provisioner
         env:
-          - name: LOG_LEVEL
-            value: "DEBUG"
           - name: SERVICE_ACCOUNT_NAME
             value: {{ template "compute.fullname" . }}
           - name: IMAGE_PULL_SECRET

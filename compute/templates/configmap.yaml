@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "compute.fullname" . }}
+data:
+  IMAGE: {{ .Values.backend.image }}:{{ .Values.backend.imageTag }}
+  IMAGE_PULL_POLICY: {{ .Values.backend.imagePullPolicy }}
+  DATA_CLAIM_NAME: {{ .Values.persistence.existingClaim | default (include "compute.fullname" .) }}
+  PROVISIONER_BACKEND: {{ template "compute.provisioner.backendService" . }}
+
+{{- if .Values.backend.auth.enabled }}
+  CLIENT_ID: {{ .Values.backend.auth.clientID }}
+  CLIENT_SECRET: {{ .Values.backend.auth.clientSecret }}
+  TOKEN_URL: {{ .Values.backend.auth.tokenUrl }}
+{{- end }}
+  API_SCHEMA_URL: http://{{ template "compute.wps.fullname" . }}.{{ $.Release.Namespace }}.svc:8000/wps/api/schema/
+  DATA_PATH: /data/public
+  THREDDS_URL: {{ .Values.threddsUrl }}
+
+  CELERY_BROKER_URL: {{ template "redis.url" . }}
+  CELERY_RESULT_BACKEND: {{ template "redis.url" . }}
+  
+  WORKERS: {{ .Values.userWorkers | quote }}
+  MAX_STORAGE: {{ .Values.maxStorage | quote }}
+
+  REDIS_URL: {{ template "redis.url" . }}
+  
+  DASK_GATEWAY_ADDRESS: http://traefik-compute-dask-gateway
+  DASK_GATEWAY_PASSWORD: {{ index .Values "dask-gateway" "gateway" "auth" "simple" "password" }}
+
+  PROMETHEUS_PUSHGATEWAY_HOST: {{ template "prometheus-pushgateway.fullname" . }}.{{ .Release.Namespace }}.svc

@@ -8,11 +8,15 @@
 {{- printf "%s.%s.svc:7778" (include "compute.provisioner.fullname" .) $.Release.Namespace -}}
 {{- end -}}
 
+{{- define "compute.backendService" -}}
+{{- printf "%s.%s.svc:7778" (include "compute.backend.fullname" .) $.Release.Namespace -}}
+{{- end -}}
+
 {{/*
 Expand the name of the chart.
 */}}
 {{- define "compute.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s" (default .Chart.Name .Values.nameOverride) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
@@ -127,6 +131,14 @@ If release name contains chart name it will be used as a full name.
 
 {{- define "compute.wps.fullname" -}}
 {{- printf "%s-%s-%s" .Release.Name .Chart.Name .Values.wps.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Redis URL
+*/}}
+
+{{- define "redis.url" -}}
+{{- printf "redis://:%s@%s-master:%v/0" .Values.redis.password (include "redis.fullname" .) .Values.redis.master.service.port -}}
 {{- end -}}
 
 {{/*

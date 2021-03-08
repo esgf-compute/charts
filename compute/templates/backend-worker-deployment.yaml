@@ -14,7 +14,7 @@ spec:
       labels:
       {{- include "compute.backend.matchLabels" . | nindent 8 }}
       annotations:
-        checksum/config: {{ list (include (print .Template.BasePath "/wps-secret.yaml") .) (include (print .Template.BasePath "/backend-configmap.yaml") .) | join " " | sha256sum }}
+        checksum/config: {{ list (include (print .Template.BasePath "/secret.yaml") .) (include (print .Template.BasePath "/configmap.yaml") .) | join " " | sha256sum }}
       {{- if .Values.backend.annotations }}
       {{- .Values.backend.worker.annotations | toYaml | trimSuffix "\n" | nindent 8 }}
       {{- end }}
@@ -46,7 +46,7 @@ spec:
           exec:
             command:
             - bash
-            - /healthcheck.sh
+            - /home/esgf/healthcheck.sh
           initialDelaySeconds: 30
           periodSeconds: 30
           timeoutSeconds: 5
@@ -54,7 +54,7 @@ spec:
           exec:
             command:
             - bash
-            - /healthcheck.sh
+            - /home/esgf/healthcheck.sh
           initialDelaySeconds: 30
           periodSeconds: 30
           timeoutSeconds: 5
@@ -62,9 +62,9 @@ spec:
         {{ .Values.backend.worker.resources | toYaml | nindent 10 }}
         envFrom:
         - secretRef:
-            name: {{ template "compute.wps.fullname" . }}
+            name: {{ template "compute.fullname" . }}
         - configMapRef:
-            name: {{ template "compute.backend.fullname" . }}-backend
+            name: {{ template "compute.fullname" . }}
         volumeMounts:
         - mountPath: /data/public
           name: data-volume
@@ -75,12 +75,8 @@ spec:
       {{- end }}
       volumes:
       - name: data-volume
-      {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.persistence.existingClaim | default (include "compute.fullname" .) }}
-      {{- else }}
-        emptyDir: {}
-      {{- end }}
+          claimName: {{ or .Values.persistence.existingClaim .Values.persistence.name }}
     {{- range .Values.backend.localMapping.mounts }}
       {{- if eq .type "hostpath" }}
       - name: mapping-{{ .path | toString | sha256sum | substr 0 8}}

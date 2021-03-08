@@ -43,3 +43,4 @@ data:
     allowed.hosts={{ .Values.wps.allowedHosts | join "," }}
     base.url={{ .Values.baseUrl }}
     provisioner.frontend={{ template "compute.provisioner.frontendService" . }}
+    backend.address={{ template "compute.backendService" . }}

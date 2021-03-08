@@ -1,15 +1,41 @@
 provisioner:
   image: nimbus2.llnl.gov/default/compute-provisioner
-  imageTag: 2.3.0-896b9af1
+  imageTag: 2.3.0-da9c85cf
 
 wps:
   image: nimbus2.llnl.gov/default/compute-wps
-  imageTag: 2.3.2-b11fcc17
+  imageTag: 2.3.2-da9c85cf
 
 backend:
   image: nimbus2.llnl.gov/default/compute-tasks
-  imageTag: 2.3.1-b11fcc17
+  imageTag: 2.3.1-da9c85cf
 
 thredds:
   image: nimbus2.llnl.gov/default/compute-thredds
   imageTag: 2.3.1-896b9af1
+
+persistence:
+  pv:
+    create: true
+    spec:
+      hostPath:
+        path: /opt/compute
+
+deploy:
+  daskgateway: true
+  traefik: true
+  traefikIngressRoute: true
+
+dask-gateway:
+  gateway:
+    auth:
+      simple:
+        password: abcd1234
+
+    backend:
+      image:
+        name: nimbus2.llnl.gov/default/compute-tasks
+        tag: 2.3.1-da9c85cf
+
+redis:
+  password: abcd1234

@@ -1,7 +1,0 @@
-logs:
-  general:
-    level: DEBUG
-
-ports:
-  traefik:
-    expose: true
