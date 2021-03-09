@@ -8,11 +8,11 @@ data:
   DATA_CLAIM_NAME: {{ .Values.persistence.existingClaim | default (include "compute.fullname" .) }}
   PROVISIONER_BACKEND: {{ template "compute.provisioner.backendService" . }}
 
-{{- if .Values.backend.auth.enabled }}
+  AUTH_ENABLED: {{ .Values.backend.auth.enabled | quote }}
   CLIENT_ID: {{ .Values.backend.auth.clientID }}
   CLIENT_SECRET: {{ .Values.backend.auth.clientSecret }}
   TOKEN_URL: {{ .Values.backend.auth.tokenUrl }}
-{{- end }}
+
   API_SCHEMA_URL: http://{{ template "compute.wps.fullname" . }}.{{ $.Release.Namespace }}.svc:8000/wps/api/schema/
   DATA_PATH: /data/public
   THREDDS_URL: {{ .Values.threddsUrl }}

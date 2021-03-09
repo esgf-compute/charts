@@ -1,0 +1,24 @@
+namespaces:
+  default:
+
+helmRepos:
+  traefik: https://helm.traefik.io/traefik
+  bitnami: https://charts.bitnami.com/bitnami
+  daskgateway: https://dask.org/dask-gateway-helm-repo/
+
+apps:
+  traefik:
+    namespace: "default"
+    enabled: true
+    chart: "traefik/traefik"
+    version: 9.15.2
+    valuesFile: traefik.yaml
+
+  keycloak:
+    namespace: "default"
+    enabled: true
+    chart: "bitnami/keycloak"
+    version: 2.3.0
+    valuesFile: keycloak.yaml
+    hooks:
+      postInstall: keycloak_post.yaml

@@ -11,11 +11,11 @@ persistence:
 
 deploy:
   daskgateway: true
-  traefik: false
   traefikIngressRoute: true
 
 ingressRoute:
   labels:
+    environment: dev
     kubernetes.io/component: esgf-compute
 
 imagePullSecrets: []
@@ -216,8 +216,6 @@ dask-gateway:
       type: ClusterIP
 
 postgresql:
-  postgresqlPassword: postgres-abcd1234
-
   persistence:
     enabled: false
 
@@ -227,20 +225,3 @@ prometheus-pushgateway:
     namespace: default
     additionalLabels:
       prometheus.io: default
-
-traefik:
-  logs:
-    general:
-      level: DEBUG
-
-  ports:
-    traefik:
-      expose: true
-
-  ingressRoute:
-    dashboard:
-      labels:
-        kubernetes.io/component: esgf-compute
-
-  additionalArguments:
-    - '--providers.kubernetescrd.labelselector=kubernetes.io/component=esgf-compute'

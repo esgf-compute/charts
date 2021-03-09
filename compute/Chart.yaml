@@ -25,10 +25,6 @@ dependencies:
     version: 0.9.0
     repository: https://dask.org/dask-gateway-helm-repo/
     condition: deploy.daskgateway
-  - name: traefik
-    version: 9.15.2
-    repository: https://helm.traefik.io/traefik
-    condition: deploy.traefik
 maintainers:
 - name: Jason Boutte
   email: boutte3@llnl.gov

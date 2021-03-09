@@ -5,10 +5,26 @@ provisioner:
 wps:
   image: nimbus2.llnl.gov/default/compute-wps
   imageTag: 2.3.2-da9c85cf
+  
+  auth:
+    type: keycloak
+    traefik:
+    keycloak:
+      url:
+      realm: master
+      clientID: wps
+      clientSecret:
+      regAccessToken:
 
 backend:
   image: nimbus2.llnl.gov/default/compute-tasks
   imageTag: 2.3.1-da9c85cf
+
+  auth:
+    enabled: true
+    clientID: wps
+    clientSecret: 
+    tokenUrl: 
 
 thredds:
   image: nimbus2.llnl.gov/default/compute-thredds
@@ -16,8 +32,13 @@ thredds:
 
 deploy:
   daskgateway: true
-  traefik: true
   traefikIngressRoute: true
+
+persistence:
+  storageClassName: hostpath
+
+postgresql:
+  postgresqlPassword: abcd1234
 
 dask-gateway:
   gateway:

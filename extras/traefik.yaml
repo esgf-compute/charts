@@ -1,0 +1,11 @@
+ingressRoute:
+  dashboard:
+    labels:
+      environment: dev
+
+additionalArguments:
+- "--providers.kubernetescrd.labelselector=environment=dev"
+
+ports:
+  traefik:
+    expose: true

@@ -1,0 +1,7 @@
+auth:
+  adminPassword: "abcd1234"
+
+service:
+  type: ClusterIP
+
+postresqlPassword: "abcd1234"
