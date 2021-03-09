@@ -133,6 +133,10 @@ If release name contains chart name it will be used as a full name.
 {{- printf "%s-%s-%s" .Release.Name .Chart.Name .Values.wps.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "imagePullSecret" }}
+{{- with 
+{{- end }}
+
 {{/*
 Redis URL
 */}}

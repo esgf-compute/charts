@@ -18,9 +18,12 @@ spec:
       nodeSelector: 
       {{ .Values.thredds.nodeSelector | toYaml | nindent 10 }}
       {{- end }}
-      {{- if .Values.imagePullSecrets }}
+      {{- if or .Values.imagePullSecrets .Values.imagePullSecret.create }}
       imagePullSecrets:
-      {{- .Values.imagePullSecrets | toYaml | nindent 10 }}
+      {{ .Values.imagePullSecrets | toYaml | nindent 8 }}
+      {{- if .Values.imagePullSecret.create }}
+        - name: {{- template "compute.fullname" . -}}
+      {{- end }}
       {{- end }}
       containers:
       - name: thredds

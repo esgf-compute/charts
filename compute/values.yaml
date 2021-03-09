@@ -18,6 +18,12 @@ ingressRoute:
     environment: dev
     kubernetes.io/component: esgf-compute
 
+imagePullSecret:
+  create: false
+  registry:
+  username:
+  password:
+
 imagePullSecrets: []
 # - name: docker-registry
 
