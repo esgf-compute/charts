@@ -14,13 +14,6 @@ thredds:
   image: nimbus2.llnl.gov/default/compute-thredds
   imageTag: 2.3.1-896b9af1
 
-persistence:
-  pv:
-    create: true
-    spec:
-      hostPath:
-        path: /opt/compute
-
 deploy:
   daskgateway: true
   traefik: true
@@ -36,6 +29,18 @@ dask-gateway:
       image:
         name: nimbus2.llnl.gov/default/compute-tasks
         tag: 2.3.1-da9c85cf
+
+      worker:
+        extraPodConfig:
+          volumes:
+            - name: data-volume
+              persistentVolumeClaim:
+                claimName: esgf-compute-data
+
+        extraContainerConfig:
+          volumeMounts:
+            - name: data-volume
+              mountPath: /data/public
 
 redis:
   password: abcd1234
