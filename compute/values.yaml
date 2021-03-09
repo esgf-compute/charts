@@ -34,7 +34,7 @@ provisioner:
   name: provisioner
   nodeSelector: {}
   image: nimbus2.llnl.gov/public/compute-provisioner
-  imageTag: 2.3.0
+  imageTag: 2.3.1
   imagePullPolicy: IfNotPresent
 
   timeout: 60
@@ -53,7 +53,7 @@ wps:
   nodeSelector: {}
   replicas: 1
   image: nimbus2.llnl.gov/public/compute-wps
-  imageTag: 2.3.2
+  imageTag: 2.3.3
   imagePullPolicy: IfNotPresent
 
   resources: {}
@@ -122,7 +122,7 @@ backend:
   annotations: {}
   nodeSelector: {}
   image: nimbus2.llnl.gov/public/compute-tasks
-  imageTag: 2.3.1
+  imageTag: 2.3.2
   imagePullPolicy: IfNotPresent
 
   prometheusUrl: prometheus.host
@@ -209,7 +209,7 @@ dask-gateway:
       # Needs to be the same as backend image/imageTag
       image:
         name: nimbus2.llnl.gov/public/compute-tasks
-        imageTag: 2.3.1
+        imageTag: 2.3.2
 
   traefik:
     service:
