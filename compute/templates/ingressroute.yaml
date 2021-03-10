@@ -1,4 +1,4 @@
-{{- if .Values.deploy.ingressRoute }}
+{{- if .Values.deploy.traefikIngressRoute }}
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:

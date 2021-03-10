@@ -4,27 +4,27 @@ provisioner:
 
 wps:
   image: nimbus2.llnl.gov/default/compute-wps
-  imageTag: 2.3.2-da9c85cf
+  imageTag: 2.3.2-b6c1670b  
   
   auth:
-    type: keycloak
+    type: noauth
     traefik:
     keycloak:
-      url:
+      url: ""
       realm: master
       clientID: wps
-      clientSecret:
-      regAccessToken:
+      clientSecret: ""
+      regAccessToken: ""
 
 backend:
   image: nimbus2.llnl.gov/default/compute-tasks
-  imageTag: 2.3.1-da9c85cf
+  imageTag: 2.3.1-b6c1670b
 
   auth:
-    enabled: true
+    enabled: false
     clientID: wps
-    clientSecret: 
-    tokenUrl: 
+    clientSecret: ""
+    tokenUrl: ""
 
 thredds:
   image: nimbus2.llnl.gov/default/compute-thredds
@@ -49,7 +49,7 @@ dask-gateway:
     backend:
       image:
         name: nimbus2.llnl.gov/default/compute-tasks
-        tag: 2.3.1-da9c85cf
+        tag: 2.3.1-b6c1670b
 
       worker:
         extraPodConfig:
