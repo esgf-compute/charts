@@ -11,8 +11,5 @@ dependencies:
 - name: dask-gateway
   repository: https://dask.org/dask-gateway-helm-repo/
   version: 0.9.0
-- name: traefik
-  repository: https://helm.traefik.io/traefik
-  version: 9.15.2
-digest: sha256:ebf3dbc4c0dd1e89032181c7686f203ba56c7ddff8001363ace8682e84fa3c04
-generated: "2021-03-08T22:59:51.994973-08:00"
+digest: sha256:483d44bce30e97eaf9f13deb8845e7f006b74d4ddfbe0cadfafca3dffe87ebd4
+generated: "2021-03-09T08:10:55.971494818-08:00"

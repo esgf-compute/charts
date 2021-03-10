@@ -1,23 +1,70 @@
+{{- if .Values.deploy.ingressRoute }}
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: {{ include "compute.wps.fullname" . }}
+  name: {{ include "compute.wps.fullname" . }}-http
   labels:
 {{ .Values.ingressRoute.labels | toYaml | nindent 4 }}
 spec:
   entryPoints:
     - web
-    - websecure
   routes:
-  - match: PathPrefix(`/wps`)
+  - match: Host(`{{ .Values.ingressRoute.host }}`) && PathPrefix(`/wps`)
+    {{- if .Values.ingressRoute.middlewares.web }}
+    middlewares:
+    {{ .Values.ingressRoute.middlewares.web | toYaml | nindent 4 }}
+    {{- end }}
     kind: Rule
     services:
     - name: {{ include "compute.wps.fullname" . }}
+      namespace: {{ .Release.Namespace }}
       port: 8000
       kind: Service
-  - match: PathPrefix(`/threddsCWT`)
+  - match: Host(`{{ .Values.ingressRoute.host }}`) && PathPrefix(`/threddsCWT`)
+    {{- if .Values.ingressRoute.middlewares.web }}
+    middlewares:
+    {{ .Values.ingressRoute.middlewares.web | toYaml | nindent 4 }}
+    {{- end }}
     kind: Rule
     services:
     - name: {{ include "compute.thredds.fullname" . }}
+      namespace: {{ .Release.Namespace }}
       port: 8080
       kind: Service
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "compute.wps.fullname" . }}-https
+  labels:
+{{ .Values.ingressRoute.labels | toYaml | nindent 4 }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`{{ .Values.ingressRoute.host }}`) && PathPrefix(`/wps`)
+    {{- if .Values.ingressRoute.middlewares.websecure }}
+    middlewares:
+    {{ .Values.ingressRoute.middlewares.websecure | toYaml | nindent 4 }}
+    {{- end }}
+    kind: Rule
+    services:
+    - name: {{ include "compute.wps.fullname" . }}
+      namespace: {{ .Release.Namespace }}
+      port: 8000
+      kind: Service
+  - match: Host(`{{ .Values.ingressRoute.host }}`) && PathPrefix(`/threddsCWT`)
+    {{- if .Values.ingressRoute.middlewares.websecure }}
+    middlewares:
+    {{ .Values.ingressRoute.middlewares.websecure | toYaml | nindent 4 }}
+    {{- end }}
+    kind: Rule
+    services:
+    - name: {{ include "compute.thredds.fullname" . }}
+      namespace: {{ .Release.Namespace }}
+      port: 8080
+      kind: Service
+  tls:
+    options:
+      name: default
+{{- end }}

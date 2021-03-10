@@ -24,9 +24,6 @@ imagePullSecret:
   username:
   password:
 
-imagePullSecrets: []
-# - name: docker-registry
-
 # Configure user resources in dask-gateway chart
 userWorkers: 2
 # Maximum user storage in MB
@@ -39,7 +36,7 @@ threddsUrl: http://127.0.0.1/threddsCWT/dodsC/public
 provisioner:
   name: provisioner
   nodeSelector: {}
-  image: nimbus2.llnl.gov/public/compute-provisioner
+  image: nimbus2.llnl.gov/default/compute-provisioner
   imageTag: 2.3.1
   imagePullPolicy: IfNotPresent
 
@@ -58,7 +55,7 @@ wps:
   name: wps
   nodeSelector: {}
   replicas: 1
-  image: nimbus2.llnl.gov/public/compute-wps
+  image: nimbus2.llnl.gov/default/compute-wps
   imageTag: 2.3.3
   imagePullPolicy: IfNotPresent
 
@@ -127,7 +124,7 @@ backend:
   replicas: 1
   annotations: {}
   nodeSelector: {}
-  image: nimbus2.llnl.gov/public/compute-tasks
+  image: nimbus2.llnl.gov/default/compute-tasks
   imageTag: 2.3.2
   imagePullPolicy: IfNotPresent
 
@@ -188,7 +185,7 @@ thredds:
   name: thredds
   nodeSelector: {}
   replicas: 1
-  image: nimbus2.llnl.gov/public/compute-thredds
+  image: nimbus2.llnl.gov/default/compute-thredds
   imageTag: 2.3.1
   imagePullPolicy: IfNotPresent
 
@@ -214,8 +211,8 @@ dask-gateway:
     backend:
       # Needs to be the same as backend image/imageTag
       image:
-        name: nimbus2.llnl.gov/public/compute-tasks
-        imageTag: 2.3.2
+        name: nimbus2.llnl.gov/default/compute-tasks
+        tag: 2.3.2
 
   traefik:
     service:

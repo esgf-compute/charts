@@ -23,12 +23,9 @@ spec:
       nodeSelector: 
       {{ .Values.backend.worker.nodeSelector | toYaml | nindent 8 }}
       {{- end }}
-      {{- if or .Values.imagePullSecrets .Values.imagePullSecret.create }}
-      imagePullSecrets:
-      {{ .Values.imagePullSecrets | toYaml | nindent 8 }}
       {{- if .Values.imagePullSecret.create }}
-        - name: {{- template "compute.fullname" . -}}
-      {{- end }}
+      imagePullSecrets:
+        - name: {{ template "compute.fullname" . }}-imagepullsecret
       {{- end }}
       containers:
       - name: worker

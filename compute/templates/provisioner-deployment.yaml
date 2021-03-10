@@ -19,12 +19,9 @@ spec:
       nodeSelector: 
       {{ .Values.provisioner.nodeSelector | toYaml | nindent 8 }}
       {{- end }}
-      {{- if or .Values.imagePullSecrets .Values.imagePullSecret.create }}
-      imagePullSecrets:
-      {{ .Values.imagePullSecrets | toYaml | nindent 8 }}
       {{- if .Values.imagePullSecret.create }}
-        - name: {{- template "compute.fullname" . -}}
-      {{- end }}
+      imagePullSecrets:
+        - name: {{ template "compute.fullname" . }}-imagepullsecret
       {{- end }}
       containers:
       - name: provisioner
@@ -37,10 +34,6 @@ spec:
         env:
           - name: SERVICE_ACCOUNT_NAME
             value: {{ template "compute.fullname" . }}
-          - name: IMAGE_PULL_SECRET
-            {{- with first .Values.imagePullSecrets }}
-            value: {{ .name }}
-            {{- end }}
           - name: LIFETIME
             value: "{{ .Values.provisioner.lifetime }}"
           - name: NAMESPACE
