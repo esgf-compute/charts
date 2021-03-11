@@ -1,3 +1,4 @@
+# Creates a Prometheus Operation ServiceMonitor
 metrics:
   serviceMonitor:
     enabled: false
@@ -9,6 +10,7 @@ persistence:
   storageClassName:
   size: 8Gi
 
+# Disabled daskgateway to use existing instance
 deploy:
   daskgateway: true
   traefikIngressRoute: true
