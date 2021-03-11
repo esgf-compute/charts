@@ -1,23 +1,18 @@
-NAME ?= compute
-CHART_REPO_PROJECT ?= public
-
-REPO_INSTALL = helm repo add esgf-compute \
-							 https://nimbus16.llnl.gov:8443/chartrepo/$(CHART_REPO_PROJECT) $(HELM_ADD_EXTRA)
+.DEFAULT_GOAL := upload
 
 .PHONY: lint
 lint:
 	helm lint compute/
 
-.PHONY: push-chart
-push-chart:
-	helm plugin install https://github.com/chartmuseum/helm-push.git || exit 0
+.PHONY: deps
+deps:
+	helm dep update compute/
 
-	$(REPO_INSTALL)
+.PHONY: upload
+upload:
+	helm plugin install https://github.com/chartmuseum/helm-push | true
 
-	helm push compute/ esgf-compute
-
-.PHONY: install
-install:
-	$(REPO_INSTALL)
-
-	helm install compute esgf-compute/compute $(INSTALL_EXTRA)
+	helm push \
+		--username $(USERNAME) \
+		--password $(PASSWORD) \
+		compute/ $(REPO)
