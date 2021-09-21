@@ -3,6 +3,7 @@
 
 ## TL;DR
 ```console
+git clone https://github.com/esgf-compute/charts
 helm install compute charts/compute
 ```
 
@@ -19,8 +20,8 @@ through a [Web Processing Service (WPS)](https://www.ogc.org/standards/wps) inte
 To install the chart with the release name `compute`
 
 ```console
-helm repo add esgf-compute https://nimbus2.llnl.gov/chartrepo/default
-helm install compute esgf-compute/esgf-wps
+git clone https://github.com/esgf-compute/charts
+helm install compute charts/compute
 ```
 
 ## Uninstalling the chart
