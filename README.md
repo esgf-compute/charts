@@ -3,8 +3,7 @@
 
 ## TL;DR
 ```console
-helm repo add esgf-compute https://nimbus2.llnl.gov/chartrepo/default
-helm install compute esgf-compute/esgf-wps
+helm install compute charts/compute
 ```
 
 ## Introduction
